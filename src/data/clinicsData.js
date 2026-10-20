@@ -16,7 +16,7 @@ export const initialClinics = [
     emergency247: true,
     departments: ["Kardiologiya", "Nevrologiya", "Xirurgiya", "Pediatriya", "Diagnostika", "Terapiya"],
     workHours: "24/7 Shoshilinch & Kunduzgi qabul 08:00 - 20:00",
-    image: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=800&q=80",
+    image: "/images/clinic_hospital.jpg",
     description: "Markaziy Osiyodagi eng yirik zamonaviy xususiy klinikalardan biri. Zamonaviy MRT, KT, laboratoriya va jarrohlik bo'limlari mavjud."
   },
   {
@@ -36,7 +36,7 @@ export const initialClinics = [
     emergency247: true,
     departments: ["Travmatologiya", "Reanimatsiya", "Toksikologiya", "Kardiologiya", "Nevrologiya", "Neyroxirurgiya"],
     workHours: "24/7 Uzluksiz Favqulodda Shoshilinch Yordam",
-    image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80",
+    image: "/images/clinic_hospital.jpg",
     description: "O'zbekiston bo'yicha eng yirik davlat shoshilinch tez tibbiy yordam markazi. Barcha turdagi o'tkir kasalliklar va jarohatlar uchun 24 soat ochiq."
   },
   {
@@ -56,7 +56,7 @@ export const initialClinics = [
     emergency247: true,
     departments: ["Kardiologiya", "Terapiya", "Ginekologiya", "Urologiya", "Stomatologiya", "Oftalmologiya"],
     workHours: "08:00 - 21:00 (Reanimatsiya 24/7)",
-    image: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=800&q=80",
+    image: "/images/clinic_hospital.jpg",
     description: "Yuqori texnologiyali diagnostika, Yevropa standartlaridagi laboratoriya va tajribali shifokorlar jamoasi."
   },
   {
@@ -76,7 +76,7 @@ export const initialClinics = [
     emergency247: true,
     departments: ["Kardiologiya", "Aritmologiya", "Kardioxirurgiya", "Reabilitatsiya"],
     workHours: "24/7 Shoshilinch kardiologik yordam",
-    image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=800&q=80",
+    image: "/images/clinic_hospital.jpg",
     description: "Yurak qon-tomir kasalliklarini davolash, angioplastika, stentlash va ochiq yurak operatsiyalari bo'yicha bosh ilmiy markaz."
   },
   {
@@ -96,7 +96,7 @@ export const initialClinics = [
     emergency247: false,
     departments: ["Nevrologiya", "Endokrinologiya", "Stomatologiya", "Gastroenterologiya", "Terapiya"],
     workHours: "Dushanba - Shanba: 08:30 - 19:00",
-    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80",
+    image: "/images/clinic_hospital.jpg",
     description: "Zamonaviy gastroenterologiya, endoskopiya va qandli diabet nazorati markazi."
   },
   {
@@ -116,7 +116,7 @@ export const initialClinics = [
     emergency247: true,
     departments: ["Xirurgiya", "Pediatriya", "Kardiologiya", "Nevrologiya", "LOR"],
     workHours: "24/7 uzluksiz",
-    image: "https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=800&q=80",
+    image: "/images/clinic_hospital.jpg",
     description: "Pediatriya, xirurgiya va statsionar davolanish bo'yicha yuqori qulaylikdagi xususiy markaz."
   },
   {
@@ -136,7 +136,7 @@ export const initialClinics = [
     emergency247: false,
     departments: ["Terapiya", "Allergologiya", "Dermatologiya", "LOR", "Stomatologiya"],
     workHours: "08:00 - 20:00",
-    image: "https://images.unsplash.com/photo-1512678080530-7760d81faba6?auto=format&fit=crop&w=800&q=80",
+    image: "/images/clinic_hospital.jpg",
     description: "Allergik va teri kasalliklari, nafas yo'llari profilaktikasi va davolash bo'yicha ixtisoslashgan."
   },
   {
@@ -156,7 +156,7 @@ export const initialClinics = [
     emergency247: true,
     departments: ["Kardiologiya", "Terapiya", "Nevrologiya", "Travmatologiya", "Xirurgiya"],
     workHours: "24/7 Shoshilinch",
-    image: "https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=800&q=80",
+    image: "/images/clinic_hospital.jpg",
     description: "Samarqand va qo'shni viloyatlar uchun bosh ko'p tarmoqli statsionar va shoshilinch yordam markazi."
   }
 ];

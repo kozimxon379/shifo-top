@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="ombg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#eff6ff" />
+      <stop offset="100%" stop-color="#dbeafe" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0284c7" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#ombg)" />
+
+  <!-- Fish Oil Bottle -->
+  <g filter="url(#shadow)">
+    <!-- Main Bottle Body -->
+    <rect x="140" y="55" width="120" height="175" rx="20" fill="#ffffff" stroke="#bfdbfe" stroke-width="2" />
+    <!-- Blue Cap -->
+    <rect x="155" y="40" width="90" height="20" rx="6" fill="url(#blueGrad)" />
+    <!-- Label -->
+    <rect x="145" y="80" width="110" height="120" rx="8" fill="url(#blueGrad)" />
+    <!-- Fish outline -->
+    <path d="M175 115 Q200 100 225 115 Q200 130 175 115 Z M220 115 L235 105 L235 125 Z" fill="#fef08a" />
+    <circle cx="185" cy="113" r="2" fill="#0369a1" />
+
+    <text x="200" y="145" font-family="system-ui, sans-serif" font-size="14" font-weight="900" fill="#ffffff" text-anchor="middle">OMEGA-3</text>
+    <text x="200" y="162" font-family="system-ui, sans-serif" font-size="11" font-weight="800" fill="#fef08a" text-anchor="middle">Fish Oil 1000mg</text>
+    <text x="200" y="178" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#bae6fd" text-anchor="middle">90 Softgels</text>
+  </g>
+
+  <!-- Golden Softgel Drops -->
+  <g filter="url(#shadow)">
+    <ellipse cx="120" cy="220" rx="18" ry="12" fill="url(#goldGrad)" transform="rotate(-30 120 220)" stroke="#fef08a" stroke-width="1.5" />
+    <ellipse cx="118" cy="216" rx="8" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-30 118 216)" />
+
+    <ellipse cx="270" cy="220" rx="20" ry="13" fill="url(#goldGrad)" transform="rotate(25 270 220)" stroke="#fef08a" stroke-width="1.5" />
+    <ellipse cx="268" cy="216" rx="9" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(25 268 216)" />
+  </g>
+</svg>

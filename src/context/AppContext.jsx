@@ -52,12 +52,18 @@ export function AppProvider({ children }) {
     setToasts(prev => prev.filter(t => t.id !== id));
   };
 
-  // 4. Products state (with CRUD persistence)
+  // 4. Products state (with CRUD persistence and local asset migration)
   const [products, setProducts] = useState(() => {
     const saved = localStorage.getItem('shifo_products');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        const hasUnsplash = parsed.some(p => p.image && p.image.includes('unsplash.com'));
+        if (hasUnsplash) {
+          localStorage.setItem('shifo_products', JSON.stringify(initialProducts));
+          return initialProducts;
+        }
+        return parsed;
       } catch (e) {
         console.error(e);
       }
