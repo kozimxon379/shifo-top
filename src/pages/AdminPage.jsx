@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { sendTelegramMessage } from '../utils/telegram';
+import { createProductFallbackSvg } from '../utils/imageFallback';
 import {
   Shield,
   LayoutDashboard,
@@ -432,6 +433,10 @@ export default function AdminPage() {
                         <img
                           src={prod.image}
                           alt={prod.name}
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = createProductFallbackSvg(prod.name, prod.category);
+                          }}
                           className="w-10 h-10 rounded-xl object-cover bg-slate-100 dark:bg-slate-800 shrink-0"
                         />
                         <div>

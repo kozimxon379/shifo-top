@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import confetti from 'canvas-confetti';
+import { createProductFallbackSvg } from '../utils/imageFallback';
 import {
   ShoppingCart,
   Trash2,
@@ -191,6 +192,10 @@ export default function CartPage() {
               <img
                 src={item.image}
                 alt={item.name}
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = createProductFallbackSvg(item.name, item.category);
+                }}
                 className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover bg-slate-100 dark:bg-slate-800 shrink-0"
               />
 

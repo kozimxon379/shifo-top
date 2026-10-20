@@ -1,6 +1,7 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import { Star, Calendar, Clock, Award, Building, Heart, CheckCircle2 } from 'lucide-react';
+import { createDoctorFallbackSvg } from '../utils/imageFallback';
 
 export default function DoctorCard({ doctor }) {
   const { t, openBookingModal, toggleFavorite, isFavorite } = useApp();
@@ -15,6 +16,10 @@ export default function DoctorCard({ doctor }) {
             <img
               src={doctor.image}
               alt={doctor.name}
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = createDoctorFallbackSvg(doctor.name, doctor.specialty);
+              }}
               className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border-2 border-teal-500 shadow-md group-hover:scale-105 transition-transform"
               loading="lazy"
             />

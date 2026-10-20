@@ -1,6 +1,7 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import { Heart, ShoppingCart, Star, ShieldCheck, Check } from 'lucide-react';
+import { createProductFallbackSvg } from '../utils/imageFallback';
 
 export default function ProductCard({ product }) {
   const { t, addToCart, cart, toggleFavorite, isFavorite } = useApp();
@@ -19,6 +20,10 @@ export default function ProductCard({ product }) {
         <img
           src={product.image}
           alt={product.name}
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = createProductFallbackSvg(product.name, product.category);
+          }}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
         />

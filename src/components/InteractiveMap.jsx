@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { initialClinics } from '../data/clinicsData';
 import { initialDoctors } from '../data/doctorsData';
+import { createClinicFallbackSvg } from '../utils/imageFallback';
 import {
   MapPin,
   Navigation,
@@ -198,6 +199,10 @@ export default function InteractiveMap({ selectedClinicId, onSelectClinic }) {
               <img
                 src={activeClinic.image}
                 alt={activeClinic.name}
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = createClinicFallbackSvg(activeClinic.name);
+                }}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>

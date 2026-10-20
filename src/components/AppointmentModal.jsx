@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { initialDoctors } from '../data/doctorsData';
+import { createDoctorFallbackSvg } from '../utils/imageFallback';
 import confetti from 'canvas-confetti';
 import {
   X,
@@ -179,6 +180,10 @@ export default function AppointmentModal() {
               <img
                 src={currentDoctor.image}
                 alt={currentDoctor.name}
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = createDoctorFallbackSvg(currentDoctor.name, currentDoctor.specialty);
+                }}
                 className="w-12 h-12 rounded-2xl object-cover border-2 border-teal-500"
               />
               <div className="flex-1 min-w-0">

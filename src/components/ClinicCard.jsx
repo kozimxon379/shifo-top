@@ -2,6 +2,7 @@ import React from 'react';
 import { useApp } from '../context/AppContext';
 import { initialDoctors } from '../data/doctorsData';
 import { MapPin, PhoneCall, Star, Clock, Calendar, Navigation } from 'lucide-react';
+import { createClinicFallbackSvg } from '../utils/imageFallback';
 
 export default function ClinicCard({ clinic, onSelectOnMap }) {
   const { t, openBookingModal } = useApp();
@@ -14,6 +15,10 @@ export default function ClinicCard({ clinic, onSelectOnMap }) {
           <img
             src={clinic.image}
             alt={clinic.name}
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = createClinicFallbackSvg(clinic.name);
+            }}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
           />

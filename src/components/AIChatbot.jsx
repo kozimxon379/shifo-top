@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { consultMedicalAI } from '../data/aiMedicalBrain';
+import { createDoctorFallbackSvg } from '../utils/imageFallback';
 import {
   Bot,
   X,
@@ -295,6 +296,10 @@ export default function AIChatbot() {
                             <img
                               src={msg.aiData.doctor.image}
                               alt={msg.aiData.doctor.name}
+                              onError={(e) => {
+                                e.currentTarget.onerror = null;
+                                e.currentTarget.src = createDoctorFallbackSvg(msg.aiData.doctor.name, msg.aiData.doctor.specialty);
+                              }}
                               className="w-9 h-9 rounded-full object-cover border border-teal-500"
                             />
                             <div>
