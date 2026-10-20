@@ -215,13 +215,13 @@ export default function EncyclopediaPage() {
                               onClick={() => openBookingModal(doctor)}
                               className="flex-1 py-1.5 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-lg text-center"
                             >
-                              Qabulga yozilish
+                              {t.clinics.bookBtn}
                             </button>
                             <a
                               href={`tel:${clinic.phone.replace(/[^0-9+]/g, '')}`}
                               className="px-2 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-700 dark:text-slate-200"
                             >
-                              Qo'ng'iroq
+                              {t.clinics.callBtn}
                             </a>
                           </div>
                         </div>

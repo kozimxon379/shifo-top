@@ -98,7 +98,7 @@ export default function InteractiveMap({ selectedClinicId, onSelectClinic }) {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-teal-50 dark:bg-teal-950/60 border border-teal-300 dark:border-teal-800 text-teal-700 dark:text-teal-300 font-bold hover:bg-teal-100 transition-colors"
         >
           <Compass className={`w-3.5 h-3.5 ${isLocating ? 'animate-spin' : ''}`} />
-          <span>{isLocating ? "Aniqlanmoqda..." : "Mening joylashuvim"}</span>
+          <span>{isLocating ? t.map.locating : t.map.locateMe}</span>
         </button>
       </div>
 
@@ -127,7 +127,7 @@ export default function InteractiveMap({ selectedClinicId, onSelectClinic }) {
               ●
             </div>
             <div className="absolute top-6 whitespace-nowrap bg-slate-900/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow-md">
-              Siz shu yerdasiz
+              {t.map.youAreHere}
             </div>
           </div>
 
@@ -178,15 +178,15 @@ export default function InteractiveMap({ selectedClinicId, onSelectClinic }) {
           <div className="absolute bottom-4 left-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md p-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 text-[11px] space-y-1.5 shadow-md">
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-rose-600"></span>
-              <span className="font-semibold text-slate-700 dark:text-slate-300">Tanlangan klinika</span>
+              <span className="font-semibold text-slate-700 dark:text-slate-300">{t.map.selectedClinic}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-teal-600"></span>
-              <span className="font-semibold text-slate-700 dark:text-slate-300">Shifoxonalar</span>
+              <span className="font-semibold text-slate-700 dark:text-slate-300">{t.map.hospitals}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-cyan-500"></span>
-              <span className="font-semibold text-slate-700 dark:text-slate-300">Sizning nuqtangiz</span>
+              <span className="font-semibold text-slate-700 dark:text-slate-300">{t.map.yourPoint}</span>
             </div>
           </div>
         </div>
@@ -214,7 +214,7 @@ export default function InteractiveMap({ selectedClinicId, onSelectClinic }) {
                   </span>
                 )}
                 <span className="bg-teal-700 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                  {activeClinic.distanceKm} km masofada
+                  {activeClinic.distanceKm} km {t.map.distanceAway}
                 </span>
               </div>
 
@@ -223,7 +223,7 @@ export default function InteractiveMap({ selectedClinicId, onSelectClinic }) {
                   <Star className="w-3.5 h-3.5 fill-amber-300" />
                   <span>{activeClinic.rating}</span>
                   <span className="text-[10px] text-slate-200 font-normal">
-                    ({activeClinic.reviewsCount} baho)
+                    ({activeClinic.reviewsCount} {t.map.reviews})
                   </span>
                 </div>
                 <span className="text-[10px] text-teal-200 font-medium">
@@ -252,7 +252,7 @@ export default function InteractiveMap({ selectedClinicId, onSelectClinic }) {
             {/* Departments */}
             <div>
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">
-                Bo'limlar & Ixtisosliklar:
+                {t.map.departments}
               </span>
               <div className="flex flex-wrap gap-1.5">
                 {activeClinic.departments.map((dept) => (

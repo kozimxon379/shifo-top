@@ -73,9 +73,9 @@ export default function HomePage() {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.15]">
               {t.hero.titleMain} <br className="hidden sm:inline" />
               <span className="bg-gradient-to-r from-teal-600 via-cyan-600 to-emerald-600 bg-clip-text text-transparent">
-                Eng yaqin shifo maskanini
+                {t.hero.findNearestClinic}
               </span>{" "}
-              toping!
+              {t.hero.findSuffix}
             </h1>
 
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
@@ -102,7 +102,7 @@ export default function HomePage() {
                 >
                   <MapPin className="w-4 h-4" />
                   <span className="hidden sm:inline">{t.hero.searchBtn}</span>
-                  <span className="sm:hidden">Topish</span>
+                  <span className="sm:hidden">{t.common.search}</span>
                 </button>
               </div>
             </form>
@@ -113,7 +113,7 @@ export default function HomePage() {
                 {t.hero.quickSymptomsTitle}
               </span>
               <div className="inline-flex flex-wrap justify-center gap-1.5">
-                {[
+                {(t.hero.quickSymptoms || [
                   "Bosh og'rig'i",
                   "Gripp & Isitma",
                   "Gastrit",
@@ -121,7 +121,7 @@ export default function HomePage() {
                   "Tish og'rig'i",
                   "Bel og'rig'i",
                   "Qandli diabet"
-                ].map((symptom) => (
+                ]).map((symptom) => (
                   <button
                     key={symptom}
                     type="button"
@@ -142,8 +142,8 @@ export default function HomePage() {
                 <MapPin className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="font-bold text-xs text-slate-900 dark:text-white">Eng Yaqin Shifoxona</h4>
-                <p className="text-[11px] text-slate-500">2.1 km radiusda xaritada</p>
+                <h4 className="font-bold text-xs text-slate-900 dark:text-white">{t.hero.features.f1Title}</h4>
+                <p className="text-[11px] text-slate-500">{t.hero.features.f1Desc}</p>
               </div>
             </div>
 
@@ -152,8 +152,8 @@ export default function HomePage() {
                 <Stethoscope className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="font-bold text-xs text-slate-900 dark:text-white">500+ Shifokorlar</h4>
-                <p className="text-[11px] text-slate-500">Oliy toifali mutaxassislar</p>
+                <h4 className="font-bold text-xs text-slate-900 dark:text-white">{t.hero.features.f2Title}</h4>
+                <p className="text-[11px] text-slate-500">{t.hero.features.f2Desc}</p>
               </div>
             </div>
 
@@ -162,8 +162,8 @@ export default function HomePage() {
                 <Sparkles className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="font-bold text-xs text-slate-900 dark:text-white">Shifo AI Maslahatchi</h4>
-                <p className="text-[11px] text-slate-500">Sabablar & Birinchi yordam</p>
+                <h4 className="font-bold text-xs text-slate-900 dark:text-white">{t.hero.features.f3Title}</h4>
+                <p className="text-[11px] text-slate-500">{t.hero.features.f3Desc}</p>
               </div>
             </div>
 
@@ -172,8 +172,8 @@ export default function HomePage() {
                 <Calendar className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="font-bold text-xs text-slate-900 dark:text-white">Navbatsiz Qabul</h4>
-                <p className="text-[11px] text-slate-500">Qulay vaqtni tanlab yozilish</p>
+                <h4 className="font-bold text-xs text-slate-900 dark:text-white">{t.hero.features.f4Title}</h4>
+                <p className="text-[11px] text-slate-500">{t.hero.features.f4Desc}</p>
               </div>
             </div>
           </div>
@@ -192,7 +192,7 @@ export default function HomePage() {
                 </div>
                 <div>
                   <span className="text-[10px] font-bold tracking-wider uppercase text-teal-200">
-                    Tibbiy Tahlil & Davolash Nuqtalari
+                    {t.home.modal.headerBadge}
                   </span>
                   <h3 className="text-lg font-bold leading-tight">
                     {diagnosisModalResult.diseaseName}
@@ -219,7 +219,7 @@ export default function HomePage() {
               <div className="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900">
                 <h4 className="font-bold text-amber-900 dark:text-amber-300 flex items-center gap-1.5 mb-2 text-xs">
                   <AlertTriangle className="w-4 h-4 text-amber-600" />
-                  <span>Kasallikning kelib chiqish sabablari:</span>
+                  <span>{t.home.modal.causesTitle}</span>
                 </h4>
                 <ul className="space-y-1 text-slate-700 dark:text-slate-300 pl-4 list-disc">
                   {diagnosisModalResult.causes.map((cause, idx) => (
@@ -232,7 +232,7 @@ export default function HomePage() {
               <div className="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900">
                 <h4 className="font-bold text-emerald-900 dark:text-emerald-300 flex items-center gap-1.5 mb-2 text-xs">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <span>Qanaqa qilib tibbiy yo'l bilan davolasa bo'ladi:</span>
+                  <span>{t.home.modal.treatmentsTitle}</span>
                 </h4>
                 <ul className="space-y-1 text-slate-700 dark:text-slate-300 pl-4 list-disc">
                   {diagnosisModalResult.treatments.map((tr, idx) => (
@@ -245,7 +245,7 @@ export default function HomePage() {
               <div>
                 <h4 className="font-bold text-slate-900 dark:text-white text-xs mb-2 flex items-center gap-1.5">
                   <Building className="w-4 h-4 text-teal-600" />
-                  <span>Ushbu kasallik bo'yicha eng yaqin davolash punktlari:</span>
+                  <span>{t.home.modal.clinicsTitle}</span>
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {diagnosisModalResult.clinics.map((clinic) => (
@@ -257,7 +257,7 @@ export default function HomePage() {
                         <div className="font-bold text-slate-900 dark:text-white">{clinic.name}</div>
                         <div className="text-[11px] text-slate-500 mt-0.5">{clinic.address}</div>
                         <div className="text-teal-600 dark:text-teal-400 font-bold mt-1 text-[11px]">
-                          {clinic.distanceKm} km masofada
+                          {clinic.distanceKm} km {t.map.distanceAway}
                         </div>
                       </div>
                       <div className="mt-3 flex items-center gap-2">
@@ -269,13 +269,13 @@ export default function HomePage() {
                           }}
                           className="flex-1 py-1.5 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-lg text-center transition-colors"
                         >
-                          Qabulga yozilish
+                          {t.home.modal.bookBtn}
                         </button>
                         <a
                           href={`tel:${clinic.phone.replace(/[^0-9+]/g, '')}`}
                           className="px-2.5 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-200 transition-colors"
                         >
-                          Qo'ng'iroq
+                          {t.home.modal.callBtn}
                         </a>
                       </div>
                     </div>
@@ -287,14 +287,14 @@ export default function HomePage() {
             {/* Modal Footer */}
             <div className="p-4 bg-slate-100 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 flex justify-between items-center shrink-0">
               <span className="text-[11px] text-slate-500">
-                Tavsiya etilgan mutaxassis: <b>{diagnosisModalResult.doctorSpecialty}</b>
+                {t.home.modal.doctorSpecialist} <b>{diagnosisModalResult.doctorSpecialty}</b>
               </span>
               <button
                 type="button"
                 onClick={() => setDiagnosisModalResult(null)}
                 className="px-4 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-800 dark:text-white font-bold rounded-xl"
               >
-                Yopish
+                {t.home.modal.closeBtn}
               </button>
             </div>
           </div>
@@ -306,13 +306,13 @@ export default function HomePage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
           <div>
             <div className="text-xs font-bold text-teal-600 dark:text-teal-400 tracking-wider uppercase">
-              Shifoxonalar xaritasi
+              {t.home.mapSection.badge}
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mt-1">
-              Eng yaqin davolash punktlarini xaritada ko'ring
+              {t.home.mapSection.title}
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Hozirgi joylashuvingizga qarab Toshkent va viloyatlardagi eng yaqin klinikalarni aniqlang
+              {t.home.mapSection.subtitle}
             </p>
           </div>
 
@@ -320,7 +320,7 @@ export default function HomePage() {
             to="/clinics"
             className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-600 dark:text-teal-400 hover:text-teal-700 transition-colors"
           >
-            <span>Barcha klinikalarni ko'rish</span>
+            <span>{t.home.mapSection.viewAll}</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -333,13 +333,13 @@ export default function HomePage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
             <div className="text-xs font-bold text-teal-600 dark:text-teal-400 tracking-wider uppercase">
-              Tajribali Mutaxassislar
+              {t.home.doctorsSection.badge}
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mt-1">
-              O'zingizga qulay vaqtda shifokor qabuliga yoziling
+              {t.home.doctorsSection.title}
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Bo'sh vaqtingizga qarab sana va vaqt oralig'ini tanlang, navbatsiz qabulga kiring
+              {t.home.doctorsSection.subtitle}
             </p>
           </div>
 
@@ -347,7 +347,7 @@ export default function HomePage() {
             to="/doctors"
             className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-600 dark:text-teal-400 hover:text-teal-700 transition-colors"
           >
-            <span>Barcha shifokorlar</span>
+            <span>{t.home.doctorsSection.viewAll}</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -365,13 +365,13 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
             <div>
               <div className="text-xs font-bold text-teal-600 dark:text-teal-400 tracking-wider uppercase">
-                Tezkor Dorixona & Vositalar
+                {t.home.storeSection.badge}
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mt-1">
-                Zarur dori va tibbiy jihozlar uyingizga yetkaziladi
+                {t.home.storeSection.title}
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                Sertifikatlangan dori vositalari, tonometrlar, vitaminlar va promokodlar bilan chegirmalar
+                {t.home.storeSection.subtitle}
               </p>
             </div>
 
@@ -379,7 +379,7 @@ export default function HomePage() {
               to="/store"
               className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-600 dark:text-teal-400 hover:text-teal-700 transition-colors"
             >
-              <span>Dorixonaga o'tish</span>
+              <span>{t.home.storeSection.goToStore}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -399,15 +399,15 @@ export default function HomePage() {
 
           <div className="max-w-2xl space-y-4 relative z-10">
             <span className="px-3 py-1 rounded-full bg-white/20 text-white font-bold text-[10px] uppercase tracking-wider">
-              Telegram Bot Xabardorligi
+              {t.home.telegramBanner.badge}
             </span>
 
             <h3 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
-              Shifokor qabullari va buyurtmalar to'g'ridan-to'g'ri Telegramingizda!
+              {t.home.telegramBanner.title}
             </h3>
 
             <p className="text-xs sm:text-sm text-teal-100 leading-relaxed">
-              Qabulga yozilganingizda yoki dori buyurtma qilganingizda eslatma va to'liq ma'lumotlar avtomatik tarzda Telegram botingizga yuboriladi. Navbat kutmaysiz va uchrashuv vaqtini unutmaysiz.
+              {t.home.telegramBanner.desc}
             </p>
 
             <div className="pt-2 flex flex-wrap gap-3">
@@ -415,14 +415,14 @@ export default function HomePage() {
                 to="/doctors"
                 className="px-6 py-3 bg-white text-teal-900 hover:bg-teal-50 font-bold rounded-2xl text-xs shadow-lg transition-all hover:scale-102"
               >
-                Hozir qabulga yozilish
+                {t.home.telegramBanner.bookNow}
               </Link>
               <a
                 href="tel:103"
                 className="px-6 py-3 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-2xl text-xs shadow-lg transition-all flex items-center gap-2"
               >
                 <PhoneCall className="w-4 h-4" />
-                <span>Tez Yordam: 103</span>
+                <span>{t.home.telegramBanner.emergency}</span>
               </a>
             </div>
           </div>
@@ -437,7 +437,7 @@ export default function HomePage() {
               80+
             </div>
             <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
-              Shifoxona & Davolash Punktlari
+              {t.home.statsCounters.c1Label}
             </div>
           </div>
 
@@ -446,7 +446,7 @@ export default function HomePage() {
               500+
             </div>
             <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
-              Malakali Oliy Toifali Shifokorlar
+              {t.home.statsCounters.c2Label}
             </div>
           </div>
 
@@ -455,7 +455,7 @@ export default function HomePage() {
               45,000+
             </div>
             <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
-              Shifo Topgan Bemorlar
+              {t.home.statsCounters.c3Label}
             </div>
           </div>
 
@@ -464,7 +464,7 @@ export default function HomePage() {
               99.2%
             </div>
             <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
-              Ijobiy Qabul & Natijalar
+              {t.home.statsCounters.c4Label}
             </div>
           </div>
         </div>

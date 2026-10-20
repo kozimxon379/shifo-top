@@ -30,7 +30,7 @@ export default function LoginPage() {
 
     loginUser({
       username,
-      name: username === 'admin' ? 'Bosh Administrator' : username,
+      name: username === 'admin' ? t.nav.adminUser : username,
       role: username === 'admin' ? 'admin' : username.includes('doctor') ? 'doctor' : 'patient',
       phone: '+998 90 123 45 67'
     });
@@ -63,7 +63,7 @@ export default function LoginPage() {
     if (role === 'admin') {
       loginUser({
         username: 'admin',
-        name: 'Bosh Administrator',
+        name: t.nav.adminUser,
         role: 'admin',
         phone: '+998 71 200 00 03'
       });
@@ -101,18 +101,18 @@ export default function LoginPage() {
               {user.role}
             </span>
             <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-1.5">
-              {user.name}
+              {user.name === 'Bosh Administrator' ? t.nav.adminUser : user.name}
             </h2>
             <p className="text-slate-400 mt-0.5">{user.phone || user.username}</p>
           </div>
 
           <div className="p-3 bg-slate-50 dark:bg-slate-800/80 rounded-2xl border border-slate-200 dark:border-slate-700 text-left space-y-1.5">
             <div className="flex justify-between">
-              <span className="text-slate-500">Holat:</span>
-              <span className="font-bold text-emerald-600">Tizimga ulangan</span>
+              <span className="text-slate-500">{t.admin.appointmentsTable.status}:</span>
+              <span className="font-bold text-emerald-600">{t.auth.statusOnline}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-500">Roli:</span>
+              <span className="text-slate-500">{t.auth.roleLabel}</span>
               <span className="font-bold capitalize">{user.role}</span>
             </div>
           </div>
@@ -124,7 +124,7 @@ export default function LoginPage() {
                 onClick={() => navigate('/admin')}
                 className="w-full py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl shadow-sm transition-all"
               >
-                Admin panelga o'tish
+                {t.auth.goToAdmin}
               </button>
             )}
 

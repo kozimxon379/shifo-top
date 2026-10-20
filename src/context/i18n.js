@@ -10,11 +10,13 @@ export const translations = {
       encyclopedia: "Kasalliklar Ensiklopediyasi",
       cart: "Savat",
       favorites: "Sevimlilar",
-      admin: "Admin Panel",
+      admin: "Admin-panel",
       login: "Kirish",
       profile: "Profil",
       logout: "Chiqish",
-      emergency: "Tez yordam: 103"
+      emergency: "Tez yordam: 103",
+      trustPhone: "Ishonch telefoni: +998 71 200-00-03",
+      adminUser: "Bosh Administrator"
     },
     hero: {
       badge: "24/7 Aqlli Tibbiy Yordam & Shoshilinch Xizmat",
@@ -23,12 +25,86 @@ export const translations = {
       searchPlaceholder: "Masalan: Gripp, Bosh og'rig'i, Gastrit, Yurak sanchishi, Tish og'rig'i...",
       searchBtn: "Davolash punktini topish",
       quickSymptomsTitle: "Tez-tez uchraydigan alomatlar:",
+      findNearestClinic: "Eng yaqin shifo maskanini",
+      findSuffix: "toping!",
+      quickSymptoms: [
+        "Bosh og'rig'i",
+        "Gripp & Isitma",
+        "Gastrit",
+        "Yurak sanchishi",
+        "Tish og'rig'i",
+        "Bel og'rig'i",
+        "Qandli diabet"
+      ],
       features: {
         nearestClinic: "Eng yaqin klinika 2.1 km radiusda",
         verifiedDoctors: "500+ Malakali shifokorlar",
         aiAssistant: "AI Tibbiy diagnostika 24/7",
-        fastBooking: "Navbatsiz qabulga yozilish"
+        fastBooking: "Navbatsiz qabulga yozilish",
+        f1Title: "Eng Yaqin Shifoxona",
+        f1Desc: "2.1 km radiusda xaritada",
+        f2Title: "500+ Shifokorlar",
+        f2Desc: "Oliy toifali mutaxassislar",
+        f3Title: "Shifo AI Maslahatchi",
+        f3Desc: "Sabablar & Birinchi yordam",
+        f4Title: "Navbatsiz Qabul",
+        f4Desc: "Qulay vaqtni tanlab yozilish"
       }
+    },
+    home: {
+      mapSection: {
+        badge: "Shifoxonalar xaritasi",
+        title: "Eng yaqin davolash punktlarini xaritada ko'ring",
+        subtitle: "Hozirgi joylashuvingizga qarab Toshkent va viloyatlardagi eng yaqin klinikalarni aniqlang",
+        viewAll: "Barcha klinikalarni ko'rish"
+      },
+      doctorsSection: {
+        badge: "Tajribali Mutaxassislar",
+        title: "O'zingizga qulay vaqtda shifokor qabuliga yoziling",
+        subtitle: "Bo'sh vaqtingizga qarab sana va vaqt oralig'ini tanlang, navbatsiz qabulga kiring",
+        viewAll: "Barcha shifokorlar"
+      },
+      storeSection: {
+        badge: "Tezkor Dorixona & Vositalar",
+        title: "Zarur dori va tibbiy jihozlar uyingizga yetkaziladi",
+        subtitle: "Sertifikatlangan dori vositalari, tonometrlar, vitaminlar va promokodlar bilan chegirmalar",
+        goToStore: "Dorixonaga o'tish"
+      },
+      telegramBanner: {
+        badge: "Telegram Bot Xabardorligi",
+        title: "Shifokor qabullari va buyurtmalar to'g'ridan-to'g'ri Telegramingizda!",
+        desc: "Qabulga yozilganingizda yoki dori buyurtma qilganingizda eslatma va to'liq ma'lumotlar avtomatik tarzda Telegram botingizga yuboriladi. Navbat kutmaysiz va uchrashuv vaqtini unutmaysiz.",
+        bookNow: "Hozir qabulga yozilish",
+        emergency: "Tez Yordam: 103"
+      },
+      statsCounters: {
+        c1Label: "Shifoxona & Davolash Punktlari",
+        c2Label: "Malakali Oliy Toifali Shifokorlar",
+        c3Label: "Shifo Topgan Bemorlar",
+        c4Label: "Ijobiy Qabul & Natijalar"
+      },
+      modal: {
+        headerBadge: "Tibbiy Tahlil & Davolash Nuqtalari",
+        causesTitle: "Kasallikning kelib chiqish sabablari:",
+        treatmentsTitle: "Qanaqa qilib tibbiy yo'l bilan davolasa bo'ladi:",
+        clinicsTitle: "Ushbu kasallik bo'yicha eng yaqin davolash punktlari:",
+        bookBtn: "Qabulga yozilish",
+        callBtn: "Qo'ng'iroq",
+        doctorSpecialist: "Tavsiya etilgan mutaxassis:",
+        closeBtn: "Yopish"
+      }
+    },
+    map: {
+      locateMe: "Mening joylashuvim",
+      locating: "Aniqlanmoqda...",
+      youAreHere: "Siz shu yerdasiz",
+      selectedClinic: "Tanlangan klinika",
+      hospitals: "Shifoxonalar",
+      yourPoint: "Sizning nuqtangiz",
+      reviews: "baho",
+      departments: "Bo'limlar & Ixtisosliklar:",
+      distanceAway: "masofada",
+      viewOnMap: "Xaritada"
     },
     stats: {
       clinics: "Shifoxona & Klinikalar",
@@ -39,9 +115,16 @@ export const translations = {
     aiChat: {
       title: "Shifo AI — Tibbiy Maslahatchi",
       subtitle: "Sun'iy intellekt orqali kasallik sabablari va davolash yo'li",
+      pillSubtitle: "Tibbiy Maslahatchi & Sabablar",
+      openAria: "AI Tibbiy Maslahatchini ochish",
       greeting: "Assalomu alaykum! Men shifo.top sun'iy intellekt yordamchisiman. Sizni qanday kasallik yoki alomat bezovta qilyapti? Ayting, men sabablarini tushuntiraman va qaysi shifokorga borishni aytaman.",
       placeholder: "Kasallik yoki alomatni yozing (masalan: Oshqozonda og'riq)...",
       send: "Yuborish",
+      voiceMute: "Ovozni o'chirish",
+      voiceUnmute: "Ovozli o'qishni yoqish",
+      clearChat: "Suhbatni tozalash",
+      minimize: "Kichiklashtirish",
+      maximize: "Kengaytirish",
       suggestedQuestions: [
         "Boshim qattiq og'riyapti, nima qilsam bo'ladi?",
         "Gastrit sabablari va qanday davolash kerak?",
@@ -55,7 +138,8 @@ export const translations = {
       treatments: "Tibbiy davolash yo'li & Birinchi yordam:",
       recommendedDoctor: "Tavsiya etilgan mutaxassis:",
       nearestClinics: "Eng yaqin ixtisoslashgan klinikalar:",
-      bookDoctor: "Ushbu shifokor qabuliga yozilish"
+      bookDoctor: "Ushbu shifokor qabuliga yozilish",
+      distanceAway: "masofada"
     },
     appointment: {
       title: "Shifokor qabuliga yozilish",
@@ -69,9 +153,12 @@ export const translations = {
       phone: "Telefon raqamingiz",
       symptoms: "Qisqacha shikoyat / Kasallik alomati",
       submit: "Qabulga yozilishni tasdiqlash",
+      submitting: "Yozilmoqda...",
       successTitle: "Qabulingiz muvaffaqiyatli band qilindi!",
       successDesc: "Batafsil ma'lumot va eslatma Telegram botingizga yuborildi. Shifokor sizni kutadi.",
       telegramSent: "Telegram botga bildirishnoma yuborildi!",
+      telegramConfirmed: "Telegram bot orqali tasdiqnoma va eslatma yo'llandi!",
+      hour: "soat",
       close: "Yopish"
     },
     store: {
@@ -104,6 +191,7 @@ export const translations = {
     },
     cart: {
       title: "Xarid Savatingiz",
+      badge: "Xarid Savati",
       emptyTitle: "Savatingiz hozircha bo'sh",
       emptyDesc: "Sizga kerakli dori va tibbiy vositalarni dorixonamizdan topib, savatga qo'shishingiz mumkin.",
       startShopping: "Dorixonaga o'tish",
@@ -116,17 +204,29 @@ export const translations = {
       delivery: "Yetkazib berish:",
       free: "Bepul",
       promoPlaceholder: "Promokod (masalan: SHIFO2026, SALOM)",
+      hasPromo: "Promokod bormi?",
       applyPromo: "Qo'llash",
       discount: "Chegirma:",
       finalTotal: "To'lov summasi:",
       checkoutBtn: "Buyurtmani rasmiylashtirish",
+      clearCart: "Savatni tozalash",
+      itemsCount: "Mahsulotlar",
+      promoActive: "Aktiv",
+      orderSuccess: "Buyurtma qabul qilindi!",
+      thankYou: "Xaridingiz uchun rahmat!",
+      orderNotice: "Buyurtmangiz tezkor kuryer xizmatiga yo'naltirildi va to'liq ma'lumotlar Telegram botimizga yuborildi. Operatorimiz 5 daqiqada sizga qo'ng'iroq qiladi.",
+      receiptSent: "Telegram bot orqali kvitansiya jo'natildi",
+      backToStore: "Dorixonaga qaytish",
       checkoutModal: {
         title: "Buyurtmani rasmiylashtirish",
+        fullName: "Qabul qiluvchi ismi va familiyasi",
+        phone: "Telefon raqamingiz",
         address: "Yetkazib berish manzili (Shahar, tuman, ko'cha, xonadon)",
         paymentMethod: "To'lov usuli:",
         payCash: "Qabul qilganda naqd yoki karta",
         payClick: "Click / Payme / Uzum",
         confirmBtn: "Buyurtmani tasdiqlash",
+        submitting: "Yuborilmoqda...",
         success: "Buyurtma qabul qilindi! Operatorimiz 5 daqiqa ichida siz bilan bog'lanadi."
       }
     },
@@ -153,6 +253,9 @@ export const translations = {
       exp: "yil tajriba",
       rating: "Reyting",
       patientsCount: "muvaffaqiyatli bemor",
+      patientsWord: "bemor",
+      slotsAvailable: "Yaqin qabul vaqtlari (Bugun / Ertaga):",
+      moreSlots: "yana",
       bookAppointment: "Qabulga yozilish",
       specialties: {
         all: "Barchasi",
@@ -175,21 +278,75 @@ export const translations = {
       clinicRecommendations: "Ushbu kasallikni davolaydigan eng yaxshi klinikalar:"
     },
     admin: {
-      title: "Shifo.top Boshqaruv Paneli (Admin)",
+      adminZone: "ADMINISTRATOR HUDUDI",
+      title: "shifo.top Boshqaruv Paneli (Admin)",
       subtitle: "Mahsulotlar, qabullar, klinikalar va Telegram bot integratsiyasi",
-      tabs: {
-        dashboard: "Dashboard",
-        products: "Mahsulotlar CRUD",
+      telegramDemo: "Telegram Demo Rejimda",
+      telegramConnected: "Telegram Bot Ulandi",
+      sidebarHeading: "BOSHQARUV",
+      sidebar: {
+        dashboard: "Asosiy Boshqaruv",
+        revenue: "Daromad Diagnostikasi",
+        sales: "Sotuvlar & Buyurtmalar",
+        inventory: "Omborxona (Mahsulotlar)",
         appointments: "Qabullar Ro'yxati",
-        telegram: "Telegram Bot Sozlamalari"
+        telegram: "Telegram Bot Sozlamalari",
+        statusConnected: "Ulandi",
+        statusDemo: "Demo",
+        superuser: "Superuser"
       },
       stats: {
         totalAppointments: "Jami Qabullar",
+        approvedSuffix: "tasi tasdiqlangan",
         totalRevenue: "Jami Tushum",
+        growth: "o'sish",
         totalProducts: "Ombordagi Mahsulotlar",
-        activeClinics: "Faol Klinikalar"
+        inStockAll: "Omborda to'liq mavjud",
+        activeClinics: "Faol Klinikalar",
+        clinicsUnit: "ta",
+        emergency247: "24/7 Shoshilinch xizmat"
+      },
+      chart: {
+        title: "Haftalik Qabullar va Bemorlar Tashrifi Dinamikasi",
+        subtitle: "Oxirgi 7 kundagi navbatsiz shifokor qabullari statistikasi",
+        realtime: "Real vaqt rejimida",
+        bookingUnit: "qabul",
+        days: ["Dush", "Sesh", "Chor", "Pay", "Juma", "Shan", "Yak"]
+      },
+      recentApts: "So'nggi Qabullar",
+      pharmacyStock: "Dorixona Zaxirasi",
+      allCount: "Barchasi",
+      unitDona: "dona",
+      prescriptionYes: "Retseptli",
+      prescriptionNo: "Retseptsiz",
+      revenueAnalytics: {
+        title: "Daromad Diagnostikasi & Moliya Tahlili",
+        subtitle: "Klinikalar bo'yicha ko'rik to'lovlari, dori savdolari va o'rtacha chek ko'rsatkichi",
+        avgCheckup: "O'rtacha Ko'rik Narxi:",
+        monthlyForecast: "Oylik Prognoz:",
+        growthRate: "O'sish Ko'rsatkichi:",
+        vsLastMonth: "(O'tgan oyga nisbatan)",
+        breakdownTitle: "Tushumlar Yo'nalishi Bo'yicha Taqsimot",
+        doctorShare: "Shifokorlar Qabuli (Kardiologiya, Nevrologiya, Jarrohlik)",
+        pharmacyShare: "Onlayn Dorixona va Tibbiy Uskunalar Savdosi"
+      },
+      salesOrders: {
+        title: "Sotuvlar va Buyurtmalar Tarixi",
+        subtitle: "Dorixona orqali berilgan xaridlar",
+        empty: "Hozircha onlayn buyurtmalar mavjud emas.",
+        orderNum: "Buyurtma",
+        delivering: "Yetkazilmoqda",
+        payment: "To'lov",
+        promo: "Promokod",
+        none: "Yo'q"
+      },
+      authRequired: {
+        title: "Admin huquqi talab qilinadi",
+        desc: "Admin panel va boshqaruv tizimini to'liq ko'rish uchun quyidagi tugmani bosing:",
+        loginBtn: "Admin sifatida tizimga kirish"
       },
       productsCrud: {
+        searchPlaceholder: "Mahsulot nomini qidiring...",
         addProduct: "+ Yangi mahsulot qo'shish",
         editProduct: "Tahrirlash",
         deleteProduct: "O'chirish",
@@ -197,16 +354,18 @@ export const translations = {
         formTitleAdd: "Yangi dori/mahsulot qo'shish",
         formTitleEdit: "Mahsulotni tahrirlash",
         name: "Mahsulot nomi",
-        price: "Narxi (so'm)",
+        price: "Narxi",
         category: "Kategoriya",
         stock: "Ombordagi soni",
         prescription: "Retsept kerakmi?",
-        image: "Rasm URL",
+        image: "Rasm manzili (URL yoki /images/...)",
         desc: "Qisqacha tavsif",
         save: "Saqlash",
         cancel: "Bekor qilish"
       },
       appointmentsTable: {
+        title: "Bemorlar Qabuli Ro'yxati",
+        subtitle: "Barcha ma'lumotlar avtomatik saqlanadi",
         patient: "Bemor",
         phone: "Telefon",
         doctor: "Shifokor",
@@ -216,16 +375,17 @@ export const translations = {
         actions: "Amallar",
         approved: "Tasdiqlangan",
         pending: "Kutilmoqda",
-        rejected: "Bekor qilingan",
+        rejected: "Rad etilgan",
         approve: "Tasdiqlash",
         reject: "Rad etish"
       },
       telegramTab: {
         title: "Telegram Bot Integratsiyasi",
-        desc: "Buyurtmalar va shifokor qabullari avtomatik tarzda Telegram guruhingizga yoki botingizga yuboriladi.",
+        desc: "Buyurtmalar va shifokor qabullari avtomatik tarzda Telegram botingizga yuboriladi.",
         botToken: "Bot Token (BotFather'dan olingan)",
         chatId: "Chat ID yoki Guruh ID",
         testBtn: "Test xabarini yuborish",
+        sending: "Yuborilmoqda...",
         saveSettings: "Sozlamalarni saqlash",
         connected: "Ulanish faol",
         guideTitle: "Telegram Bot qanday ulanadi?",
@@ -249,7 +409,34 @@ export const translations = {
       rolePatient: "Oddiy Bemor",
       roleDoctor: "Shifokor",
       roleAdmin: "Admin (Boshqaruvchi)",
-      logoutConfirm: "Haqiqatan ham hisobdan chiqmoqchimisiz?"
+      logoutConfirm: "Haqiqatan ham hisobdan chiqmoqchimisiz?",
+      statusOnline: "Tizimga ulangan",
+      roleLabel: "Roli:",
+      goToAdmin: "Admin panelga o'tish"
+    },
+    favoritesPage: {
+      badge: "Shaxsiy Saqlanganlar",
+      subtitle: "O'zingizga ma'qul kelgan dori vositalari va tajribali shifokorlar ro'yxati",
+      tabAll: "Barchasi",
+      tabStore: "Dorixona",
+      tabDoctors: "Shifokorlar",
+      emptyTitle: "Sevimlilar ro'yxatingiz bo'sh",
+      emptyDesc: "Dori vositalari yoki shifokorlar kartasidagi yurakcha belgisini bosib, ularni shu yerda saqlashingiz mumkin.",
+      savedDoctors: "Saqlangan Shifokorlar",
+      savedProducts: "Saqlangan Dori va Vositalar"
+    },
+    footer: {
+      desc: "O'zbekistondagi eng yirik aqlli tibbiyot ekotizimi: kasalliklar bo'yicha eng yaqin davolash punktlarini topish, qulay vaqtga navbatsiz shifokor qabuliga yozilish va tezkor dorixona xizmati.",
+      emergencyHelp: "Favqulodda Shoshilinch Yordam",
+      emergencyDesc: "/ 24 soat bepul tez yordam",
+      mainSections: "Asosiy Bo'limlar",
+      contactsTitle: "Bog'lanish & Markaz",
+      address: "Toshkent shahri, Shayxontohur tumani, Navoiy ko'chasi 1-A",
+      accreditation: "Sog'liqni Saqlash Vazirligi akkreditatsiyasi",
+      telegramService: "Telegram Bot Xizmati",
+      telegramDesc: "Qabullarni eslatish, yangi dori vositalari narxlari va tezkor shifokor maslahatlari Telegram botimiz orqali:",
+      disclaimer: "⚠️ Ogohlantirish: shifo.top platformasidagi ma'lumotlar va AI tibbiy maslahatchisi faqat axborot-tavsiya maqsadida taqdim etiladi. O'tkir va xavfli holatlarda darhol tez yordam (103) ga yoki yaqin davolash muassasasiga murojaat qiling. O'zboshimchalik bilan og'ir dori vositalarini qabul qilmang.",
+      rights: "© 2026 shifo.top. Barcha huquqlar himoyalangan."
     },
     common: {
       currency: "so'm",
@@ -279,7 +466,9 @@ export const translations = {
       login: "Вход",
       profile: "Профиль",
       logout: "Выход",
-      emergency: "Скорая: 103"
+      emergency: "Скорая: 103",
+      trustPhone: "Горячая линия: +998 71 200-00-03",
+      adminUser: "Главный Администратор"
     },
     hero: {
       badge: "24/7 Интеллектуальная Медицинская Помощь",
@@ -288,12 +477,86 @@ export const translations = {
       searchPlaceholder: "Например: Грипп, Головная боль, Гастрит, Боль в сердце, Зубная боль...",
       searchBtn: "Найти пункт лечения",
       quickSymptomsTitle: "Частые симптомы:",
+      findNearestClinic: "Ближайший лечебный пункт",
+      findSuffix: "на карте!",
+      quickSymptoms: [
+        "Головная боль",
+        "Грипп и температура",
+        "Гастрит",
+        "Боль в сердце",
+        "Зубная боль",
+        "Боль в спине",
+        "Сахарный диабет"
+      ],
       features: {
         nearestClinic: "Ближайшая клиника в радиусе 2.1 км",
         verifiedDoctors: "500+ Квалифицированных врачей",
         aiAssistant: "AI Медицинская диагностика 24/7",
-        fastBooking: "Запись на прием без очередей"
+        fastBooking: "Запись на прием без очередей",
+        f1Title: "Ближайшая Больница",
+        f1Desc: "В радиусе 2.1 км на карте",
+        f2Title: "500+ Врачей",
+        f2Desc: "Специалисты высшей категории",
+        f3Title: "Shifo AI Ассистент",
+        f3Desc: "Причины и первая помощь",
+        f4Title: "Приём без очередей",
+        f4Desc: "Запись на удобное время"
       }
+    },
+    home: {
+      mapSection: {
+        badge: "Карта больниц",
+        title: "Найдите ближайшие лечебные пункты на карте",
+        subtitle: "Определите ближайшие клиники в Ташкенте и регионах по вашей геолокации",
+        viewAll: "Смотреть все клиники"
+      },
+      doctorsSection: {
+        badge: "Опытные Специалисты",
+        title: "Запишитесь на прием к врачу в удобное время",
+        subtitle: "Выберите свободную дату и временной слот без очередей",
+        viewAll: "Все врачи"
+      },
+      storeSection: {
+        badge: "Экспресс-Аптека & Товары",
+        title: "Необходимые лекарства и медтехника с доставкой на дом",
+        subtitle: "Сертифицированные препараты, тонометры, витамины и скидки по промокодам",
+        goToStore: "Перейти в аптеку"
+      },
+      telegramBanner: {
+        badge: "Уведомления через Telegram",
+        title: "Записи к врачам и заказы прямо в вашем Telegram!",
+        desc: "При записи на прием или заказе лекарств напоминания и подтверждения автоматически отправляются в ваш Telegram-бот. Без очередей и забытых приёмов.",
+        bookNow: "Записаться сейчас",
+        emergency: "Скорая Помощь: 103"
+      },
+      statsCounters: {
+        c1Label: "Больниц & Лечебных пунктов",
+        c2Label: "Врачей Высшей Категории",
+        c3Label: "Вылеченных Пациентов",
+        c4Label: "Положительных Результатов"
+      },
+      modal: {
+        headerBadge: "Медицинский Анализ & Лечебные Пункты",
+        causesTitle: "Причины возникновения заболевания:",
+        treatmentsTitle: "Какими методами можно лечить:",
+        clinicsTitle: "Ближайшие специализированные клиники:",
+        bookBtn: "Записаться на приём",
+        callBtn: "Позвонить",
+        doctorSpecialist: "Рекомендуемый специалист:",
+        closeBtn: "Закрыть"
+      }
+    },
+    map: {
+      locateMe: "Мое местоположение",
+      locating: "Определение...",
+      youAreHere: "Вы здесь",
+      selectedClinic: "Выбранная клиника",
+      hospitals: "Больницы",
+      yourPoint: "Ваша точка",
+      reviews: "отзывов",
+      departments: "Отделения и Профили:",
+      distanceAway: "расстояние",
+      viewOnMap: "На карте"
     },
     stats: {
       clinics: "Больниц & Клиник",
@@ -304,9 +567,16 @@ export const translations = {
     aiChat: {
       title: "Shifo AI — Медицинский Ассистент",
       subtitle: "Искусственный интеллект для поиска причин и методов лечения",
+      pillSubtitle: "Медицинский Консультант & Причины",
+      openAria: "Открыть медицинского AI ассистента",
       greeting: "Здравствуйте! Я медицинский AI-ассистент платформы shifo.top. Какие симптомы или болезнь вас беспокоят? Опишите, и я подскажу возможные причины, первую помощь и профильного врача.",
       placeholder: "Введите болезнь или симптом (например: Боль в желудке)...",
       send: "Отправить",
+      voiceMute: "Выключить звук",
+      voiceUnmute: "Включить голосовое озвучивание",
+      clearChat: "Очистить чат",
+      minimize: "Свернуть",
+      maximize: "Развернуть",
       suggestedQuestions: [
         "Сильно болит голова, что предпринять?",
         "Причины гастрита и методы лечения",
@@ -320,7 +590,8 @@ export const translations = {
       treatments: "Медицинское лечение & Первая помощь:",
       recommendedDoctor: "Рекомендуемый специалист:",
       nearestClinics: "Ближайшие специализированные клиники:",
-      bookDoctor: "Записаться к этому врачу"
+      bookDoctor: "Записаться к этому врачу",
+      distanceAway: "расстояние"
     },
     appointment: {
       title: "Запись на прием к врачу",
@@ -334,9 +605,12 @@ export const translations = {
       phone: "Номер телефона",
       symptoms: "Краткие жалобы / Симптомы",
       submit: "Подтвердить запись на прием",
+      submitting: "Оформление...",
       successTitle: "Вы успешно записаны на прием!",
       successDesc: "Детали записи отправлены в Telegram-бот. Доктор ждет вас в назначенное время.",
       telegramSent: "Уведомление отправлено в Telegram бот!",
+      telegramConfirmed: "Подтверждение и напоминание отправлены через Telegram!",
+      hour: "в",
       close: "Закрыть"
     },
     store: {
@@ -369,6 +643,7 @@ export const translations = {
     },
     cart: {
       title: "Ваша Корзина",
+      badge: "Корзина Покупок",
       emptyTitle: "Корзина пока пуста",
       emptyDesc: "Найдите нужные лекарства и товары для здоровья в нашей онлайн-аптеке.",
       startShopping: "Перейти в аптеку",
@@ -381,17 +656,29 @@ export const translations = {
       delivery: "Доставка:",
       free: "Бесплатно",
       promoPlaceholder: "Промокод (напр: SHIFO2026, SALOM)",
+      hasPromo: "Есть промокод?",
       applyPromo: "Применить",
       discount: "Скидка:",
       finalTotal: "К оплате:",
       checkoutBtn: "Оформить заказ",
+      clearCart: "Очистить корзину",
+      itemsCount: "Товары",
+      promoActive: "Активен",
+      orderSuccess: "Заказ успешно принят!",
+      thankYou: "Спасибо за покупку!",
+      orderNotice: "Ваш заказ передан курьерской службе, подробности отправлены в наш Telegram бот. Оператор свяжется с вами в течение 5 минут.",
+      receiptSent: "Квитанция отправлена через Telegram-бот",
+      backToStore: "Вернуться в аптеку",
       checkoutModal: {
         title: "Оформление заказа",
+        fullName: "Имя и фамилия получателя",
+        phone: "Номер телефона",
         address: "Адрес доставки (Город, улица, дом, квартира)",
         paymentMethod: "Способ оплаты:",
         payCash: "Наличными или картой при получении",
         payClick: "Click / Payme / Uzum",
         confirmBtn: "Подтвердить заказ",
+        submitting: "Отправка...",
         success: "Заказ успешно принят! Оператор свяжется с вами в течение 5 минут."
       }
     },
@@ -418,6 +705,9 @@ export const translations = {
       exp: "лет опыта",
       rating: "Рейтинг",
       patientsCount: "довольных пациентов",
+      patientsWord: "пациентов",
+      slotsAvailable: "Ближайшие слоты (Сегодня / Завтра):",
+      moreSlots: "ещё",
       bookAppointment: "Записаться на прием",
       specialties: {
         all: "Все",
@@ -440,21 +730,75 @@ export const translations = {
       clinicRecommendations: "Лучшие клиники для лечения этого заболевания:"
     },
     admin: {
+      adminZone: "ЗОНА АДМИНИСТРАТОРА",
       title: "Панель Управления Shifo.top (Admin)",
       subtitle: "Управление товарами, записями пациентов, клиниками и ботом Telegram",
-      tabs: {
-        dashboard: "Дашборд",
-        products: "Управление Товарами (CRUD)",
-        appointments: "Записи на Прием",
-        telegram: "Настройки Telegram Бота"
+      telegramDemo: "Telegram в демо-режиме",
+      telegramConnected: "Telegram бот подключен",
+      sidebarHeading: "УПРАВЛЕНИЕ",
+      sidebar: {
+        dashboard: "Главная Панель",
+        revenue: "Аналитика Доходов",
+        sales: "Продажи и Заказы",
+        inventory: "Склад (Товары)",
+        appointments: "Список Записей",
+        telegram: "Настройки Telegram Бота",
+        statusConnected: "Подключен",
+        statusDemo: "Демо",
+        superuser: "Суперпользователь"
       },
       stats: {
         totalAppointments: "Всего записей",
+        approvedSuffix: "подтверждено",
         totalRevenue: "Общий доход",
+        growth: "рост",
         totalProducts: "Товаров на складе",
-        activeClinics: "Активных клиник"
+        inStockAll: "В наличии на складе",
+        activeClinics: "Активных клиник",
+        clinicsUnit: "клиник",
+        emergency247: "24/7 Экстренная служба"
+      },
+      chart: {
+        title: "Динамика записей и визитов пациентов за неделю",
+        subtitle: "Статистика приёмов врачей без очередей за последние 7 дней",
+        realtime: "В реальном времени",
+        bookingUnit: "визитов",
+        days: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
+      },
+      recentApts: "Последние записи",
+      pharmacyStock: "Запасы аптеки",
+      allCount: "Все",
+      unitDona: "шт.",
+      prescriptionYes: "По рецепту",
+      prescriptionNo: "Без рецепта",
+      revenueAnalytics: {
+        title: "Аналитика Доходов & Финансовый Анализ",
+        subtitle: "Оплаты приёмов в клиниках, продажи лекарств и показатели среднего чека",
+        avgCheckup: "Средняя стоимость приёма:",
+        monthlyForecast: "Месячный прогноз:",
+        growthRate: "Показатель роста:",
+        vsLastMonth: "(По сравнению с прошлым месяцем)",
+        breakdownTitle: "Распределение доходов по направлениям",
+        doctorShare: "Приёмы врачей (Кардиология, Неврология, Хирургия)",
+        pharmacyShare: "Продажи онлайн-аптеки и медтехники"
+      },
+      salesOrders: {
+        title: "История продаж и заказов",
+        subtitle: "Покупки, оформленные через онлайн-аптеку",
+        empty: "На данный момент онлайн-заказов нет.",
+        orderNum: "Заказ",
+        delivering: "Доставляется",
+        payment: "Оплата",
+        promo: "Промокод",
+        none: "Нет"
+      },
+      authRequired: {
+        title: "Требуются права администратора",
+        desc: "Для доступа к панели управления нажмите кнопку ниже:",
+        loginBtn: "Войти как администратор"
       },
       productsCrud: {
+        searchPlaceholder: "Поиск товара по названию...",
         addProduct: "+ Добавить новый товар",
         editProduct: "Редактировать",
         deleteProduct: "Удалить",
@@ -462,7 +806,7 @@ export const translations = {
         formTitleAdd: "Добавление нового препарата",
         formTitleEdit: "Редактирование препарата",
         name: "Название товара",
-        price: "Цена (сум)",
+        price: "Цена",
         category: "Категория",
         stock: "Остаток на складе",
         prescription: "Нужен рецепт?",
@@ -472,6 +816,8 @@ export const translations = {
         cancel: "Отмена"
       },
       appointmentsTable: {
+        title: "Список Записей Пациентов",
+        subtitle: "Все данные сохраняются автоматически",
         patient: "Пациент",
         phone: "Телефон",
         doctor: "Врач",
@@ -491,6 +837,7 @@ export const translations = {
         botToken: "Bot Token (из @BotFather)",
         chatId: "Chat ID или ID Группы",
         testBtn: "Отправить тестовое сообщение",
+        sending: "Отправка...",
         saveSettings: "Сохранить настройки",
         connected: "Подключение активно",
         guideTitle: "Как подключить бота?",
@@ -514,7 +861,34 @@ export const translations = {
       rolePatient: "Пациент",
       roleDoctor: "Врач",
       roleAdmin: "Администратор",
-      logoutConfirm: "Вы уверены, что хотите выйти?"
+      logoutConfirm: "Вы уверены, что хотите выйти?",
+      statusOnline: "В сети",
+      roleLabel: "Роль:",
+      goToAdmin: "Перейти в админ-панель"
+    },
+    favoritesPage: {
+      badge: "Персональное Избранное",
+      subtitle: "Список сохраненных лекарств и опытных врачей",
+      tabAll: "Все",
+      tabStore: "Аптека",
+      tabDoctors: "Врачи",
+      emptyTitle: "Список избранного пуст",
+      emptyDesc: "Нажмите на иконку сердечка на карточке товара или врача, чтобы сохранить его здесь.",
+      savedDoctors: "Сохраненные Врачи",
+      savedProducts: "Сохраненные Лекарства и Товары"
+    },
+    footer: {
+      desc: "Крупнейшая интеллектуальная медицинская экосистема Узбекистана: поиск ближайших клиник, запись к врачам без очередей и экспресс-доставка из аптеки.",
+      emergencyHelp: "Экстренная Скорая Помощь",
+      emergencyDesc: "/ 24 часа бесплатная скорая",
+      mainSections: "Основные Разделы",
+      contactsTitle: "Контакты & Центр",
+      address: "г. Ташкент, Шайхантахурский район, ул. Навои 1-А",
+      accreditation: "Аккредитация Министерства Здравоохранения",
+      telegramService: "Сервис Telegram-Бота",
+      telegramDesc: "Напоминания о визитах, актуальные цены на лекарства и быстрые консультации в нашем Telegram-боте:",
+      disclaimer: "⚠️ Внимание: Информация на платформе shifo.top и консультации AI носят исключительно информационный характер. В экстренных случаях немедленно обращайтесь в скорую помощь (103).",
+      rights: "© 2026 shifo.top. Все права защищены."
     },
     common: {
       currency: "сум",
@@ -544,7 +918,9 @@ export const translations = {
       login: "Login",
       profile: "Profile",
       logout: "Logout",
-      emergency: "Emergency: 103"
+      emergency: "Emergency: 103",
+      trustPhone: "Hotline: +998 71 200-00-03",
+      adminUser: "Chief Administrator"
     },
     hero: {
       badge: "24/7 Smart Medical Assistant & Emergency Locator",
@@ -553,12 +929,86 @@ export const translations = {
       searchPlaceholder: "E.g.: Flu, Headache, Gastritis, Chest pain, Toothache...",
       searchBtn: "Find Treatment Center",
       quickSymptomsTitle: "Frequent symptoms:",
+      findNearestClinic: "the nearest medical center",
+      findSuffix: "near you!",
+      quickSymptoms: [
+        "Headache",
+        "Flu & Fever",
+        "Gastritis",
+        "Chest pain",
+        "Toothache",
+        "Back pain",
+        "Diabetes"
+      ],
       features: {
         nearestClinic: "Nearest clinic within 2.1 km radius",
         verifiedDoctors: "500+ Board Certified Doctors",
         aiAssistant: "AI Medical Diagnostics 24/7",
-        fastBooking: "Direct Queue-Free Booking"
+        fastBooking: "Direct Queue-Free Booking",
+        f1Title: "Nearest Hospital",
+        f1Desc: "Within 2.1 km radius on map",
+        f2Title: "500+ Doctors",
+        f2Desc: "Board certified specialists",
+        f3Title: "Shifo AI Consultant",
+        f3Desc: "Root causes & first aid",
+        f4Title: "Queue-Free Booking",
+        f4Desc: "Select convenient time slot"
       }
+    },
+    home: {
+      mapSection: {
+        badge: "Hospital Map",
+        title: "Discover nearest treatment centers on the map",
+        subtitle: "Locate nearest accredited clinics across Tashkent and regions with real-time GPS",
+        viewAll: "View all clinics"
+      },
+      doctorsSection: {
+        badge: "Experienced Specialists",
+        title: "Book doctor appointments at your convenience",
+        subtitle: "Choose your preferred date and time slot with zero queues",
+        viewAll: "All doctors"
+      },
+      storeSection: {
+        badge: "Express Pharmacy & Store",
+        title: "Essential medicines and medical gear delivered to your door",
+        subtitle: "Certified pharmaceuticals, tonometers, vitamins with promo discounts",
+        goToStore: "Go to pharmacy"
+      },
+      telegramBanner: {
+        badge: "Telegram Bot Notifications",
+        title: "Doctor bookings and orders directly in your Telegram!",
+        desc: "When you book or order, reminders and full receipts are automatically dispatched to your Telegram bot. Zero queues and never miss an appointment.",
+        bookNow: "Book appointment now",
+        emergency: "Emergency: 103"
+      },
+      statsCounters: {
+        c1Label: "Hospitals & Care Centers",
+        c2Label: "Board Certified Specialists",
+        c3Label: "Patients Treated",
+        c4Label: "Positive Outcomes"
+      },
+      modal: {
+        headerBadge: "Medical Diagnosis & Care Centers",
+        causesTitle: "Underlying etiology & root causes:",
+        treatmentsTitle: "Evidence-based treatments & first aid:",
+        clinicsTitle: "Top recommended clinics for this condition:",
+        bookBtn: "Book Appointment",
+        callBtn: "Call",
+        doctorSpecialist: "Recommended Specialist:",
+        closeBtn: "Close"
+      }
+    },
+    map: {
+      locateMe: "My Location",
+      locating: "Locating...",
+      youAreHere: "You are here",
+      selectedClinic: "Selected clinic",
+      hospitals: "Hospitals",
+      yourPoint: "Your point",
+      reviews: "reviews",
+      departments: "Departments & Specialties:",
+      distanceAway: "away",
+      viewOnMap: "On map"
     },
     stats: {
       clinics: "Hospitals & Clinics",
@@ -569,9 +1019,16 @@ export const translations = {
     aiChat: {
       title: "Shifo AI — Medical Consultant",
       subtitle: "AI-driven symptom analysis, etiology & evidence-based advice",
+      pillSubtitle: "Medical Consultant & Causes",
+      openAria: "Open AI Medical Consultant",
       greeting: "Hello! I am your shifo.top AI medical assistant. What symptom or medical condition is concerning you today? Describe it and I will provide root causes, first-aid measures, and the appropriate doctor.",
       placeholder: "Type your condition or symptom (e.g.: Stomach cramps)...",
       send: "Send",
+      voiceMute: "Mute voice",
+      voiceUnmute: "Enable voice reading",
+      clearChat: "Clear chat",
+      minimize: "Minimize",
+      maximize: "Maximize",
       suggestedQuestions: [
         "Severe migraine remedies and what to do?",
         "Causes of gastritis and treatment options",
@@ -585,7 +1042,8 @@ export const translations = {
       treatments: "Medical Treatments & First Aid:",
       recommendedDoctor: "Recommended Specialist:",
       nearestClinics: "Nearest Specialized Clinics:",
-      bookDoctor: "Book with this specialist"
+      bookDoctor: "Book with this specialist",
+      distanceAway: "away"
     },
     appointment: {
       title: "Doctor Appointment Booking",
@@ -599,9 +1057,12 @@ export const translations = {
       phone: "Phone Number",
       symptoms: "Brief Symptoms / Medical History",
       submit: "Confirm Appointment Booking",
+      submitting: "Booking...",
       successTitle: "Appointment Confirmed Successfully!",
       successDesc: "Details and reminder have been dispatched to Telegram. Your doctor is expecting you.",
       telegramSent: "Notification dispatched to Telegram bot!",
+      telegramConfirmed: "Confirmation and reminder sent via Telegram bot!",
+      hour: "at",
       close: "Close"
     },
     store: {
@@ -634,6 +1095,7 @@ export const translations = {
     },
     cart: {
       title: "Shopping Cart",
+      badge: "Shopping Cart",
       emptyTitle: "Your cart is currently empty",
       emptyDesc: "Browse our medical store and add essential health products to your cart.",
       startShopping: "Visit Pharmacy",
@@ -646,17 +1108,29 @@ export const translations = {
       delivery: "Delivery:",
       free: "Free",
       promoPlaceholder: "Promo code (e.g.: SHIFO2026, SALOM)",
+      hasPromo: "Have a promo code?",
       applyPromo: "Apply",
       discount: "Discount:",
       finalTotal: "Grand Total:",
       checkoutBtn: "Proceed to Checkout",
+      clearCart: "Clear cart",
+      itemsCount: "Items",
+      promoActive: "Active",
+      orderSuccess: "Order received successfully!",
+      thankYou: "Thank you for your purchase!",
+      orderNotice: "Your order has been routed to our express courier service and receipt dispatched to Telegram. Our operator will call you in 5 minutes.",
+      receiptSent: "Receipt dispatched via Telegram bot",
+      backToStore: "Return to pharmacy",
       checkoutModal: {
         title: "Checkout & Delivery",
+        fullName: "Recipient Full Name",
+        phone: "Phone Number",
         address: "Delivery address (City, district, street, apartment)",
         paymentMethod: "Payment Method:",
         payCash: "Cash / Card upon delivery",
         payClick: "Click / Payme / Uzum",
         confirmBtn: "Confirm Order",
+        submitting: "Submitting...",
         success: "Order confirmed! Our pharmacy operator will call you in 5 minutes."
       }
     },
@@ -683,6 +1157,9 @@ export const translations = {
       exp: "years exp",
       rating: "Rating",
       patientsCount: "satisfied patients",
+      patientsWord: "patients",
+      slotsAvailable: "Next available slots (Today / Tomorrow):",
+      moreSlots: "more",
       bookAppointment: "Book Appointment",
       specialties: {
         all: "All",
@@ -705,21 +1182,75 @@ export const translations = {
       clinicRecommendations: "Top recommended clinics for this condition:"
     },
     admin: {
+      adminZone: "ADMINISTRATIVE AREA",
       title: "Shifo.top Administration Dashboard",
       subtitle: "Manage inventory, patient bookings, partner clinics, and Telegram notifications",
-      tabs: {
+      telegramDemo: "Telegram Demo Mode",
+      telegramConnected: "Telegram Bot Connected",
+      sidebarHeading: "MANAGEMENT",
+      sidebar: {
         dashboard: "Dashboard",
-        products: "Product CRUD",
-        appointments: "Appointments",
-        telegram: "Telegram Bot Setup"
+        revenue: "Revenue Diagnostics",
+        sales: "Sales & Orders",
+        inventory: "Inventory (Products)",
+        appointments: "Appointments List",
+        telegram: "Telegram Bot Setup",
+        statusConnected: "Connected",
+        statusDemo: "Demo",
+        superuser: "Superuser"
       },
       stats: {
         totalAppointments: "Total Bookings",
+        approvedSuffix: "approved",
         totalRevenue: "Gross Revenue",
+        growth: "growth",
         totalProducts: "Stocked Products",
-        activeClinics: "Active Clinics"
+        inStockAll: "Fully in stock",
+        activeClinics: "Active Clinics",
+        clinicsUnit: "clinics",
+        emergency247: "24/7 Emergency Service"
+      },
+      chart: {
+        title: "Weekly Appointments and Patient Visits Dynamics",
+        subtitle: "Statistics of queue-free doctor appointments over the last 7 days",
+        realtime: "Real-time",
+        bookingUnit: "visits",
+        days: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+      },
+      recentApts: "Recent Bookings",
+      pharmacyStock: "Pharmacy Stock",
+      allCount: "All",
+      unitDona: "units",
+      prescriptionYes: "Prescription",
+      prescriptionNo: "OTC",
+      revenueAnalytics: {
+        title: "Revenue Diagnostics & Financial Analysis",
+        subtitle: "Clinic checkup payments, pharmacy sales, and average ticket indicators",
+        avgCheckup: "Average Checkup Price:",
+        monthlyForecast: "Monthly Forecast:",
+        growthRate: "Growth Rate:",
+        vsLastMonth: "(vs last month)",
+        breakdownTitle: "Revenue Breakdown by Department",
+        doctorShare: "Doctor Consultations (Cardiology, Neurology, Surgery)",
+        pharmacyShare: "Online Pharmacy & Medical Equipment Sales"
+      },
+      salesOrders: {
+        title: "Sales and Orders History",
+        subtitle: "Purchases placed via online pharmacy",
+        empty: "No online orders placed yet.",
+        orderNum: "Order",
+        delivering: "Delivering",
+        payment: "Payment",
+        promo: "Promo code",
+        none: "None"
+      },
+      authRequired: {
+        title: "Admin Privileges Required",
+        desc: "To access the full management dashboard, please sign in below:",
+        loginBtn: "Sign in as Administrator"
       },
       productsCrud: {
+        searchPlaceholder: "Search medicine or product name...",
         addProduct: "+ Add New Product",
         editProduct: "Edit",
         deleteProduct: "Delete",
@@ -727,16 +1258,18 @@ export const translations = {
         formTitleAdd: "Add New Medicine / Device",
         formTitleEdit: "Edit Medicine / Device",
         name: "Product Name",
-        price: "Price (UZS)",
+        price: "Price",
         category: "Category",
         stock: "Units in Stock",
         prescription: "Prescription Needed?",
-        image: "Image URL",
+        image: "Image URL (/images/...)",
         desc: "Description",
         save: "Save",
         cancel: "Cancel"
       },
       appointmentsTable: {
+        title: "Patient Appointments Register",
+        subtitle: "All records are synchronized and stored automatically",
         patient: "Patient",
         phone: "Phone",
         doctor: "Doctor",
@@ -756,6 +1289,7 @@ export const translations = {
         botToken: "Bot Token (from @BotFather)",
         chatId: "Chat ID or Group ID",
         testBtn: "Send Test Message",
+        sending: "Sending...",
         saveSettings: "Save Settings",
         connected: "Connection Active",
         guideTitle: "How to set up your Telegram bot?",
@@ -779,7 +1313,34 @@ export const translations = {
       rolePatient: "Patient",
       roleDoctor: "Doctor",
       roleAdmin: "Admin",
-      logoutConfirm: "Are you sure you want to log out?"
+      logoutConfirm: "Are you sure you want to log out?",
+      statusOnline: "Connected",
+      roleLabel: "Role:",
+      goToAdmin: "Open Admin Panel"
+    },
+    favoritesPage: {
+      badge: "Personal Favorites",
+      subtitle: "Curated list of your saved pharmaceutical products and specialist doctors",
+      tabAll: "All",
+      tabStore: "Pharmacy",
+      tabDoctors: "Doctors",
+      emptyTitle: "Your favorites list is empty",
+      emptyDesc: "Click the heart icon on any doctor or product card to bookmark them here.",
+      savedDoctors: "Bookmarked Doctors",
+      savedProducts: "Bookmarked Pharmacy Products"
+    },
+    footer: {
+      desc: "Uzbekistan's leading smart healthcare ecosystem: find nearest medical clinics, book queue-free doctor appointments, and express pharmacy delivery.",
+      emergencyHelp: "Emergency Medical Assistance",
+      emergencyDesc: "/ 24/7 free emergency dispatch",
+      mainSections: "Main Sections",
+      contactsTitle: "Contacts & Headquarters",
+      address: "Tashkent city, Shaykhantakhur district, Navoi street 1-A",
+      accreditation: "Ministry of Health Accreditation",
+      telegramService: "Telegram Bot Service",
+      telegramDesc: "Appointment reminders, medicine prices, and instant advice in our Telegram bot:",
+      disclaimer: "⚠️ Disclaimer: Information on shifo.top and AI consultant guidance is for informational purposes only. In acute emergencies, call 103 immediately.",
+      rights: "© 2026 shifo.top. All rights reserved."
     },
     common: {
       currency: "UZS",

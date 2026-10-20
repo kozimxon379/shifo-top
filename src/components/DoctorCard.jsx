@@ -80,7 +80,7 @@ export default function DoctorCard({ doctor }) {
               {doctor.patientsTreated ? doctor.patientsTreated.toLocaleString() : '3,000+'}
             </div>
             <div className="text-[10px] text-slate-400">
-              bemor
+              {t.doctors.patientsWord}
             </div>
           </div>
         </div>
@@ -102,7 +102,7 @@ export default function DoctorCard({ doctor }) {
           <div className="mt-3">
             <div className="text-[10px] font-bold text-slate-400 mb-1 flex items-center gap-1">
               <Clock className="w-3 h-3 text-teal-600" />
-              <span>Yaqin qabul vaqtlari (Bugun / Ertaga):</span>
+              <span>{t.doctors.slotsAvailable}</span>
             </div>
             <div className="flex flex-wrap gap-1">
               {doctor.availableSlots.slice(0, 4).map((slot) => (
@@ -115,7 +115,7 @@ export default function DoctorCard({ doctor }) {
               ))}
               {doctor.availableSlots.length > 4 && (
                 <span className="text-[10px] text-slate-400 px-1 py-0.5 font-bold">
-                  +{doctor.availableSlots.length - 4} yana
+                  +{doctor.availableSlots.length - 4} {t.doctors.moreSlots}
                 </span>
               )}
             </div>
@@ -130,7 +130,7 @@ export default function DoctorCard({ doctor }) {
             {t.appointment.price}:
           </span>
           <span className="text-base font-extrabold text-teal-600 dark:text-teal-400">
-            {Number(doctor.price).toLocaleString()} <span className="text-xs font-normal">so'm</span>
+            {Number(doctor.price).toLocaleString()} <span className="text-xs font-normal">{t.common.currency}</span>
           </span>
         </div>
 

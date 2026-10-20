@@ -66,7 +66,7 @@ export default function ProductCard({ product }) {
       {/* Product Content */}
       <div className="space-y-2 flex-1">
         <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
-          <span className="capitalize">{product.categoryName || product.category}</span>
+          <span className="capitalize">{t.store.categories[product.category] || product.categoryName || product.category}</span>
           <div className="flex items-center gap-1 text-amber-500 font-bold">
             <Star className="w-3.5 h-3.5 fill-amber-400" />
             <span>{product.rating}</span>
@@ -87,11 +87,11 @@ export default function ProductCard({ product }) {
       <div className="pt-3 mt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
         <div>
           <div className="text-base font-extrabold text-teal-600 dark:text-teal-400">
-            {Number(product.price).toLocaleString()} <span className="text-xs font-normal">so'm</span>
+            {Number(product.price).toLocaleString()} <span className="text-xs font-normal">{t.common.currency}</span>
           </div>
           {product.originalPrice && (
             <div className="text-[11px] text-slate-400 line-through">
-              {Number(product.originalPrice).toLocaleString()} so'm
+              {Number(product.originalPrice).toLocaleString()} {t.common.currency}
             </div>
           )}
         </div>

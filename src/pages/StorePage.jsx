@@ -97,7 +97,7 @@ export default function StorePage() {
         <div className="flex flex-wrap items-center justify-between gap-4 pt-1">
           {/* Price Range Slider */}
           <div className="flex items-center gap-3 w-full sm:w-auto">
-            <span className="font-semibold text-slate-500">Maks. narx:</span>
+            <span className="font-semibold text-slate-500">{t.store.filterPrice}</span>
             <input
               type="range"
               min="10000"
@@ -108,7 +108,7 @@ export default function StorePage() {
               className="accent-teal-600 w-32 sm:w-44 cursor-pointer"
             />
             <span className="font-bold text-teal-600 dark:text-teal-400">
-              {maxPrice.toLocaleString()} so'm
+              {maxPrice.toLocaleString()} {t.common.currency}
             </span>
           </div>
 
@@ -121,7 +121,7 @@ export default function StorePage() {
                 onChange={(e) => setPrescriptionOnly(e.target.checked)}
                 className="w-4 h-4 text-teal-600 rounded-sm focus:ring-teal-500"
               />
-              <span>Faqat retseptli dorilar</span>
+              <span>{t.store.prescription}</span>
             </label>
 
             {/* Sort Dropdown */}

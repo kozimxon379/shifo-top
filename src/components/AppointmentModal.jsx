@@ -143,26 +143,26 @@ export default function AppointmentModal() {
             {/* Summary Ticket */}
             <div className="bg-slate-50 dark:bg-slate-800/80 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 text-left text-xs space-y-2">
               <div className="flex justify-between">
-                <span className="text-slate-500">Shifokor:</span>
+                <span className="text-slate-500">{t.appointment.doctor}:</span>
                 <span className="font-bold text-slate-900 dark:text-white">{bookedDetails?.doctorName}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Klinika:</span>
+                <span className="text-slate-500">{t.appointment.clinic}:</span>
                 <span className="font-semibold text-slate-900 dark:text-white">{bookedDetails?.clinicName}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Sana & Vaqt:</span>
-                <span className="font-bold text-teal-600 dark:text-teal-400">{bookedDetails?.date} soat {bookedDetails?.timeSlot}</span>
+                <span className="text-slate-500">{t.admin.appointmentsTable.dateTime}:</span>
+                <span className="font-bold text-teal-600 dark:text-teal-400">{bookedDetails?.date} {t.appointment.hour} {bookedDetails?.timeSlot}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Ko'rik narxi:</span>
-                <span className="font-bold text-slate-900 dark:text-white">{Number(bookedDetails?.price).toLocaleString()} so'm</span>
+                <span className="text-slate-500">{t.appointment.price}:</span>
+                <span className="font-bold text-slate-900 dark:text-white">{Number(bookedDetails?.price).toLocaleString()} {t.common.currency}</span>
               </div>
             </div>
 
             <div className="p-3 bg-cyan-50 dark:bg-cyan-950/40 rounded-xl border border-cyan-200 dark:border-cyan-900 text-xs text-cyan-800 dark:text-cyan-300 flex items-center justify-center gap-2">
               <Send className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
-              <span>Telegram bot orqali tasdiqnoma va eslatma yo'llandi!</span>
+              <span>{t.appointment.telegramConfirmed}</span>
             </div>
 
             <button
@@ -194,7 +194,7 @@ export default function AppointmentModal() {
                   {currentDoctor.specialty} • {currentDoctor.clinicName}
                 </div>
                 <div className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">
-                  Ko'rik: {Number(currentDoctor.price).toLocaleString()} so'm
+                  {t.appointment.price}: {Number(currentDoctor.price).toLocaleString()} {t.common.currency}
                 </div>
               </div>
             </div>
@@ -303,7 +303,7 @@ export default function AppointmentModal() {
               >
                 <Calendar className="w-4 h-4" />
                 <span>
-                  {isSubmitting ? "Yozilmoqda..." : t.appointment.submit}
+                  {isSubmitting ? t.appointment.submitting : t.appointment.submit}
                 </span>
               </button>
             </div>

@@ -123,22 +123,22 @@ export default function ClinicsPage() {
                 onChange={(e) => setOnly247(e.target.checked)}
                 className="w-4 h-4 text-teal-600 rounded-sm focus:ring-teal-500"
               />
-              <span>Faqat 24/7 Shoshilinch</span>
+              <span>{t.clinics.open247}</span>
             </label>
           </div>
 
           {/* Sort selector */}
           <div className="flex items-center gap-1.5 font-semibold text-slate-500">
             <ArrowUpDown className="w-3.5 h-3.5" />
-            <span>Saralash:</span>
+            <span>{t.store.sortBy}</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-slate-800 dark:text-slate-200 font-bold focus:outline-none"
             >
-              <option value="distance">Eng yaqin masofa bo'yicha</option>
-              <option value="rating">Reytingi yuqorilar</option>
-              <option value="name">Nomi (A-Z)</option>
+              <option value="distance">{t.clinics.distance}</option>
+              <option value="rating">{t.store.sortOptions.rating}</option>
+              <option value="name">{t.store.sortOptions.name}</option>
             </select>
           </div>
         </div>

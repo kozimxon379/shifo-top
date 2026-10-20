@@ -117,10 +117,10 @@ export default function DoctorsPage() {
               onChange={(e) => setSortBy(e.target.value)}
               className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-800 dark:text-slate-200 font-bold focus:outline-none"
             >
-              <option value="rating">Reyting bo'yicha</option>
-              <option value="exp">Ko'p yillik tajriba</option>
-              <option value="priceAsc">Ko'rik narxi: Arzondan</option>
-              <option value="priceDesc">Ko'rik narxi: Qimmatdan</option>
+              <option value="rating">{t.store.sortOptions.rating}</option>
+              <option value="exp">{t.doctors.exp}</option>
+              <option value="priceAsc">{t.store.sortOptions.priceAsc}</option>
+              <option value="priceDesc">{t.store.sortOptions.priceDesc}</option>
             </select>
           </div>
         </div>

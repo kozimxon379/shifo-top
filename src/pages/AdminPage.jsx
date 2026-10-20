@@ -58,7 +58,7 @@ export default function AdminPage() {
     price: '',
     originalPrice: '',
     category: 'medicines',
-    categoryName: 'Dori vositalari',
+    categoryName: '',
     stock: 50,
     prescriptionRequired: false,
     image: '/images/products/paracetamol.svg',
@@ -81,24 +81,24 @@ export default function AdminPage() {
           <Shield className="w-8 h-8" />
         </div>
         <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-          Admin huquqi talab qilinadi
+          {t.admin.authRequired.title}
         </h2>
         <p className="text-xs text-slate-500 max-w-sm mx-auto">
-          Admin panel va boshqaruv tizimini to'liq ko'rish uchun quyidagi tugmani bosing:
+          {t.admin.authRequired.desc}
         </p>
         <button
           type="button"
           onClick={() => {
             loginUser({
               username: 'admin',
-              name: 'Bosh Administrator',
+              name: t.nav.adminUser,
               role: 'admin',
               phone: '+998 71 200 00 03'
             });
           }}
           className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl text-xs shadow-md transition-all"
         >
-          Admin sifatida tizimga kirish
+          {t.admin.authRequired.loginBtn}
         </button>
       </div>
     );
@@ -119,7 +119,7 @@ export default function AdminPage() {
       price: '',
       originalPrice: '',
       category: 'medicines',
-      categoryName: 'Dori vositalari',
+      categoryName: t.store.categories.medicines,
       stock: 50,
       prescriptionRequired: false,
       image: '/images/products/paracetamol.svg',
@@ -135,7 +135,7 @@ export default function AdminPage() {
       price: prod.price,
       originalPrice: prod.originalPrice || '',
       category: prod.category,
-      categoryName: prod.categoryName || 'Dori vositalari',
+      categoryName: prod.categoryName || t.store.categories[prod.category] || prod.category,
       stock: prod.stock || 50,
       prescriptionRequired: Boolean(prod.prescriptionRequired),
       image: prod.image,
@@ -181,9 +181,9 @@ export default function AdminPage() {
     if (res.simulated) {
       addToast("Telegram Simulyatsiyasi", "Bot sozlamalari demo holatida sinovdan o'tdi.", "info");
     } else if (res.success) {
-      addToast("Xabar yuborildi!", "Telegram botga test xabari yetib bordi.", "success");
+      addToast(t.common.success, "Telegram botga test xabari yetib bordi.", "success");
     } else {
-      addToast("Xatolik", res.error || "Xabar yuborib bo'lmadi", "error");
+      addToast(t.common.error, res.error || "Xabar yuborib bo'lmadi", "error");
     }
   };
 
@@ -192,44 +192,55 @@ export default function AdminPage() {
     p.category.toLowerCase().includes(prodSearch.toLowerCase())
   );
 
-  // Sidebar Menu Items Definition (styled after the user's reference image)
+  // Sidebar Menu Items Definition with dynamic i18n
   const menuItems = [
     {
       id: 'dashboard',
-      label: 'Asosiy Boshqaruv',
+      label: t.admin.sidebar.dashboard,
       icon: LayoutDashboard,
       badge: null
     },
     {
       id: 'revenue',
-      label: 'Daromad Diagnostikasi',
+      label: t.admin.sidebar.revenue,
       icon: TrendingUp,
       badge: '+18.4%'
     },
     {
       id: 'sales',
-      label: 'Sotuvlar & Buyurtmalar',
+      label: t.admin.sidebar.sales,
       icon: BarChart3,
       badge: orders.length > 0 ? `${orders.length}` : null
     },
     {
       id: 'products',
-      label: 'Omborxona (Mahsulotlar)',
+      label: t.admin.sidebar.inventory,
       icon: PieChart,
       badge: `${products.length}`
     },
     {
       id: 'appointments',
-      label: "Qabullar Ro'yxati",
+      label: t.admin.sidebar.appointments,
       icon: Calendar,
       badge: `${appointments.length}`
     },
     {
       id: 'telegram',
-      label: 'Telegram Bot Sozlamalari',
+      label: t.admin.sidebar.telegram,
       icon: Send,
-      badge: telegramConfig.isConnected ? 'Ulandi' : 'Demo'
+      badge: telegramConfig.isConnected ? t.admin.sidebar.statusConnected : t.admin.sidebar.statusDemo
     }
+  ];
+
+  const chartDays = t.admin.chart.days || ["Dush", "Sesh", "Chor", "Pay", "Juma", "Shan", "Yak"];
+  const chartData = [
+    { day: chartDays[0], val: 45, apt: 14 },
+    { day: chartDays[1], val: 70, apt: 22 },
+    { day: chartDays[2], val: 85, apt: 28 },
+    { day: chartDays[3], val: 60, apt: 19 },
+    { day: chartDays[4], val: 95, apt: 34 },
+    { day: chartDays[5], val: 75, apt: 24 },
+    { day: chartDays[6], val: 50, apt: 16 }
   ];
 
   return (
@@ -239,13 +250,13 @@ export default function AdminPage() {
         <div>
           <div className="text-xs font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider flex items-center gap-1.5">
             <Shield className="w-4 h-4" />
-            <span>ADMINISTRATOR HUDUDI</span>
+            <span>{t.admin.adminZone}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mt-1">
-            shifo.top Boshqaruv Paneli (Admin)
+            {t.admin.title}
           </h1>
           <p className="text-xs text-slate-500 mt-0.5">
-            Mahsulotlar, qabullar, klinikalar va Telegram bot integratsiyasi
+            {t.admin.subtitle}
           </p>
         </div>
 
@@ -257,20 +268,20 @@ export default function AdminPage() {
               : 'bg-amber-500/10 text-amber-500 border-amber-500/30 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-700/60'
           }`}>
             <span className={`w-2 h-2 rounded-full ${telegramConfig.isConnected ? 'bg-emerald-500 animate-ping' : 'bg-amber-400'}`}></span>
-            <span>{telegramConfig.isConnected ? "Telegram Bot Ulandi" : "Telegram Demo Rejimda"}</span>
+            <span>{telegramConfig.isConnected ? t.admin.telegramConnected : t.admin.telegramDemo}</span>
           </span>
         </div>
       </div>
 
       {/* Main 2-Column Dashboard Layout (Sidebar + Content) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* LEFT COLUMN: SIDEBAR CARD (Pixel-perfect matching screenshot 2!) */}
+        {/* LEFT COLUMN: SIDEBAR CARD */}
         <aside className="lg:col-span-4 xl:col-span-3 space-y-4">
           <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/90 rounded-3xl p-5 shadow-sm space-y-5">
             {/* Header category label */}
             <div className="px-2">
               <span className="text-[11px] font-black tracking-widest text-slate-700 dark:text-slate-300 uppercase">
-                BOSHQARUV
+                {t.admin.sidebarHeading}
               </span>
             </div>
 
@@ -320,11 +331,11 @@ export default function AdminPage() {
               </div>
               <div className="flex-1 min-w-0 text-left">
                 <div className="font-bold text-xs text-slate-900 dark:text-white truncate">
-                  {user.name || "Administrator"}
+                  {user.name && user.name !== 'Bosh Administrator' ? user.name : t.nav.adminUser}
                 </div>
                 <div className="text-[10px] text-emerald-500 font-semibold flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                  <span>Superuser</span>
+                  <span>{t.admin.sidebar.superuser}</span>
                 </div>
               </div>
             </div>
@@ -341,13 +352,13 @@ export default function AdminPage() {
                 <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm flex items-center justify-between">
                   <div>
                     <span className="text-[11px] font-bold text-slate-400 block">
-                      Jami Qabullar
+                      {t.admin.stats.totalAppointments}
                     </span>
                     <span className="text-2xl font-black text-slate-900 dark:text-white mt-1 block">
                       {totalAppointmentsCount}
                     </span>
                     <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold">
-                      {approvedAppointmentsCount} tasi tasdiqlangan
+                      {approvedAppointmentsCount} {t.admin.stats.approvedSuffix}
                     </span>
                   </div>
                   <div className="w-12 h-12 rounded-2xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center">
@@ -358,13 +369,14 @@ export default function AdminPage() {
                 <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm flex items-center justify-between">
                   <div>
                     <span className="text-[11px] font-bold text-slate-400 block">
-                      Jami Tushum
+                      {t.admin.stats.totalRevenue}
                     </span>
                     <span className="text-2xl font-black text-slate-900 dark:text-white mt-1 block">
-                      {grossRevenue.toLocaleString()} <span className="text-xs font-normal">so'm</span>
+                      {grossRevenue.toLocaleString()}{' '}
+                      <span className="text-xs font-normal">{t.common.currency}</span>
                     </span>
                     <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-0.5">
-                      <TrendingUp className="w-3 h-3" /> +18.4% o'sish
+                      <TrendingUp className="w-3 h-3" /> +18.4% {t.admin.stats.growth}
                     </span>
                   </div>
                   <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
@@ -375,13 +387,13 @@ export default function AdminPage() {
                 <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm flex items-center justify-between">
                   <div>
                     <span className="text-[11px] font-bold text-slate-400 block">
-                      Ombordagi Mahsulotlar
+                      {t.admin.stats.totalProducts}
                     </span>
                     <span className="text-2xl font-black text-slate-900 dark:text-white mt-1 block">
                       {totalProductsCount}
                     </span>
                     <span className="text-[10px] text-slate-400">
-                      Omborda to'liq mavjud
+                      {t.admin.stats.inStockAll}
                     </span>
                   </div>
                   <div className="w-12 h-12 rounded-2xl bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 flex items-center justify-center">
@@ -392,13 +404,13 @@ export default function AdminPage() {
                 <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm flex items-center justify-between">
                   <div>
                     <span className="text-[11px] font-bold text-slate-400 block">
-                      Faol Klinikalar
+                      {t.admin.stats.activeClinics}
                     </span>
                     <span className="text-2xl font-black text-slate-900 dark:text-white mt-1 block">
-                      8 ta
+                      8 {t.admin.stats.clinicsUnit}
                     </span>
                     <span className="text-[10px] text-teal-600 dark:text-teal-400 font-bold">
-                      24/7 Shoshilinch xizmat
+                      {t.admin.stats.emergency247}
                     </span>
                   </div>
                   <div className="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center">
@@ -412,30 +424,22 @@ export default function AdminPage() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div>
                     <h3 className="font-bold text-base text-slate-900 dark:text-white">
-                      Haftalik Qabullar va Bemorlar Tashrifi Dinamikasi
+                      {t.admin.chart.title}
                     </h3>
                     <p className="text-xs text-slate-500">
-                      Oxirgi 7 kundagi navbatsiz shifokor qabullari statistikasi
+                      {t.admin.chart.subtitle}
                     </p>
                   </div>
                   <span className="text-xs font-bold text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/60 px-3 py-1 rounded-xl self-start sm:self-auto">
-                    Real vaqt rejimida
+                    {t.admin.chart.realtime}
                   </span>
                 </div>
 
                 <div className="h-48 w-full flex items-end justify-between gap-3 pt-6 px-4">
-                  {[
-                    { day: "Dush", val: 45, apt: 14 },
-                    { day: "Sesh", val: 70, apt: 22 },
-                    { day: "Chor", val: 85, apt: 28 },
-                    { day: "Pay", val: 60, apt: 19 },
-                    { day: "Juma", val: 95, apt: 34 },
-                    { day: "Shan", val: 75, apt: 24 },
-                    { day: "Yak", val: 50, apt: 16 }
-                  ].map((item, idx) => (
+                  {chartData.map((item, idx) => (
                     <div key={idx} className="flex-1 flex flex-col items-center gap-2 group">
                       <span className="text-[10px] font-bold text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                        {item.apt} qabul
+                        {item.apt} {t.admin.chart.bookingUnit}
                       </span>
                       <div
                         className="w-full max-w-[44px] bg-gradient-to-t from-blue-600 to-indigo-500 rounded-xl transition-all duration-500 group-hover:brightness-110 shadow-sm"
@@ -456,14 +460,14 @@ export default function AdminPage() {
                   <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
                     <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-2">
                       <Calendar className="w-4 h-4 text-blue-600" />
-                      <span>So'nggi Qabullar</span>
+                      <span>{t.admin.recentApts}</span>
                     </h4>
                     <button
                       type="button"
                       onClick={() => setActiveTab('appointments')}
                       className="text-blue-600 hover:underline font-bold"
                     >
-                      Barchasi ({appointments.length})
+                      {t.admin.allCount} ({appointments.length})
                     </button>
                   </div>
 
@@ -482,7 +486,7 @@ export default function AdminPage() {
                             ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
                             : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
                         }`}>
-                          {apt.status === 'approved' ? 'Tasdiqlangan' : 'Kutilmoqda'}
+                          {apt.status === 'approved' ? t.admin.appointmentsTable.approved : t.admin.appointmentsTable.pending}
                         </span>
                       </div>
                     ))}
@@ -494,14 +498,14 @@ export default function AdminPage() {
                   <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
                     <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-2">
                       <Package className="w-4 h-4 text-indigo-600" />
-                      <span>Dorixona Zaxirasi</span>
+                      <span>{t.admin.pharmacyStock}</span>
                     </h4>
                     <button
                       type="button"
                       onClick={() => setActiveTab('products')}
                       className="text-blue-600 hover:underline font-bold"
                     >
-                      Mahsulotlar CRUD
+                      {t.admin.tabs.products}
                     </button>
                   </div>
 
@@ -526,7 +530,7 @@ export default function AdminPage() {
                           </div>
                         </div>
                         <span className="font-extrabold text-blue-600 dark:text-blue-400">
-                          {Number(prod.price).toLocaleString()} so'm
+                          {Number(prod.price).toLocaleString()} {t.common.currency}
                         </span>
                       </div>
                     ))}
@@ -543,16 +547,16 @@ export default function AdminPage() {
                 <div>
                   <h3 className="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
                     <TrendingUp className="w-5 h-5 text-blue-600" />
-                    <span>Daromad Diagnostikasi & Moliya Tahlili</span>
+                    <span>{t.admin.revenueAnalytics.title}</span>
                   </h3>
                   <p className="text-slate-500 mt-0.5">
-                    Klinikalar bo'yicha ko'rik to'lovlari, dori savdolari va o'rtacha chek ko'rsatkichi
+                    {t.admin.revenueAnalytics.subtitle}
                   </p>
                 </div>
                 <div className="text-right">
-                  <span className="text-[10px] text-slate-400 block font-semibold">Jami Tushum:</span>
+                  <span className="text-[10px] text-slate-400 block font-semibold">{t.admin.stats.totalRevenue}:</span>
                   <span className="text-xl font-black text-emerald-600 dark:text-emerald-400">
-                    {grossRevenue.toLocaleString()} so'm
+                    {grossRevenue.toLocaleString()} {t.common.currency}
                   </span>
                 </div>
               </div>
@@ -560,23 +564,23 @@ export default function AdminPage() {
               {/* Financial KPI Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900">
-                  <span className="text-slate-500 font-semibold block">O'rtacha Ko'rik Narxi:</span>
+                  <span className="text-slate-500 font-semibold block">{t.admin.revenueAnalytics.avgCheckup}</span>
                   <span className="text-lg font-bold text-blue-900 dark:text-blue-200 mt-1 block">
-                    155,000 so'm
+                    155,000 {t.common.currency}
                   </span>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900">
-                  <span className="text-slate-500 font-semibold block">Oylik Prognoz:</span>
+                  <span className="text-slate-500 font-semibold block">{t.admin.revenueAnalytics.monthlyForecast}</span>
                   <span className="text-lg font-bold text-emerald-900 dark:text-emerald-200 mt-1 block">
-                    38,500,000 so'm
+                    38,500,000 {t.common.currency}
                   </span>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-900">
-                  <span className="text-slate-500 font-semibold block">O'sish Ko'rsatkichi:</span>
+                  <span className="text-slate-500 font-semibold block">{t.admin.revenueAnalytics.growthRate}</span>
                   <span className="text-lg font-bold text-indigo-900 dark:text-indigo-200 mt-1 block">
-                    +18.4% (O'tgan oyga nisbatan)
+                    +18.4% {t.admin.revenueAnalytics.vsLastMonth}
                   </span>
                 </div>
               </div>
@@ -584,14 +588,14 @@ export default function AdminPage() {
               {/* Revenue share per category */}
               <div className="space-y-3">
                 <h4 className="font-bold text-sm text-slate-900 dark:text-white">
-                  Tushumlar Yo'nalishi Bo'yicha Taqsimot
+                  {t.admin.revenueAnalytics.breakdownTitle}
                 </h4>
 
                 <div className="space-y-2">
                   <div>
                     <div className="flex justify-between font-semibold mb-1">
-                      <span>Shifokorlar Qabuli (Kardiologiya, Nevrologiya, Jarrohlik)</span>
-                      <span>68% (8,600,000 so'm)</span>
+                      <span>{t.admin.revenueAnalytics.doctorShare}</span>
+                      <span>68% (8,600,000 {t.common.currency})</span>
                     </div>
                     <div className="w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                       <div className="h-full bg-blue-600 rounded-full" style={{ width: '68%' }}></div>
@@ -600,8 +604,8 @@ export default function AdminPage() {
 
                   <div>
                     <div className="flex justify-between font-semibold mb-1">
-                      <span>Onlayn Dorixona va Tibbiy Uskunalar Savdosi</span>
-                      <span>32% (4,050,000 so'm)</span>
+                      <span>{t.admin.revenueAnalytics.pharmacyShare}</span>
+                      <span>32% (4,050,000 {t.common.currency})</span>
                     </div>
                     <div className="w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                       <div className="h-full bg-indigo-500 rounded-full" style={{ width: '32%' }}></div>
@@ -618,15 +622,15 @@ export default function AdminPage() {
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
                 <h3 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
                   <BarChart3 className="w-5 h-5 text-blue-600" />
-                  <span>Sotuvlar va Buyurtmalar Tarixi ({orders.length})</span>
+                  <span>{t.admin.salesOrders.title} ({orders.length})</span>
                 </h3>
-                <span className="text-slate-400">Dorixona orqali berilgan xaridlar</span>
+                <span className="text-slate-400">{t.admin.salesOrders.subtitle}</span>
               </div>
 
               {orders.length === 0 ? (
                 <div className="text-center py-12 text-slate-400 space-y-2">
                   <ShoppingBag className="w-10 h-10 mx-auto opacity-50" />
-                  <p>Hozircha onlayn buyurtmalar mavjud emas.</p>
+                  <p>{t.admin.salesOrders.empty}</p>
                 </div>
               ) : (
                 <div className="space-y-3">
@@ -637,22 +641,22 @@ export default function AdminPage() {
                     >
                       <div>
                         <div className="font-bold text-slate-900 dark:text-white">
-                          Buyurtma #{ord.id} — {ord.customerName}
+                          {t.admin.salesOrders.orderNum} #{ord.id} — {ord.customerName}
                         </div>
                         <div className="text-[11px] text-slate-500 mt-0.5">
                           {ord.phone} • {ord.address}
                         </div>
                         <div className="text-[10px] text-slate-400 mt-1">
-                          To'lov: {ord.paymentMethod} • Promokod: {ord.promoCode || "Yo'q"}
+                          {t.admin.salesOrders.payment}: {ord.paymentMethod} • {t.admin.salesOrders.promo}: {ord.promoCode || t.admin.salesOrders.none}
                         </div>
                       </div>
 
                       <div className="text-right">
                         <div className="font-black text-sm text-blue-600 dark:text-blue-400">
-                          {Number(ord.total).toLocaleString()} so'm
+                          {Number(ord.total).toLocaleString()} {t.common.currency}
                         </div>
                         <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                          Yetkazilmoqda
+                          {t.admin.salesOrders.delivering}
                         </span>
                       </div>
                     </div>
@@ -673,7 +677,7 @@ export default function AdminPage() {
                     type="text"
                     value={prodSearch}
                     onChange={(e) => setProdSearch(e.target.value)}
-                    placeholder="Mahsulot nomini qidiring..."
+                    placeholder={t.admin.productsCrud.searchPlaceholder}
                     className="w-full pl-10 pr-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -684,7 +688,7 @@ export default function AdminPage() {
                   className="flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-2xl text-xs shadow-md shadow-blue-500/20 transition-all hover:scale-102"
                 >
                   <Plus className="w-4 h-4" />
-                  <span>+ Yangi mahsulot qo'shish</span>
+                  <span>{t.admin.productsCrud.addProduct}</span>
                 </button>
               </div>
 
@@ -694,12 +698,12 @@ export default function AdminPage() {
                   <table className="w-full text-left text-xs">
                     <thead className="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-800 text-slate-500 font-bold uppercase tracking-wider text-[10px]">
                       <tr>
-                        <th className="p-4">Mahsulot</th>
-                        <th className="p-4">Kategoriya</th>
-                        <th className="p-4">Narxi</th>
-                        <th className="p-4">Zaxira</th>
-                        <th className="p-4">Retsept</th>
-                        <th className="p-4 text-right">Amallar</th>
+                        <th className="p-4">{t.cart.item}</th>
+                        <th className="p-4">{t.admin.productsCrud.category}</th>
+                        <th className="p-4">{t.admin.productsCrud.price}</th>
+                        <th className="p-4">{t.admin.productsCrud.stock}</th>
+                        <th className="p-4">{t.admin.productsCrud.prescription}</th>
+                        <th className="p-4 text-right">{t.admin.appointmentsTable.actions}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -722,25 +726,25 @@ export default function AdminPage() {
                           </td>
 
                           <td className="p-4 font-semibold text-slate-600 dark:text-slate-300 capitalize">
-                            {prod.categoryName || prod.category}
+                            {t.store.categories[prod.category] || prod.categoryName || prod.category}
                           </td>
 
                           <td className="p-4 font-bold text-blue-600 dark:text-blue-400">
-                            {Number(prod.price).toLocaleString()} so'm
+                            {Number(prod.price).toLocaleString()} {t.common.currency}
                           </td>
 
                           <td className="p-4">
-                            <span className="font-bold text-slate-800 dark:text-slate-200">{prod.stock || 50} dona</span>
+                            <span className="font-bold text-slate-800 dark:text-slate-200">{prod.stock || 50} {t.admin.unitDona}</span>
                           </td>
 
                           <td className="p-4">
                             {prod.prescriptionRequired ? (
                               <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
-                                Retseptli
+                                {t.admin.prescriptionYes}
                               </span>
                             ) : (
                               <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                                Retseptsiz
+                                {t.admin.prescriptionNo}
                               </span>
                             )}
                           </td>
@@ -750,7 +754,7 @@ export default function AdminPage() {
                               type="button"
                               onClick={() => handleOpenEditProduct(prod)}
                               className="p-1.5 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/50 rounded-lg transition-colors"
-                              title="Tahrirlash"
+                              title={t.admin.productsCrud.editProduct}
                             >
                               <Edit2 className="w-4 h-4" />
                             </button>
@@ -758,12 +762,12 @@ export default function AdminPage() {
                             <button
                               type="button"
                               onClick={() => {
-                                if (window.confirm("Ushbu mahsulotni o'chirmoqchimisiz?")) {
+                                if (window.confirm(t.admin.productsCrud.confirmDelete)) {
                                   deleteProduct(prod.id);
                                 }
                               }}
                               className="p-1.5 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-lg transition-colors"
-                              title="O'chirish"
+                              title={t.admin.productsCrud.deleteProduct}
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>
@@ -782,21 +786,21 @@ export default function AdminPage() {
             <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xs animate-in fade-in">
               <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center text-xs">
                 <h3 className="font-bold text-slate-900 dark:text-white">
-                  Bemorlar Qabuli Ro'yxati ({appointments.length})
+                  {t.admin.appointmentsTable.title} ({appointments.length})
                 </h3>
-                <span className="text-slate-400">Barcha ma'lumotlar avtomatik saqlanadi</span>
+                <span className="text-slate-400">{t.admin.appointmentsTable.subtitle}</span>
               </div>
 
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
                   <thead className="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-800 text-slate-500 font-bold uppercase tracking-wider text-[10px]">
                     <tr>
-                      <th className="p-4">Bemor</th>
-                      <th className="p-4">Shifokor</th>
-                      <th className="p-4">Klinika</th>
-                      <th className="p-4">Sana & Vaqt</th>
-                      <th className="p-4">Holati</th>
-                      <th className="p-4 text-right">Amallar</th>
+                      <th className="p-4">{t.admin.appointmentsTable.patient}</th>
+                      <th className="p-4">{t.admin.appointmentsTable.doctor}</th>
+                      <th className="p-4">{t.admin.appointmentsTable.clinic}</th>
+                      <th className="p-4">{t.admin.appointmentsTable.dateTime}</th>
+                      <th className="p-4">{t.admin.appointmentsTable.status}</th>
+                      <th className="p-4 text-right">{t.admin.appointmentsTable.actions}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -832,9 +836,9 @@ export default function AdminPage() {
                               ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
                               : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
                           }`}>
-                            {apt.status === 'approved' ? 'Tasdiqlangan' :
-                             apt.status === 'rejected' ? 'Rad etilgan' :
-                             'Kutilmoqda'}
+                            {apt.status === 'approved' ? t.admin.appointmentsTable.approved :
+                             apt.status === 'rejected' ? t.admin.appointmentsTable.rejected :
+                             t.admin.appointmentsTable.pending}
                           </span>
                         </td>
 
@@ -845,7 +849,7 @@ export default function AdminPage() {
                               onClick={() => updateAppointmentStatus(apt.id, 'approved')}
                               className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-[11px] transition-colors"
                             >
-                              Tasdiqlash
+                              {t.admin.appointmentsTable.approve}
                             </button>
                           )}
                           {apt.status !== 'rejected' && (
@@ -854,7 +858,7 @@ export default function AdminPage() {
                               onClick={() => updateAppointmentStatus(apt.id, 'rejected')}
                               className="px-2.5 py-1 border border-rose-300 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg font-bold text-[11px] transition-colors"
                             >
-                              Rad etish
+                              {t.admin.appointmentsTable.reject}
                             </button>
                           )}
                         </td>
@@ -873,17 +877,17 @@ export default function AdminPage() {
                 <div>
                   <h3 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
                     <Send className="w-5 h-5 text-blue-600" />
-                    <span>Telegram Bot Integratsiyasi</span>
+                    <span>{t.admin.telegramTab.title}</span>
                   </h3>
                   <p className="text-slate-500 mt-1">
-                    Buyurtmalar va shifokor qabullari avtomatik tarzda Telegram botingizga yuboriladi.
+                    {t.admin.telegramTab.desc}
                   </p>
                 </div>
 
                 <form onSubmit={handleSaveTelegram} className="space-y-4">
                   <div>
                     <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Bot Token (BotFather'dan olingan)
+                      {t.admin.telegramTab.botToken}
                     </label>
                     <input
                       type="text"
@@ -896,7 +900,7 @@ export default function AdminPage() {
 
                   <div>
                     <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Chat ID yoki Guruh ID
+                      {t.admin.telegramTab.chatId}
                     </label>
                     <input
                       type="text"
@@ -912,7 +916,7 @@ export default function AdminPage() {
                       type="submit"
                       className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-sm"
                     >
-                      Sozlamalarni saqlash
+                      {t.admin.telegramTab.saveSettings}
                     </button>
 
                     <button
@@ -922,7 +926,7 @@ export default function AdminPage() {
                       className="px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold rounded-xl transition-colors flex items-center gap-1.5"
                     >
                       <Send className="w-3.5 h-3.5" />
-                      <span>{isTestingTelegram ? "Yuborilmoqda..." : "Test xabari yuborish"}</span>
+                      <span>{isTestingTelegram ? t.admin.telegramTab.sending : t.admin.telegramTab.testBtn}</span>
                     </button>
                   </div>
                 </form>
@@ -931,12 +935,12 @@ export default function AdminPage() {
               {/* Bot Connection Guide */}
               <div className="md:col-span-5 bg-blue-50/60 dark:bg-blue-950/30 p-6 rounded-3xl border border-blue-200/60 dark:border-blue-900/40 space-y-4">
                 <h4 className="font-bold text-sm text-blue-950 dark:text-blue-200">
-                  Telegram Bot qanday ulanadi?
+                  {t.admin.telegramTab.guideTitle}
                 </h4>
                 <div className="space-y-3 text-slate-700 dark:text-slate-300 leading-relaxed">
-                  <p>1. Telegram'da @BotFather ga kiring va yangi bot oching (masalan: @shifo_top_bot).</p>
-                  <p>2. Olingan HTTP API Token'ni chapdagi maydonga yozing.</p>
-                  <p>3. O'zingizning Chat ID'ingizni (@userinfobot orqali) kiriting va Saqlash tugmasini bosing.</p>
+                  <p>{t.admin.telegramTab.guideStep1}</p>
+                  <p>{t.admin.telegramTab.guideStep2}</p>
+                  <p>{t.admin.telegramTab.guideStep3}</p>
                 </div>
               </div>
             </div>
@@ -950,7 +954,7 @@ export default function AdminPage() {
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden animate-in zoom-in-95">
             <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-5 flex items-center justify-between">
               <h3 className="font-bold text-sm">
-                {editingProduct ? "Mahsulotni tahrirlash" : "Yangi dori/mahsulot qo'shish"}
+                {editingProduct ? t.admin.productsCrud.formTitleEdit : t.admin.productsCrud.formTitleAdd}
               </h3>
               <button
                 type="button"
@@ -964,14 +968,14 @@ export default function AdminPage() {
             <form onSubmit={handleSaveProduct} className="p-5 space-y-3.5 text-xs max-h-[75vh] overflow-y-auto">
               <div>
                 <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Mahsulot nomi *
+                  {t.admin.productsCrud.name} *
                 </label>
                 <input
                   type="text"
                   required
                   value={prodForm.name}
                   onChange={(e) => setProdForm({ ...prodForm, name: e.target.value })}
-                  placeholder="Masalan: Paracetamol 500mg"
+                  placeholder="Paracetamol 500mg"
                   className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -979,7 +983,7 @@ export default function AdminPage() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                    Narxi (so'm) *
+                    {t.admin.productsCrud.price} ({t.common.currency}) *
                   </label>
                   <input
                     type="number"
@@ -993,7 +997,7 @@ export default function AdminPage() {
 
                 <div>
                   <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                    Ombordagi soni
+                    {t.admin.productsCrud.stock}
                   </label>
                   <input
                     type="number"
@@ -1007,31 +1011,24 @@ export default function AdminPage() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                    Kategoriya
+                    {t.admin.productsCrud.category}
                   </label>
                   <select
                     value={prodForm.category}
                     onChange={(e) => {
-                      const catNameMap = {
-                        medicines: 'Dori vositalari',
-                        vitamins: 'Vitaminlar & BAD',
-                        devices: 'Tibbiy uskunalar',
-                        hygiene: 'Gigiyena & Antiseptiklar',
-                        firstaid: 'Birinchi yordam'
-                      };
                       setProdForm({
                         ...prodForm,
                         category: e.target.value,
-                        categoryName: catNameMap[e.target.value] || e.target.value
+                        categoryName: t.store.categories[e.target.value] || e.target.value
                       });
                     }}
                     className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold"
                   >
-                    <option value="medicines">Dori vositalari</option>
-                    <option value="vitamins">Vitaminlar & BAD</option>
-                    <option value="devices">Tibbiy uskunalar</option>
-                    <option value="hygiene">Gigiyena & Antiseptiklar</option>
-                    <option value="firstaid">Birinchi yordam</option>
+                    <option value="medicines">{t.store.categories.medicines}</option>
+                    <option value="vitamins">{t.store.categories.vitamins}</option>
+                    <option value="devices">{t.store.categories.devices}</option>
+                    <option value="hygiene">{t.store.categories.hygiene}</option>
+                    <option value="firstaid">{t.store.categories.firstaid}</option>
                   </select>
                 </div>
 
@@ -1043,14 +1040,14 @@ export default function AdminPage() {
                       onChange={(e) => setProdForm({ ...prodForm, prescriptionRequired: e.target.checked })}
                       className="w-4 h-4 text-blue-600 rounded-sm focus:ring-blue-500"
                     />
-                    <span>Retsept kerakmi?</span>
+                    <span>{t.admin.productsCrud.prescription}</span>
                   </label>
                 </div>
               </div>
 
               <div>
                 <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Rasm manzili (URL yoki /images/...)
+                  {t.admin.productsCrud.image}
                 </label>
                 <input
                   type="text"
@@ -1063,7 +1060,7 @@ export default function AdminPage() {
 
               <div>
                 <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Qisqacha tavsif
+                  {t.admin.productsCrud.desc}
                 </label>
                 <textarea
                   rows="2"
@@ -1078,14 +1075,14 @@ export default function AdminPage() {
                   type="submit"
                   className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all"
                 >
-                  Saqlash
+                  {t.admin.productsCrud.save}
                 </button>
                 <button
                   type="button"
                   onClick={() => setProductModalOpen(false)}
                   className="px-4 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-xl hover:bg-slate-100"
                 >
-                  Bekor qilish
+                  {t.admin.productsCrud.cancel}
                 </button>
               </div>
             </form>

@@ -66,7 +66,7 @@ export default function Navbar() {
               <span>{t.nav.emergency}</span>
             </a>
             <span className="hidden md:inline text-teal-200">
-              Ishonch telefoni: +998 71 200-00-03
+              {t.nav.trustPhone}
             </span>
           </div>
         </div>
@@ -200,7 +200,7 @@ export default function Navbar() {
               >
                 <User className="w-4 h-4" />
                 <span className="hidden xl:inline max-w-[80px] truncate">
-                  {user.isLoggedIn ? (user.name || user.username) : t.nav.login}
+                  {user.isLoggedIn ? (user.name === 'Bosh Administrator' ? t.nav.adminUser : (user.name || user.username)) : t.nav.login}
                 </span>
               </Link>
 

@@ -105,6 +105,19 @@ export default function AIChatbot() {
     setSpeechActive(!speechActive);
   };
 
+  // Sync welcome message on language change if no other messages exist
+  useEffect(() => {
+    setMessages(prev => {
+      if (prev.length === 1 && prev[0].id === 'msg-welcome') {
+        return [{
+          ...prev[0],
+          text: t.aiChat.greeting
+        }];
+      }
+      return prev;
+    });
+  }, [lang, t.aiChat.greeting]);
+
   return (
     <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50">
       {/* Floating Toggle Button */}
@@ -113,7 +126,7 @@ export default function AIChatbot() {
           type="button"
           onClick={() => setIsOpen(true)}
           className="group relative flex items-center gap-3 bg-gradient-to-r from-teal-600 via-cyan-600 to-emerald-600 text-white p-3.5 sm:px-5 sm:py-3.5 rounded-full shadow-2xl hover:shadow-teal-500/50 hover:scale-105 transition-all duration-300 border-2 border-white/20"
-          aria-label="AI Tibbiy Maslahatchini ochish"
+          aria-label={t.aiChat.openAria}
         >
           <div className="relative">
             <Bot className="w-6 h-6 animate-bounce" />
@@ -129,7 +142,7 @@ export default function AIChatbot() {
               </span>
             </span>
             <span className="text-[11px] text-teal-100 font-medium">
-              Tibbiy Maslahatchi & Sabablar
+              {t.aiChat.pillSubtitle}
             </span>
           </div>
         </button>
@@ -166,7 +179,7 @@ export default function AIChatbot() {
               <button
                 type="button"
                 onClick={toggleSpeech}
-                title={speechActive ? "Ovozni o'chirish" : "Ovozli o'qishni yoqish"}
+                title={speechActive ? t.aiChat.voiceMute : t.aiChat.voiceUnmute}
                 className={`p-1.5 rounded-lg transition-colors ${
                   speechActive ? 'bg-white/30 text-amber-300' : 'text-teal-200 hover:bg-white/10'
                 }`}
@@ -178,7 +191,7 @@ export default function AIChatbot() {
               <button
                 type="button"
                 onClick={handleClear}
-                title="Suhbatni tozalash"
+                title={t.aiChat.clearChat}
                 className="p-1.5 text-teal-200 hover:bg-white/10 rounded-lg transition-colors"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -188,7 +201,7 @@ export default function AIChatbot() {
               <button
                 type="button"
                 onClick={() => setIsExpanded(!isExpanded)}
-                title={isExpanded ? "Kichiklashtirish" : "Kengaytirish"}
+                title={isExpanded ? t.aiChat.minimize : t.aiChat.maximize}
                 className="hidden sm:inline-flex p-1.5 text-teal-200 hover:bg-white/10 rounded-lg transition-colors"
               >
                 {isExpanded ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
@@ -343,7 +356,7 @@ export default function AIChatbot() {
                                     {clinic.name}
                                   </div>
                                   <div className="text-[10px] text-slate-500 dark:text-slate-400">
-                                    {clinic.district} • {clinic.distanceKm} km masofada
+                                    {clinic.district} • {clinic.distanceKm} km {t.aiChat.distanceAway}
                                   </div>
                                 </div>
                                 <a

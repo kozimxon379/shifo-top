@@ -105,19 +105,19 @@ export default function CartPage() {
 
         <div>
           <span className="text-xs font-bold text-teal-600 uppercase tracking-wider">
-            Buyurtma #{orderComplete.id} qabul qilindi!
+            {t.cart.orderSuccess} #{orderComplete.id}
           </span>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-1">
-            Xaridingiz uchun rahmat!
+            {t.cart.thankYou}
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto mt-2">
-            Buyurtmangiz tezkor kuryer xizmatiga yo'naltirildi va to'liq ma'lumotlar Telegram botimizga yuborildi. Operatorimiz 5 daqiqada sizga qo'ng'iroq qiladi.
+            {t.cart.orderNotice}
           </p>
         </div>
 
         <div className="p-4 bg-teal-50 dark:bg-teal-950/40 rounded-2xl border border-teal-200 dark:border-teal-900 text-xs text-teal-900 dark:text-teal-200 flex items-center justify-center gap-2 max-w-md mx-auto">
           <Send className="w-4 h-4 text-teal-600" />
-          <span>Telegram bot orqali kvitansiya jo'natildi</span>
+          <span>{t.cart.receiptSent}</span>
         </div>
 
         <div className="pt-4 flex justify-center gap-3">
@@ -126,7 +126,7 @@ export default function CartPage() {
             onClick={() => setOrderComplete(null)}
             className="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-2xl text-xs shadow-md transition-all"
           >
-            Dorixonaga qaytish
+            {t.cart.backToStore}
           </Link>
         </div>
       </div>
@@ -163,7 +163,7 @@ export default function CartPage() {
       {/* Page Title */}
       <div>
         <div className="text-xs font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">
-          Xarid Savati
+          {t.cart.badge}
         </div>
         <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight mt-1">
           {t.cart.title}
@@ -174,13 +174,13 @@ export default function CartPage() {
         {/* Cart Items List */}
         <div className="lg:col-span-8 space-y-4">
           <div className="flex items-center justify-between text-xs text-slate-500 pb-2 border-b border-slate-200 dark:border-slate-800">
-            <span>Mahsulotlar ({cart.length})</span>
+            <span>{t.cart.itemsCount} ({cart.length})</span>
             <button
               type="button"
               onClick={clearCart}
               className="text-rose-500 hover:text-rose-700 font-semibold"
             >
-              Savatni tozalash
+              {t.cart.clearCart}
             </button>
           </div>
 
@@ -204,7 +204,7 @@ export default function CartPage() {
                   {item.name}
                 </h4>
                 <div className="text-teal-600 dark:text-teal-400 font-bold mt-1">
-                  {Number(item.price).toLocaleString()} so'm
+                  {Number(item.price).toLocaleString()} {t.common.currency}
                 </div>
               </div>
 
@@ -214,7 +214,7 @@ export default function CartPage() {
                   type="button"
                   onClick={() => updateCartQuantity(item.id, -1)}
                   className="p-1.5 rounded-lg hover:bg-white dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors"
-                  aria-label="Kamaytirish"
+                  aria-label="Decrease"
                 >
                   <Minus className="w-3.5 h-3.5" />
                 </button>
@@ -225,7 +225,7 @@ export default function CartPage() {
                   type="button"
                   onClick={() => updateCartQuantity(item.id, 1)}
                   className="p-1.5 rounded-lg hover:bg-white dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors"
-                  aria-label="Ko'paytirish"
+                  aria-label="Increase"
                 >
                   <Plus className="w-3.5 h-3.5" />
                 </button>
@@ -234,13 +234,13 @@ export default function CartPage() {
               {/* Total for item & Delete */}
               <div className="text-right shrink-0">
                 <div className="font-extrabold text-slate-900 dark:text-white">
-                  {(item.price * item.quantity).toLocaleString()} so'm
+                  {(item.price * item.quantity).toLocaleString()} {t.common.currency}
                 </div>
                 <button
                   type="button"
                   onClick={() => removeFromCart(item.id)}
                   className="text-slate-400 hover:text-rose-500 p-1 mt-1 transition-colors"
-                  aria-label="O'chirish"
+                  aria-label={t.common.delete}
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -255,7 +255,7 @@ export default function CartPage() {
           <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-3 text-xs">
             <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
               <Tag className="w-4 h-4 text-teal-600" />
-              <span>Promokod bormi?</span>
+              <span>{t.cart.hasPromo}</span>
             </h4>
 
             <form onSubmit={handleApplyPromo} className="flex gap-2">
@@ -263,7 +263,7 @@ export default function CartPage() {
                 type="text"
                 value={promoInput}
                 onChange={(e) => setPromoInput(e.target.value)}
-                placeholder="SHIFO2026 yoki SALOM"
+                placeholder={t.cart.promoPlaceholder}
                 className="flex-1 uppercase bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 font-bold"
               />
               <button
@@ -276,8 +276,8 @@ export default function CartPage() {
 
             {appliedPromo && (
               <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-[11px] text-emerald-800 dark:text-emerald-300 flex items-center justify-between">
-                <span>Promokod: <b>{appliedPromo.code}</b> ({appliedPromo.desc})</span>
-                <span className="font-bold">Aktiv</span>
+                <span>{t.admin.salesOrders.promo}: <b>{appliedPromo.code}</b> ({appliedPromo.desc})</span>
+                <span className="font-bold">{t.cart.promoActive}</span>
               </div>
             )}
           </div>
@@ -292,14 +292,14 @@ export default function CartPage() {
               <div className="flex justify-between text-slate-600 dark:text-slate-400">
                 <span>{t.cart.subtotal}</span>
                 <span className="font-semibold text-slate-900 dark:text-white">
-                  {subtotal.toLocaleString()} so'm
+                  {subtotal.toLocaleString()} {t.common.currency}
                 </span>
               </div>
 
               {discountAmount > 0 && (
                 <div className="flex justify-between text-rose-600 font-semibold">
                   <span>{t.cart.discount}</span>
-                  <span>-{discountAmount.toLocaleString()} so'm</span>
+                  <span>-{discountAmount.toLocaleString()} {t.common.currency}</span>
                 </div>
               )}
 
@@ -309,7 +309,7 @@ export default function CartPage() {
                   {deliveryFee === 0 ? (
                     <span className="text-emerald-600 font-bold">{t.cart.free}</span>
                   ) : (
-                    `${deliveryFee.toLocaleString()} so'm`
+                    `${deliveryFee.toLocaleString()} ${t.common.currency}`
                   )}
                 </span>
               </div>
@@ -320,7 +320,7 @@ export default function CartPage() {
                 {t.cart.finalTotal}
               </span>
               <span className="text-xl font-black text-teal-600 dark:text-teal-400">
-                {finalTotal.toLocaleString()} so'm
+                {finalTotal.toLocaleString()} {t.common.currency}
               </span>
             </div>
 
@@ -356,21 +356,21 @@ export default function CartPage() {
             <form onSubmit={handleCheckoutSubmit} className="p-5 space-y-4 text-xs">
               <div>
                 <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Qabul qiluvchi ismi va familiyasi *
+                  {t.cart.checkoutModal.fullName} *
                 </label>
                 <input
                   type="text"
                   required
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  placeholder="Masalan: Azizbek Norov"
+                  placeholder="Sardor Aliyev"
                   className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
 
               <div>
                 <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Telefon raqamingiz *
+                  {t.cart.checkoutModal.phone} *
                 </label>
                 <input
                   type="tel"
@@ -391,7 +391,7 @@ export default function CartPage() {
                   required
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Toshkent shahri, Chilonzor tumani, 9-mavze, 12-uy..."
+                  placeholder="Toshkent shahri, Chilonzor tumani..."
                   className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"
                 />
               </div>
@@ -405,8 +405,8 @@ export default function CartPage() {
                   onChange={(e) => setPaymentMethod(e.target.value)}
                   className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 font-semibold"
                 >
-                  <option value="Qabul qilganda naqd yoki karta">{t.cart.checkoutModal.payCash}</option>
-                  <option value="Click / Payme / Uzum">{t.cart.checkoutModal.payClick}</option>
+                  <option value="cash">{t.cart.checkoutModal.payCash}</option>
+                  <option value="card">{t.cart.checkoutModal.payClick}</option>
                 </select>
               </div>
 
@@ -418,7 +418,7 @@ export default function CartPage() {
                 >
                   <CheckCircle2 className="w-4 h-4" />
                   <span>
-                    {isSubmitting ? "Yuborilmoqda..." : `${t.cart.checkoutModal.confirmBtn} (${finalTotal.toLocaleString()} so'm)`}
+                    {isSubmitting ? t.cart.checkoutModal.submitting : `${t.cart.checkoutModal.confirmBtn} (${finalTotal.toLocaleString()} ${t.common.currency})`}
                   </span>
                 </button>
               </div>

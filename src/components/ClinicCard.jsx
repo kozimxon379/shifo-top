@@ -31,7 +31,7 @@ export default function ClinicCard({ clinic, onSelectOnMap }) {
               </span>
             )}
             <span className="bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-              {clinic.distanceKm} km masofa
+              {clinic.distanceKm} km {t.map.distanceAway}
             </span>
           </div>
 
@@ -114,7 +114,7 @@ export default function ClinicCard({ clinic, onSelectOnMap }) {
               className="py-2 px-2.5 border border-slate-200 dark:border-slate-700 rounded-xl font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center justify-center gap-1"
             >
               <Navigation className="w-3.5 h-3.5 text-cyan-600" />
-              <span>Xaritada</span>
+              <span>{t.map.viewOnMap}</span>
             </button>
           ) : (
             <a
