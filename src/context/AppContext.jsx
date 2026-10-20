@@ -1,7 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { translations } from './i18n';
 import { initialProducts } from '../data/productsData';
-import { sendTelegramMessage, formatAppointmentMessage, formatOrderMessage } from '../utils/telegram';
+import {
+  sendTelegramMessage,
+  formatAppointmentMessage,
+  formatOrderMessage,
+  DEFAULT_TELEGRAM_TOKEN,
+  DEFAULT_TELEGRAM_CHAT_ID
+} from '../utils/telegram';
 
 const AppContext = createContext();
 
@@ -205,23 +211,26 @@ export function AppProvider({ children }) {
     const saved = localStorage.getItem('shifo_telegram');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        if (parsed.botToken && parsed.chatId) {
+          return parsed;
+        }
       } catch (e) {
         console.error(e);
       }
     }
     return {
-      botToken: "",
-      chatId: "",
-      isConnected: false
+      botToken: DEFAULT_TELEGRAM_TOKEN,
+      chatId: DEFAULT_TELEGRAM_CHAT_ID,
+      isConnected: true
     };
   });
 
   const saveTelegramConfig = (token, chatId) => {
     const newConfig = {
-      botToken: token,
-      chatId: chatId,
-      isConnected: Boolean(token && chatId)
+      botToken: token || DEFAULT_TELEGRAM_TOKEN,
+      chatId: chatId || DEFAULT_TELEGRAM_CHAT_ID,
+      isConnected: Boolean((token || DEFAULT_TELEGRAM_TOKEN) && (chatId || DEFAULT_TELEGRAM_CHAT_ID))
     };
     setTelegramConfig(newConfig);
     localStorage.setItem('shifo_telegram', JSON.stringify(newConfig));
@@ -293,8 +302,21 @@ export function AppProvider({ children }) {
     return newApt;
   };
 
-  const updateAppointmentStatus = (id, newStatus) => {
-    setAppointments(prev => prev.map(a => a.id === id ? { ...a, status: newStatus } : a));
+  const updateAppointmentStatus = async (id, newStatus) => {
+    let updatedApt = null;
+    setAppointments(prev => prev.map(a => {
+      if (a.id === id) {
+        updatedApt = { ...a, status: newStatus };
+        return updatedApt;
+      }
+      return a;
+    }));
+
+    if (newStatus === 'approved' && updatedApt) {
+      const msg = formatAppointmentMessage(updatedApt);
+      await sendTelegramMessage(msg, telegramConfig.botToken, telegramConfig.chatId);
+    }
+
     addToast("Holat yangilandi", `Qabul holati: ${newStatus}`, "info");
   };
 
@@ -309,18 +331,19 @@ export function AppProvider({ children }) {
       ...orderInfo,
       id: Date.now().toString().slice(-6),
       items: [...cart],
+      deliveryMinutes: "30 - 45",
       createdAt: new Date().toISOString()
     };
     setOrders(prev => [newOrder, ...prev]);
     localStorage.setItem('shifo_orders', JSON.stringify([newOrder, ...orders]));
 
-    // Send Telegram Notification
+    // Send Telegram Notification with full details and delivery arrival time
     const msg = formatOrderMessage(newOrder);
     await sendTelegramMessage(msg, telegramConfig.botToken, telegramConfig.chatId);
 
     clearCart();
     setAppliedPromo(null);
-    addToast("Buyurtma qabul qilindi!", "Telegram botga xabar yuborildi.", "success");
+    addToast("Buyurtma tasdiqlandi!", "Telegram botga buyurtma va yetkazish vaqti yuborildi.", "success");
     return newOrder;
   };
 

@@ -73,6 +73,11 @@ export default function AdminPage() {
   const [chatIdInput, setChatIdInput] = useState(telegramConfig.chatId || '');
   const [isTestingTelegram, setIsTestingTelegram] = useState(false);
 
+  useEffect(() => {
+    if (telegramConfig.botToken) setTokenInput(telegramConfig.botToken);
+    if (telegramConfig.chatId) setChatIdInput(telegramConfig.chatId);
+  }, [telegramConfig.botToken, telegramConfig.chatId]);
+
   // If user is not admin, provide a simple 1-click test button to view Admin Panel
   if (user.role !== 'admin') {
     return (

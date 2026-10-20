@@ -15,7 +15,8 @@ import {
   Send,
   X,
   MapPin,
-  CreditCard
+  CreditCard,
+  Clock
 } from 'lucide-react';
 
 export default function CartPage() {
@@ -115,16 +116,46 @@ export default function CartPage() {
           </p>
         </div>
 
-        <div className="p-4 bg-teal-50 dark:bg-teal-950/40 rounded-2xl border border-teal-200 dark:border-teal-900 text-xs text-teal-900 dark:text-teal-200 flex items-center justify-center gap-2 max-w-md mx-auto">
-          <Send className="w-4 h-4 text-teal-600" />
-          <span>{t.cart.receiptSent}</span>
+        {/* Estimated arrival time callout */}
+        <div className="p-4 bg-emerald-50 dark:bg-emerald-950/40 rounded-2xl border border-emerald-200 dark:border-emerald-900 text-xs text-emerald-900 dark:text-emerald-200 flex items-center justify-center gap-2.5 max-w-lg mx-auto shadow-sm">
+          <Clock className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 animate-pulse" />
+          <span className="font-extrabold text-sm">
+            Yetkazib berish vaqti: {orderComplete.deliveryMinutes || "30 - 45"} daqiqa ichida yetib boradi!
+          </span>
+        </div>
+
+        {/* Telegram receipt notification status */}
+        <div className="p-4 bg-teal-50 dark:bg-teal-950/40 rounded-2xl border border-teal-200 dark:border-teal-900 text-xs text-teal-900 dark:text-teal-200 flex items-center justify-center gap-2 max-w-lg mx-auto">
+          <Send className="w-4 h-4 text-teal-600 shrink-0" />
+          <span>Telegram (@abusasiqcha123bot) orqali buyurtma tasdiqlandi, narxlari va yetkazish vaqti yuborildi.</span>
+        </div>
+
+        {/* Quick Order Summary */}
+        <div className="max-w-lg mx-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 text-left text-xs space-y-3 shadow-sm">
+          <div className="font-bold text-slate-900 dark:text-white pb-2 border-b border-slate-100 dark:border-slate-800 flex justify-between">
+            <span>Buyurtma qilingan mahsulotlar</span>
+            <span className="text-emerald-600 font-extrabold">Jami: {Number(orderComplete.total).toLocaleString()} so'm</span>
+          </div>
+          <div className="space-y-2 max-h-44 overflow-y-auto pr-1">
+            {(orderComplete.items || []).map((item, idx) => (
+              <div key={idx} className="flex justify-between items-center text-slate-600 dark:text-slate-300">
+                <span className="truncate max-w-[220px]">{item.name} × {item.quantity}</span>
+                <span className="font-bold text-slate-900 dark:text-white">
+                  {(item.price * item.quantity).toLocaleString()} so'm
+                </span>
+              </div>
+            ))}
+          </div>
+          <div className="pt-2 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-500">
+            📍 Manzil: {orderComplete.address} • 📞 {orderComplete.phone}
+          </div>
         </div>
 
         <div className="pt-4 flex justify-center gap-3">
           <Link
             to="/store"
             onClick={() => setOrderComplete(null)}
-            className="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-2xl text-xs shadow-md transition-all"
+            className="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-2xl text-xs shadow-md transition-all hover:scale-102"
           >
             {t.cart.backToStore}
           </Link>
