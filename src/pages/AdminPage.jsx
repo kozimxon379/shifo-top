@@ -27,7 +27,8 @@ import {
   CreditCard,
   User,
   Activity,
-  Layers
+  Layers,
+  RotateCw
 } from 'lucide-react';
 
 export default function AdminPage() {
@@ -44,7 +45,14 @@ export default function AdminPage() {
     orders,
     telegramConfig,
     saveTelegramConfig,
-    addToast
+    addToast,
+    refreshCountdown,
+    lastUpdated,
+    isRefreshing,
+    autoRefreshEnabled,
+    setAutoRefreshEnabled,
+    liveMetrics,
+    manualRefresh
   } = useApp();
 
   // Active tab state: 'dashboard', 'revenue', 'sales', 'products', 'appointments', 'telegram'
@@ -275,6 +283,47 @@ export default function AdminPage() {
             <span className={`w-2 h-2 rounded-full ${telegramConfig.isConnected ? 'bg-emerald-500 animate-ping' : 'bg-amber-400'}`}></span>
             <span>{telegramConfig.isConnected ? t.admin.telegramConnected : t.admin.telegramDemo}</span>
           </span>
+        </div>
+      </div>
+
+      {/* Real-time 10-Second Auto-Refresh Control Banner */}
+      <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-3xl p-4 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center shrink-0">
+            <Activity className="w-5 h-5 animate-pulse" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-extrabold text-slate-900 dark:text-white text-sm">
+                Jonli ma'lumotlar oqimi (Har 10 sek da yangilanadi)
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 font-extrabold text-[10px]">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                FAOL
+              </span>
+            </div>
+            <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5">
+              So'nggi hodisa: <span className="font-semibold text-slate-700 dark:text-slate-300">{liveMetrics?.lastEvent}</span> • <span className="text-teal-600 dark:text-teal-400">Oxirgi yangilanish: {lastUpdated}</span>
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+          <div className="flex items-center gap-2">
+            <span className="text-slate-500">Keyingi yangilanish:</span>
+            <span className="px-2.5 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 font-mono font-black text-teal-600 dark:text-teal-400 border border-slate-200 dark:border-slate-700">
+              {isRefreshing ? "Yangilanmoqda..." : `${refreshCountdown} sek`}
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={manualRefresh}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold transition-all shadow-sm"
+          >
+            <RotateCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
+            <span>{isRefreshing ? "Yangilandi" : "Hozir yangilash"}</span>
+          </button>
         </div>
       </div>
 

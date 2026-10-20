@@ -111,17 +111,17 @@ export default function ClinicCard({ clinic, onSelectOnMap }) {
             <button
               type="button"
               onClick={() => onSelectOnMap(clinic)}
-              className="py-2 px-2.5 border border-slate-200 dark:border-slate-700 rounded-xl font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center justify-center gap-1"
+              className="py-2 px-2.5 bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-800 rounded-xl font-bold text-teal-700 dark:text-teal-300 hover:bg-teal-100 transition-colors flex items-center justify-center gap-1.5"
             >
               <Navigation className="w-3.5 h-3.5 text-cyan-600" />
-              <span>{t.map.viewOnMap}</span>
+              <span>{t.clinics.routeBtn || "Marshrut"}</span>
             </button>
           ) : (
             <a
-              href={`https://yandex.uz/maps/?text=${encodeURIComponent(clinic.name + ' ' + clinic.address)}`}
+              href={`https://yandex.uz/maps/?rtext=41.3111,69.2797~${clinic.lat},${clinic.lng}&rtt=auto`}
               target="_blank"
               rel="noreferrer"
-              className="py-2 px-2.5 border border-slate-200 dark:border-slate-700 rounded-xl font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center justify-center gap-1"
+              className="py-2 px-2.5 border border-slate-200 dark:border-slate-700 rounded-xl font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center justify-center gap-1.5"
             >
               <Navigation className="w-3.5 h-3.5 text-cyan-600" />
               <span>{t.clinics.routeBtn}</span>

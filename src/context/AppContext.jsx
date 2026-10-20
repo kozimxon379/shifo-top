@@ -400,6 +400,137 @@ export function AppProvider({ children }) {
     setBookingModalDoctor(null);
   };
 
+  // 13. Real-time 10-Second Auto-Refresh Engine
+  const [refreshCountdown, setRefreshCountdown] = useState(10);
+  const [lastUpdated, setLastUpdated] = useState(() => new Date().toLocaleTimeString());
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [autoRefreshEnabled, setAutoRefreshEnabled] = useState(true);
+
+  const [liveMetrics, setLiveMetrics] = useState({
+    trafficScore: 1,
+    trafficText: "Tirbandliksiz, yashil yo'lak",
+    activeAmbulances: 19,
+    todayConsultations: 148,
+    curedPatientsToday: 132,
+    activeClinicsOnline: 8,
+    clinicQueues: {
+      'clinic-1': { queue: 2, waitMinutes: 6 },
+      'clinic-2': { queue: 4, waitMinutes: 14 },
+      'clinic-3': { queue: 1, waitMinutes: 4 },
+      'clinic-4': { queue: 3, waitMinutes: 9 },
+      'clinic-5': { queue: 2, waitMinutes: 7 },
+      'clinic-6': { queue: 1, waitMinutes: 3 },
+      'clinic-7': { queue: 5, waitMinutes: 18 },
+      'clinic-8': { queue: 2, waitMinutes: 5 }
+    },
+    lastEvent: "Kardiologiya bo'yicha yangi qabul band qilindi"
+  });
+
+  const liveEventsPool = [
+    "Akfa Medline: Navbatdagi bemor shifokor ko'rigiga kirdi",
+    "Tez yordam (103): Chaqiruv bo'yicha navbatchi brigada manzilga yetib bordi",
+    "Dorixona: Dori vositasi uchun yangi buyurtma tezkor kuryerga topshirildi",
+    "Shox Med Center: Laboratoriya tahlili natijalari tayyor bo'ldi",
+    "Kardiologiya Markazi: Shoshilinch qabul muvaffaqiyatli amalga oshirildi",
+    "Stomatologiya: Yangi ko'rik vaqti muvaffaqiyatli tasdiqlandi"
+  ];
+
+  const executeDataRefresh = () => {
+    setIsRefreshing(true);
+    setLastUpdated(new Date().toLocaleTimeString());
+
+    // 1. Sync from localStorage in case external changes occurred
+    try {
+      const storedApts = localStorage.getItem('shifo_appointments');
+      if (storedApts) setAppointments(JSON.parse(storedApts));
+
+      const storedProds = localStorage.getItem('shifo_products');
+      if (storedProds) setProducts(JSON.parse(storedProds));
+
+      const storedOrders = localStorage.getItem('shifo_orders');
+      if (storedOrders) setOrders(JSON.parse(storedOrders));
+    } catch (e) {
+      console.error("Auto-refresh sync error:", e);
+    }
+
+    // 2. Realistic dynamic metrics update
+    setLiveMetrics(prev => {
+      const randomEvent = liveEventsPool[Math.floor(Math.random() * liveEventsPool.length)];
+      const updatedQueues = { ...prev.clinicQueues };
+      Object.keys(updatedQueues).forEach(cId => {
+        const delta = Math.random() > 0.6 ? (Math.random() > 0.5 ? 1 : -1) : 0;
+        const newQ = Math.max(1, Math.min(6, (updatedQueues[cId]?.queue || 2) + delta));
+        updatedQueues[cId] = {
+          queue: newQ,
+          waitMinutes: Math.max(3, newQ * 3 + Math.floor(Math.random() * 2))
+        };
+      });
+
+      const trafficScores = [1, 1, 2, 2, 2, 1];
+      const newScore = trafficScores[Math.floor(Math.random() * trafficScores.length)];
+      const trafficTexts = {
+        1: "Yo'l butunlay ochiq (1 ball)",
+        2: "Tirbandliksiz, yashil yo'lak (2 ball)",
+        3: "O'rtacha shahar harakati (3 ball)"
+      };
+
+      return {
+        ...prev,
+        trafficScore: newScore,
+        trafficText: trafficTexts[newScore] || "Tirbandliksiz, yashil yo'lak",
+        activeAmbulances: 18 + Math.floor(Math.random() * 5),
+        todayConsultations: prev.todayConsultations + (Math.random() > 0.6 ? 1 : 0),
+        curedPatientsToday: prev.curedPatientsToday + (Math.random() > 0.7 ? 1 : 0),
+        clinicQueues: updatedQueues,
+        lastEvent: randomEvent
+      };
+    });
+
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 600);
+  };
+
+  // 1-second countdown ticker for 10-second auto refresh
+  useEffect(() => {
+    if (!autoRefreshEnabled) return;
+
+    const timer = setInterval(() => {
+      setRefreshCountdown(prev => {
+        if (prev <= 1) {
+          executeDataRefresh();
+          return 10;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [autoRefreshEnabled]);
+
+  // Cross-tab storage synchronization
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'shifo_appointments' && e.newValue) {
+        try { setAppointments(JSON.parse(e.newValue)); } catch (err) {}
+      }
+      if (e.key === 'shifo_products' && e.newValue) {
+        try { setProducts(JSON.parse(e.newValue)); } catch (err) {}
+      }
+      if (e.key === 'shifo_orders' && e.newValue) {
+        try { setOrders(JSON.parse(e.newValue)); } catch (err) {}
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  const manualRefresh = () => {
+    setRefreshCountdown(10);
+    executeDataRefresh();
+    addToast(t.common.liveSync || "Jonli yangilanish", "Ma'lumotlar muvaffaqiyatli yangilandi!", "info");
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -437,7 +568,14 @@ export function AppProvider({ children }) {
         logoutUser,
         bookingModalDoctor,
         openBookingModal,
-        closeBookingModal
+        closeBookingModal,
+        refreshCountdown,
+        lastUpdated,
+        isRefreshing,
+        autoRefreshEnabled,
+        setAutoRefreshEnabled,
+        liveMetrics,
+        manualRefresh
       }}
     >
       {children}

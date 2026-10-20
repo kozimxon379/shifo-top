@@ -30,7 +30,15 @@ import {
 } from 'lucide-react';
 
 export default function HomePage() {
-  const { t, products, openBookingModal } = useApp();
+  const {
+    t,
+    products,
+    openBookingModal,
+    refreshCountdown,
+    isRefreshing,
+    lastUpdated,
+    liveMetrics
+  } = useApp();
   const navigate = useNavigate();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -429,42 +437,65 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* REAL STATS COUNTER */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* REAL STATS COUNTER WITH 10S LIVE TICKER */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+        {/* 10-Second Live Auto-Refresh Notice Banner */}
+        <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl text-xs">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+            <span className="font-extrabold text-slate-900 dark:text-white">
+              Tizim ma'lumotlari har 10 soniyada yangilanmoqda
+            </span>
+            <span className="text-slate-400">|</span>
+            <span className="text-slate-500 dark:text-slate-400 hidden sm:inline">
+              Hodisa: <b className="text-teal-600 dark:text-teal-400">{liveMetrics?.lastEvent}</b>
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <span className="text-[11px] text-slate-500">
+              Keyingi yangilanish: <b className="font-mono text-teal-600 dark:text-teal-400">{isRefreshing ? '...' : `${refreshCountdown}s`}</b>
+            </span>
+            <span className="text-[11px] text-slate-400 hidden md:inline">
+              (Oxirgi: {lastUpdated})
+            </span>
+          </div>
+        </div>
+
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs transition-all">
             <div className="text-3xl sm:text-4xl font-black text-teal-600 dark:text-teal-400">
-              80+
+              {liveMetrics?.todayConsultations || 148}+
             </div>
             <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
-              {t.home.statsCounters.c1Label}
+              Bugungi shifokor qabullari (Jonli)
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs transition-all">
             <div className="text-3xl sm:text-4xl font-black text-emerald-600 dark:text-emerald-400">
-              500+
+              {liveMetrics?.activeAmbulances || 19}
             </div>
             <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
-              {t.home.statsCounters.c2Label}
+              103 Tez yordam brigadalari reysda
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs transition-all">
             <div className="text-3xl sm:text-4xl font-black text-cyan-600 dark:text-cyan-400">
-              45,000+
+              {liveMetrics?.curedPatientsToday || 132}+
             </div>
             <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
-              {t.home.statsCounters.c3Label}
+              Sog'lom bemorlar (Bugun)
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs transition-all">
             <div className="text-3xl sm:text-4xl font-black text-amber-500">
-              99.2%
+              {liveMetrics?.trafficScore || 2} ball
             </div>
             <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
-              {t.home.statsCounters.c4Label}
+              Yo'l holati ({liveMetrics?.trafficText?.split('(')[0] || "Tirbandliksiz"})
             </div>
           </div>
         </div>

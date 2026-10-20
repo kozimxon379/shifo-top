@@ -17,11 +17,24 @@ import {
   MapPin,
   Stethoscope,
   BookOpen,
-  Store
+  Store,
+  RotateCw
 } from 'lucide-react';
 
 export default function Navbar() {
-  const { lang, t, changeLanguage, darkMode, toggleTheme, cart, favorites, user } = useApp();
+  const {
+    lang,
+    t,
+    changeLanguage,
+    darkMode,
+    toggleTheme,
+    cart,
+    favorites,
+    user,
+    refreshCountdown,
+    isRefreshing,
+    manualRefresh
+  } = useApp();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
@@ -47,18 +60,33 @@ export default function Navbar() {
     <header className="sticky top-0 z-40 w-full">
       {/* Top emergency announcement bar */}
       <div className="bg-gradient-to-r from-teal-700 via-emerald-700 to-cyan-800 text-white text-xs py-1.5 px-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
             </span>
-            <span className="font-medium tracking-wide">
+            <span className="font-medium tracking-wide hidden sm:inline">
               {t.hero.badge}
             </span>
           </div>
 
-          <div className="flex items-center gap-4 text-xs font-semibold">
+          {/* Real-time 10s auto-refresh indicator */}
+          <button
+            type="button"
+            onClick={manualRefresh}
+            title="Ma'lumotlar har 10 soniyada yangilanadi. Hozir yangilash uchun bosing."
+            className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/15 hover:bg-white/25 transition-all text-[11px] text-teal-100 font-bold border border-white/20 shadow-xs cursor-pointer"
+          >
+            <span className={`w-2 h-2 rounded-full ${isRefreshing ? 'bg-amber-300 animate-spin' : 'bg-emerald-400 animate-pulse'}`}></span>
+            <span className="hidden md:inline">10s yangilanish:</span>
+            <span className="font-mono font-extrabold text-white">
+              {isRefreshing ? '...' : `${refreshCountdown}s`}
+            </span>
+            <RotateCw className={`w-3 h-3 text-teal-200 ${isRefreshing ? 'animate-spin' : ''}`} />
+          </button>
+
+          <div className="flex items-center gap-3 text-xs font-semibold shrink-0">
             <a
               href="tel:103"
               className="flex items-center gap-1.5 bg-rose-600 hover:bg-rose-700 px-2.5 py-0.5 rounded-full transition-colors text-white"

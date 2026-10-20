@@ -53,7 +53,12 @@ export default function ClinicsPage() {
 
   const handleSelectOnMap = (clinic) => {
     setSelectedClinicForMap(clinic.id);
-    window.scrollTo({ top: 380, behavior: 'smooth' });
+    const mapEl = document.getElementById('interactive-map-section');
+    if (mapEl) {
+      mapEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      window.scrollTo({ top: 350, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -145,7 +150,7 @@ export default function ClinicsPage() {
       </div>
 
       {/* Interactive Map Section */}
-      <div>
+      <div id="interactive-map-section">
         <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
           <MapPin className="w-4 h-4 text-teal-600" />
           <span>Interaktiv Xarita (Haqiqiy shifoxonalar nuqtalari)</span>

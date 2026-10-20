@@ -66,9 +66,24 @@
   animation: pulseGlow 2s infinite ease-in-out;
 }
 
+/* Animated route line */
+@keyframes routePulse {
+  from {
+    stroke-dashoffset: 20;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-route-flow {
+  animation: routePulse 1.2s linear infinite;
+}
+
 /* Smooth transitions */
 * {
   transition-property: background-color, border-color, color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
+

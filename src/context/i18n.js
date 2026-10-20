@@ -104,7 +104,26 @@ export const translations = {
       reviews: "baho",
       departments: "Bo'limlar & Ixtisosliklar:",
       distanceAway: "masofada",
-      viewOnMap: "Xaritada"
+      viewOnMap: "Xaritada",
+      routeTitle: "Marshrut va Yo'l ko'rsatkich",
+      showRoute: "Marshrutni ko'rsatish",
+      hideRoute: "Marshrutni yashirish",
+      routeActive: "Marshrut faol",
+      byCar: "Avtomobilda",
+      byWalk: "Piyoda",
+      byTaxi: "Taksi (Yandex Go)",
+      duration: "Vaqt",
+      distance: "Masofa",
+      estFare: "Taxminiy yo'lkira",
+      openYandexNav: "Yandex Xaritada marshrut",
+      openGoogleNav: "Google Maps marshrut",
+      routeSteps: "Bosqichma-bosqich harakatlanish yo'li:",
+      stepStart: "Siz turgan nuqtadan yo'lga chiqing",
+      stepTurn: "Kichik halqa yo'li yoki asosiy shoh ko'chaga chiqing",
+      stepDrive: "Klinika binosi tomon to'g'ri harakatlaning",
+      stepArrive: "Klinika binosiga va avtoturargohiga yetib keldingiz",
+      trafficFree: "Yo'l ochiq, tirbandlik yo'q",
+      recenter: "Xaritani markazlash"
     },
     stats: {
       clinics: "Shifoxona & Klinikalar",
@@ -448,7 +467,12 @@ export const translations = {
       cancel: "Bekor qilish",
       close: "Yopish",
       success: "Muvaffaqiyatli!",
-      error: "Xatolik yuz berdi"
+      error: "Xatolik yuz berdi",
+      liveSync: "Jonli yangilanish",
+      autoRefresh10s: "Har 10 sek da yangilanadi",
+      nextRefresh: "Yangilanishgacha:",
+      refreshedJustNow: "Hozir yangilandi",
+      refreshNow: "Hozir yangilash"
     }
   },
   ru: {
@@ -556,7 +580,26 @@ export const translations = {
       reviews: "отзывов",
       departments: "Отделения и Профили:",
       distanceAway: "расстояние",
-      viewOnMap: "На карте"
+      viewOnMap: "На карте",
+      routeTitle: "Маршрут и Навигация",
+      showRoute: "Показать маршрут",
+      hideRoute: "Скрыть маршрут",
+      routeActive: "Маршрут активен",
+      byCar: "На автомобиле",
+      byWalk: "Пешком",
+      byTaxi: "Такси (Yandex Go)",
+      duration: "Время",
+      distance: "Расстояние",
+      estFare: "Примерная стоимость",
+      openYandexNav: "Маршрут в Яндекс Карты",
+      openGoogleNav: "Маршрут в Google Maps",
+      routeSteps: "Пошаговый маршрут:",
+      stepStart: "Выезд из вашего текущего местоположения",
+      stepTurn: "Выезжайте на Малую кольцевую или главный проспект",
+      stepDrive: "Двигайтесь прямо по направлению к клинике",
+      stepArrive: "Прибытие к зданию клиники и парковке",
+      trafficFree: "Дорога свободна, без пробок",
+      recenter: "Центрировать карту"
     },
     stats: {
       clinics: "Больниц & Клиник",
@@ -900,7 +943,12 @@ export const translations = {
       cancel: "Отмена",
       close: "Закрыть",
       success: "Успешно!",
-      error: "Произошла ошибка"
+      error: "Произошла ошибка",
+      liveSync: "Живое обновление",
+      autoRefresh10s: "Обновление каждые 10 сек",
+      nextRefresh: "До обновления:",
+      refreshedJustNow: "Только что обновлено",
+      refreshNow: "Обновить сейчас"
     }
   },
   en: {
@@ -1008,7 +1056,26 @@ export const translations = {
       reviews: "reviews",
       departments: "Departments & Specialties:",
       distanceAway: "away",
-      viewOnMap: "On map"
+      viewOnMap: "On map",
+      routeTitle: "Route & Navigation",
+      showRoute: "Show Route",
+      hideRoute: "Hide Route",
+      routeActive: "Route Active",
+      byCar: "By Car",
+      byWalk: "Walking",
+      byTaxi: "Taxi (Yandex Go)",
+      duration: "Duration",
+      distance: "Distance",
+      estFare: "Est. Taxi Fare",
+      openYandexNav: "Route in Yandex Maps",
+      openGoogleNav: "Route in Google Maps",
+      routeSteps: "Turn-by-turn Directions:",
+      stepStart: "Depart from your current location",
+      stepTurn: "Head toward the main avenue or ring road",
+      stepDrive: "Continue straight along the avenue towards clinic",
+      stepArrive: "Arrived at clinic building and entrance",
+      trafficFree: "Clear traffic, fast route",
+      recenter: "Recenter Map"
     },
     stats: {
       clinics: "Hospitals & Clinics",
@@ -1352,7 +1419,12 @@ export const translations = {
       cancel: "Cancel",
       close: "Close",
       success: "Success!",
-      error: "An error occurred"
+      error: "An error occurred",
+      liveSync: "Live Updates",
+      autoRefresh10s: "Auto-refresh every 10s",
+      nextRefresh: "Next update:",
+      refreshedJustNow: "Just updated",
+      refreshNow: "Refresh now"
     }
   }
 };
