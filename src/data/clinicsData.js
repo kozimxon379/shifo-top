@@ -16,7 +16,7 @@ export const initialClinics = [
     emergency247: true,
     departments: ["Kardiologiya", "Nevrologiya", "Xirurgiya", "Pediatriya", "Diagnostika", "Terapiya"],
     workHours: "24/7 Shoshilinch & Kunduzgi qabul 08:00 - 20:00",
-    image: "/images/clinic_hospital.jpg",
+    image: "/images/clinic_akfa.jpg",
     description: "Markaziy Osiyodagi eng yirik zamonaviy xususiy klinikalardan biri. Zamonaviy MRT, KT, laboratoriya va jarrohlik bo'limlari mavjud."
   },
   {
@@ -36,7 +36,7 @@ export const initialClinics = [
     emergency247: true,
     departments: ["Travmatologiya", "Reanimatsiya", "Toksikologiya", "Kardiologiya", "Nevrologiya", "Neyroxirurgiya"],
     workHours: "24/7 Uzluksiz Favqulodda Shoshilinch Yordam",
-    image: "/images/clinic_hospital.jpg",
+    image: "/images/clinic_emergency.jpg",
     description: "O'zbekiston bo'yicha eng yirik davlat shoshilinch tez tibbiy yordam markazi. Barcha turdagi o'tkir kasalliklar va jarohatlar uchun 24 soat ochiq."
   },
   {
@@ -56,7 +56,7 @@ export const initialClinics = [
     emergency247: true,
     departments: ["Kardiologiya", "Terapiya", "Ginekologiya", "Urologiya", "Stomatologiya", "Oftalmologiya"],
     workHours: "08:00 - 21:00 (Reanimatsiya 24/7)",
-    image: "/images/clinic_hospital.jpg",
+    image: "/images/clinic_shox.jpg",
     description: "Yuqori texnologiyali diagnostika, Yevropa standartlaridagi laboratoriya va tajribali shifokorlar jamoasi."
   },
   {
@@ -76,7 +76,7 @@ export const initialClinics = [
     emergency247: true,
     departments: ["Kardiologiya", "Aritmologiya", "Kardioxirurgiya", "Reabilitatsiya"],
     workHours: "24/7 Shoshilinch kardiologik yordam",
-    image: "/images/clinic_hospital.jpg",
+    image: "/images/clinic_kardio.jpg",
     description: "Yurak qon-tomir kasalliklarini davolash, angioplastika, stentlash va ochiq yurak operatsiyalari bo'yicha bosh ilmiy markaz."
   },
   {
@@ -96,7 +96,7 @@ export const initialClinics = [
     emergency247: false,
     departments: ["Nevrologiya", "Endokrinologiya", "Stomatologiya", "Gastroenterologiya", "Terapiya"],
     workHours: "Dushanba - Shanba: 08:30 - 19:00",
-    image: "/images/clinic_hospital.jpg",
+    image: "/images/clinic_citymed.jpg",
     description: "Zamonaviy gastroenterologiya, endoskopiya va qandli diabet nazorati markazi."
   },
   {
@@ -116,7 +116,7 @@ export const initialClinics = [
     emergency247: true,
     departments: ["Xirurgiya", "Pediatriya", "Kardiologiya", "Nevrologiya", "LOR"],
     workHours: "24/7 uzluksiz",
-    image: "/images/clinic_hospital.jpg",
+    image: "/images/clinic_ezguniyat.jpg",
     description: "Pediatriya, xirurgiya va statsionar davolanish bo'yicha yuqori qulaylikdagi xususiy markaz."
   },
   {
@@ -136,7 +136,7 @@ export const initialClinics = [
     emergency247: false,
     departments: ["Terapiya", "Allergologiya", "Dermatologiya", "LOR", "Stomatologiya"],
     workHours: "08:00 - 20:00",
-    image: "/images/clinic_hospital.jpg",
+    image: "/images/clinic_hayat.jpg",
     description: "Allergik va teri kasalliklari, nafas yo'llari profilaktikasi va davolash bo'yicha ixtisoslashgan."
   },
   {
@@ -156,7 +156,7 @@ export const initialClinics = [
     emergency247: true,
     departments: ["Kardiologiya", "Terapiya", "Nevrologiya", "Travmatologiya", "Xirurgiya"],
     workHours: "24/7 Shoshilinch",
-    image: "/images/clinic_hospital.jpg",
+    image: "/images/clinic_medion.jpg",
     description: "Samarqand va qo'shni viloyatlar uchun bosh ko'p tarmoqli statsionar va shoshilinch yordam markazi."
   }
 ];

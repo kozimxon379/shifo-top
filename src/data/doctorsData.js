@@ -11,7 +11,7 @@ export const initialDoctors = [
     rating: 4.9,
     patientsTreated: 4200,
     price: 150000,
-    image: "/images/doctor_male.jpg",
+    image: "/images/doc_alisher.jpg",
     workDays: ["Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma"],
     availableSlots: ["09:00", "10:30", "11:45", "14:00", "15:30", "17:00"],
     bio: "Yurak ishemik kasalligi, gipertoniya, aritmiya va qon bosimi buzilishlarini aniqlash hamda kompleks davolash bo'yicha yetakchi mutaxassis."
@@ -28,7 +28,7 @@ export const initialDoctors = [
     rating: 4.9,
     patientsTreated: 3100,
     price: 180000,
-    image: "/images/doctor_female.jpg",
+    image: "/images/doc_nilufar.jpg",
     workDays: ["Dushanba", "Chorshanba", "Juma", "Shanba"],
     availableSlots: ["09:30", "11:00", "13:30", "15:00", "16:30"],
     bio: "Migren, surunkali bosh og'riqlari, osteoxondroz, uyqusizlik va asab tizimi zararlanishlarini zamonaviy usullarda muolaja qiladi."
@@ -45,7 +45,7 @@ export const initialDoctors = [
     rating: 4.8,
     patientsTreated: 5400,
     price: 120000,
-    image: "/images/doctor_male.jpg",
+    image: "/images/doc_jamshid.jpg",
     workDays: ["Har kuni"],
     availableSlots: ["08:30", "10:00", "11:30", "13:00", "14:30", "16:00", "17:30"],
     bio: "Gripp, shamollash, o'tkir respirator infeksiyalar, gastrit, jigar va o'pka kasalliklarini birlamchi diagnostika va davolash."
@@ -62,7 +62,7 @@ export const initialDoctors = [
     rating: 4.9,
     patientsTreated: 6200,
     price: 140000,
-    image: "/images/doctor_female.jpg",
+    image: "/images/doc_gulnora.jpg",
     workDays: ["Dushanba", "Seshanba", "Payshanba", "Shanba"],
     availableSlots: ["10:00", "11:30", "14:00", "15:30", "17:00"],
     bio: "Chaqaloqlar va bolalardagi mavsumiy kasalliklar, immunitetni ko'tarish va emlash bo'yicha maslahatlar beradi."
@@ -79,7 +79,7 @@ export const initialDoctors = [
     rating: 4.9,
     patientsTreated: 7800,
     price: 200000,
-    image: "/images/doctor_male.jpg",
+    image: "/images/doc_sherzod.jpg",
     workDays: ["Seshanba", "Chorshanba", "Payshanba", "Juma"],
     availableSlots: ["09:00", "10:30", "12:00", "14:30"],
     bio: "O'tkir appenditsit, churra (grija), sinishlar, jarohatlar va laproskopik operatsiyalar bo'yicha tajribali jarroh."
@@ -96,7 +96,7 @@ export const initialDoctors = [
     rating: 4.8,
     patientsTreated: 2900,
     price: 100000,
-    image: "/images/doctor_female.jpg",
+    image: "/images/doc_malika.jpg",
     workDays: ["Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"],
     availableSlots: ["09:00", "10:30", "12:00", "14:00", "15:30", "17:00"],
     bio: "Tish og'rig'i, karies, pulpit, tishlarni og'riqsiz davolash, restavratsiya va profilaktik tozalash."
@@ -113,7 +113,7 @@ export const initialDoctors = [
     rating: 4.9,
     patientsTreated: 3700,
     price: 160000,
-    image: "/images/doctor_male.jpg",
+    image: "/images/doc_otabek.jpg",
     workDays: ["Dushanba", "Chorshanba", "Juma"],
     availableSlots: ["10:00", "11:30", "14:00", "16:00"],
     bio: "Qandli diabet, qalqonsimon bez (zob) kasalliklari, gormonal buzilishlar va vazn muammolarini davolash."
