@@ -26,15 +26,29 @@ export default function LoginPage() {
 
   const handleUsernameSubmit = (e) => {
     e.preventDefault();
-    if (!username.trim() || !password.trim()) return;
+    const cleanUser = username.trim().toLowerCase();
+    if (!cleanUser) {
+      return;
+    }
+
+    if (cleanUser === 'admin') {
+      loginUser({
+        username: 'admin',
+        name: t.nav.adminUser || 'Bosh Administrator',
+        role: 'admin',
+        phone: '+998 71 200 00 03'
+      });
+      navigate('/admin');
+      return;
+    }
 
     loginUser({
-      username,
-      name: username === 'admin' ? t.nav.adminUser : username,
-      role: username === 'admin' ? 'admin' : username.includes('doctor') ? 'doctor' : 'patient',
+      username: cleanUser,
+      name: cleanUser.includes('doctor') || cleanUser.includes('dr') ? 'Dr. Shifokor' : cleanUser,
+      role: cleanUser.includes('doctor') || cleanUser.includes('dr') ? 'doctor' : 'patient',
       phone: '+998 90 123 45 67'
     });
-    navigate(username === 'admin' ? '/admin' : '/');
+    navigate('/');
   };
 
   const handleSendSms = () => {
@@ -63,7 +77,7 @@ export default function LoginPage() {
     if (role === 'admin') {
       loginUser({
         username: 'admin',
-        name: t.nav.adminUser,
+        name: t.nav.adminUser || 'Bosh Administrator',
         role: 'admin',
         phone: '+998 71 200 00 03'
       });
@@ -89,7 +103,7 @@ export default function LoginPage() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-16 space-y-6">
-      {/* If already logged in, show user profile card */}
+      {/* If already logged in, show user profile card with quick Admin switch */}
       {user.isLoggedIn ? (
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xl text-center space-y-5 text-xs">
           <div className="w-16 h-16 rounded-full bg-teal-100 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 mx-auto flex items-center justify-center border-2 border-teal-500 shadow-md">
@@ -117,21 +131,72 @@ export default function LoginPage() {
             </div>
           </div>
 
+          {/* Direct Admin Access Button */}
           <div className="pt-2 flex flex-col gap-2">
-            {user.role === 'admin' && (
-              <button
-                type="button"
-                onClick={() => navigate('/admin')}
-                className="w-full py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl shadow-sm transition-all"
-              >
-                {t.auth.goToAdmin}
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => {
+                loginUser({
+                  username: 'admin',
+                  name: t.nav.adminUser || 'Bosh Administrator',
+                  role: 'admin',
+                  phone: '+998 71 200 00 03'
+                });
+                navigate('/admin');
+              }}
+              className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold rounded-xl shadow-md shadow-blue-500/20 transition-all flex items-center justify-center gap-2"
+            >
+              <ShieldCheck className="w-4 h-4" />
+              <span>{t.auth.goToAdmin || "Admin panelga o'tish"}</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Quick Role Switcher on Profile Card */}
+            <div className="pt-2 border-t border-slate-200 dark:border-slate-800 text-left">
+              <span className="text-[11px] font-bold text-slate-400 block mb-2 text-center">
+                {t.auth.quickDemo || "Rollar o'rtasida tezkor almashish:"}
+              </span>
+              <div className="grid grid-cols-3 gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleQuickLogin('admin')}
+                  className={`p-2 rounded-xl text-[10px] font-bold border transition-colors ${
+                    user.role === 'admin'
+                      ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-blue-50'
+                  }`}
+                >
+                  🛡️ {t.auth.roleAdmin || "Admin"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleQuickLogin('doctor')}
+                  className={`p-2 rounded-xl text-[10px] font-bold border transition-colors ${
+                    user.role === 'doctor'
+                      ? 'bg-teal-600 text-white border-teal-600 shadow-sm'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-teal-50'
+                  }`}
+                >
+                  👨‍⚕️ {t.auth.roleDoctor || "Shifokor"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleQuickLogin('patient')}
+                  className={`p-2 rounded-xl text-[10px] font-bold border transition-colors ${
+                    user.role === 'patient'
+                      ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-emerald-50'
+                  }`}
+                >
+                  👤 {t.auth.rolePatient || "Bemor"}
+                </button>
+              </div>
+            </div>
 
             <button
               type="button"
               onClick={logoutUser}
-              className="w-full py-2.5 border border-rose-300 dark:border-rose-900 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5"
+              className="w-full py-2.5 mt-2 border border-rose-300 dark:border-rose-900 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5"
             >
               <LogOut className="w-4 h-4" />
               <span>{t.nav.logout}</span>

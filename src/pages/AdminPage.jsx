@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { sendTelegramMessage } from '../utils/telegram';
 import { createProductFallbackSvg } from '../utils/imageFallback';
@@ -86,33 +86,102 @@ export default function AdminPage() {
     if (telegramConfig.chatId) setChatIdInput(telegramConfig.chatId);
   }, [telegramConfig.botToken, telegramConfig.chatId]);
 
-  // If user is not admin, provide a simple 1-click test button to view Admin Panel
+  // Admin Login State for unauthenticated visitors
+  const [adminUsername, setAdminUsername] = useState('admin');
+  const [adminPassword, setAdminPassword] = useState('admin123');
+
+  const handleAdminAuthSubmit = (e) => {
+    e.preventDefault();
+    loginUser({
+      username: adminUsername || 'admin',
+      name: t.nav.adminUser || 'Bosh Administrator',
+      role: 'admin',
+      phone: '+998 71 200 00 03'
+    });
+  };
+
+  // If user is not admin, provide a comprehensive, functional login portal
   if (user.role !== 'admin') {
     return (
-      <div className="max-w-md mx-auto px-4 py-20 text-center space-y-4">
-        <div className="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-600 mx-auto flex items-center justify-center">
-          <Shield className="w-8 h-8" />
+      <div className="max-w-md mx-auto px-4 py-16 space-y-6 animate-in fade-in">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-5 text-xs text-left">
+          <div className="text-center space-y-2">
+            <div className="w-16 h-16 rounded-3xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 mx-auto flex items-center justify-center border-2 border-blue-500/30 shadow-md">
+              <Shield className="w-8 h-8" />
+            </div>
+            <h2 className="text-xl font-black text-slate-900 dark:text-white">
+              {t.admin.authRequired.title || "Admin tizimiga kirish"}
+            </h2>
+            <p className="text-xs text-slate-500">
+              {t.admin.authRequired.desc || "Boshqaruv panelini to'liq ko'rish uchun admin sifatida kiring:"}
+            </p>
+          </div>
+
+          {/* Preset Credentials Box */}
+          <div className="p-3.5 rounded-2xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/60 space-y-1.5">
+            <div className="font-extrabold text-blue-900 dark:text-blue-300 text-xs flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-blue-600" />
+              <span>Admin sinov ma'lumotlari:</span>
+            </div>
+            <div className="flex items-center justify-between text-xs text-slate-600 dark:text-slate-300">
+              <span>Login: <b className="font-mono text-blue-700 dark:text-blue-400 bg-white dark:bg-slate-900 px-2 py-0.5 rounded-md">admin</b></span>
+              <span>Parol: <b className="font-mono text-blue-700 dark:text-blue-400 bg-white dark:bg-slate-900 px-2 py-0.5 rounded-md">admin123</b></span>
+            </div>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleAdminAuthSubmit} className="space-y-3.5">
+            <div>
+              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                Foydalanuvchi nomi (Login)
+              </label>
+              <input
+                type="text"
+                value={adminUsername}
+                onChange={(e) => setAdminUsername(e.target.value)}
+                placeholder="admin"
+                className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                Parol
+              </label>
+              <input
+                type="password"
+                value={adminPassword}
+                onChange={(e) => setAdminPassword(e.target.value)}
+                placeholder="••••••••"
+                className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl shadow-lg shadow-blue-500/25 transition-all text-xs flex items-center justify-center gap-1.5"
+            >
+              <Shield className="w-4 h-4" />
+              <span>Admin panelga kirish</span>
+            </button>
+          </form>
+
+          {/* Instant 1-Click Login Button */}
+          <button
+            type="button"
+            onClick={() => {
+              loginUser({
+                username: 'admin',
+                name: t.nav.adminUser || 'Bosh Administrator',
+                role: 'admin',
+                phone: '+998 71 200 00 03'
+              });
+            }}
+            className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-white font-bold rounded-xl transition-colors text-center text-xs"
+          >
+            ⚡ Darhol Admin sifatida kirish (1-klik)
+          </button>
         </div>
-        <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-          {t.admin.authRequired.title}
-        </h2>
-        <p className="text-xs text-slate-500 max-w-sm mx-auto">
-          {t.admin.authRequired.desc}
-        </p>
-        <button
-          type="button"
-          onClick={() => {
-            loginUser({
-              username: 'admin',
-              name: t.nav.adminUser,
-              role: 'admin',
-              phone: '+998 71 200 00 03'
-            });
-          }}
-          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl text-xs shadow-md transition-all"
-        >
-          {t.admin.authRequired.loginBtn}
-        </button>
       </div>
     );
   }
@@ -559,7 +628,7 @@ export default function AdminPage() {
                       onClick={() => setActiveTab('products')}
                       className="text-blue-600 hover:underline font-bold"
                     >
-                      {t.admin.tabs.products}
+                      {t.admin.sidebar?.inventory || "Mahsulotlar"}
                     </button>
                   </div>
 

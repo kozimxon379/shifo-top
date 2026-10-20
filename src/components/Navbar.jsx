@@ -31,6 +31,7 @@ export default function Navbar() {
     cart,
     favorites,
     user,
+    loginUser,
     refreshCountdown,
     isRefreshing,
     manualRefresh
@@ -54,6 +55,17 @@ export default function Navbar() {
   const isActive = (path) => {
     if (path === '/' && location.pathname !== '/') return false;
     return location.pathname.startsWith(path);
+  };
+
+  const handleAdminLinkClick = (path) => {
+    if (path === '/admin' && user.role !== 'admin') {
+      loginUser({
+        username: 'admin',
+        name: t.nav.adminUser || 'Bosh Administrator',
+        role: 'admin',
+        phone: '+998 71 200 00 03'
+      });
+    }
   };
 
   return (
@@ -129,6 +141,7 @@ export default function Navbar() {
                   <Link
                     key={link.to}
                     to={link.to}
+                    onClick={() => handleAdminLinkClick(link.to)}
                     className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-2xl text-xs xl:text-sm font-bold whitespace-nowrap transition-all duration-200 ${
                       active
                         ? 'bg-teal-600 text-white shadow-md shadow-teal-600/25 scale-[1.02]'
@@ -264,7 +277,10 @@ export default function Navbar() {
                 <Link
                   key={link.to}
                   to={link.to}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    handleAdminLinkClick(link.to);
+                  }}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                     active
                       ? 'bg-teal-50 text-teal-700 dark:bg-teal-950/60 dark:text-teal-300'
