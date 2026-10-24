@@ -65,8 +65,8 @@ export function AppProvider({ children }) {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        const hasUnsplash = parsed.some(p => p.image && p.image.includes('unsplash.com'));
-        if (hasUnsplash) {
+        const needsUpdate = parsed.some(p => p.image && (p.image.includes('unsplash.com') || p.image.endsWith('.svg')));
+        if (needsUpdate) {
           localStorage.setItem('shifo_products', JSON.stringify(initialProducts));
           return initialProducts;
         }

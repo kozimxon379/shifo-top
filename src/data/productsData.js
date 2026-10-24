@@ -12,7 +12,7 @@ export const initialProducts = [
     reviewsCount: 180,
     prescriptionRequired: false,
     stock: 240,
-    image: "/images/products/paracetamol.svg",
+    image: "/images/products/paracetamol.jpg",
     description: "Tana haroratini tushiruvchi va bosh, tish, mushak og'riqlarida samarali og'riq qoldiruvchi preparat."
   },
   {
@@ -28,7 +28,7 @@ export const initialProducts = [
     reviewsCount: 145,
     prescriptionRequired: false,
     stock: 120,
-    image: "/images/products/ibuprofen.svg",
+    image: "/images/products/ibuprofen.jpg",
     description: "Yallig'lanishga qarshi nosteroid preparat. Bo'g'im, tish og'rig'i, isitma va shamollashda tez ta'sir qiladi."
   },
   {
@@ -44,7 +44,7 @@ export const initialProducts = [
     reviewsCount: 96,
     prescriptionRequired: false,
     stock: 95,
-    image: "/images/products/omeprazole.svg",
+    image: "/images/products/omeprazole.jpg",
     description: "Gastrit, oshqozon yarasi va jigildak qaynashida kislotalilikni me'yorlashtiruvchi kapsulalar."
   },
   {
@@ -60,7 +60,7 @@ export const initialProducts = [
     reviewsCount: 310,
     prescriptionRequired: false,
     stock: 180,
-    image: "/images/products/vitaminc.svg",
+    image: "/images/products/vitaminc.jpg",
     description: "Immunitetni quvvatlovchi, shamollash va virusli infeksiyalarga chidamlilikni oshiruvchi shirin eruvchan tabletkalar."
   },
   {
@@ -76,7 +76,7 @@ export const initialProducts = [
     reviewsCount: 420,
     prescriptionRequired: false,
     stock: 65,
-    image: "/images/products/omega3.svg",
+    image: "/images/products/omega3.jpg",
     description: "Yurak qon-tomir faoliyatini mustahkamlovchi, miya va ko'z salomatligini qo'llab-quvvatlovchi toza baliq yog'i."
   },
   {
@@ -92,7 +92,7 @@ export const initialProducts = [
     reviewsCount: 210,
     prescriptionRequired: false,
     stock: 40,
-    image: "/images/products/tonometer.svg",
+    image: "/images/products/tonometer.jpg",
     description: "Yaponiya texnologiyasi asosida ishlab chiqarilgan aniq avtomatik qon bosimi va puls o'lchash moslamasi."
   },
   {
@@ -108,7 +108,7 @@ export const initialProducts = [
     reviewsCount: 165,
     prescriptionRequired: false,
     stock: 75,
-    image: "/images/products/thermometer.svg",
+    image: "/images/products/thermometer.jpg",
     description: "1 soniyada bolalar va kattalar tana haroratini masofadan aniq ko'rsatuvchi raqamli termometr."
   },
   {
@@ -124,7 +124,7 @@ export const initialProducts = [
     reviewsCount: 88,
     prescriptionRequired: false,
     stock: 50,
-    image: "/images/products/firstaid.svg",
+    image: "/images/products/firstaid.jpg",
     description: "Bint, paxta, jgut, antiseptik, plaster, spirtli salfetkalar va shoshilinch yordam vositalari to'plami."
   },
   {
@@ -140,7 +140,7 @@ export const initialProducts = [
     reviewsCount: 94,
     prescriptionRequired: false,
     stock: 300,
-    image: "/images/products/antiseptic.svg",
+    image: "/images/products/antiseptic.jpg",
     description: "Yaralarni, terini va shilliq qavatlarni zararsizlantiruvchi universal tibbiy eritma."
   }
 ];
