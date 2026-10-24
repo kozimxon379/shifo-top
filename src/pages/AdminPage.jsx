@@ -21,8 +21,6 @@ import {
   Building,
   X,
   ShoppingBag,
-  Activity,
-  RotateCw,
   Truck,
   MapPin,
   Phone,
@@ -66,10 +64,7 @@ export default function AdminPage() {
     resetOrders,
     telegramConfig,
     saveTelegramConfig,
-    addToast,
-    refreshCountdown,
-    isRefreshing,
-    manualRefresh
+    addToast
   } = useApp();
 
   // Active tab state: 'dashboard', 'revenue', 'sales', 'products', 'appointments', 'telegram'
@@ -826,24 +821,8 @@ export default function AdminPage() {
             </div>
           </div>
 
-          {/* Topbar Right Actions: 10s Live ticker, Language, Theme, Public Site Link */}
+          {/* Topbar Right Actions: Language, Theme, Public Site Link */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* 10-Second Auto-Refresh Live Pill */}
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
-              <Activity className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400 animate-pulse" />
-              <span className="text-slate-500 font-medium">Jonli:</span>
-              <span className="font-mono font-black text-teal-600 dark:text-teal-400">
-                {isRefreshing ? '...' : `${refreshCountdown}s`}
-              </span>
-              <button
-                type="button"
-                onClick={manualRefresh}
-                title="Hozir yangilash"
-                className="ml-0.5 p-1 rounded-md text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
-              >
-                <RotateCw className={`w-3 h-3 ${isRefreshing ? 'animate-spin' : ''}`} />
-              </button>
-            </div>
 
             {/* Language Switcher */}
             <div className="flex items-center bg-slate-100 dark:bg-slate-800 rounded-xl p-0.5 border border-slate-200 dark:border-slate-700">
