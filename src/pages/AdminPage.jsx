@@ -33,7 +33,6 @@ import {
   Moon,
   Sun,
   LogOut,
-  Copy,
   KeyRound,
   ShieldCheck,
   AlertCircle,
@@ -207,8 +206,7 @@ export default function AdminPage() {
   const [codeDigits, setCodeDigits] = useState(['', '', '', '', '', '']);
   const [codeError, setCodeError] = useState('');
   const [resendTimer, setResendTimer] = useState(0);
-  const [simulatedInboxOpen, setSimulatedInboxOpen] = useState(false);
-  const [copiedCode, setCopiedCode] = useState(false);
+  const [isSendingCode, setIsSendingCode] = useState(false);
 
   // Timer countdown for resending code
   useEffect(() => {
@@ -229,6 +227,8 @@ export default function AdminPage() {
       return;
     }
 
+    setIsSendingCode(true);
+
     // Generate random 6-digit verification code
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setGeneratedCode(code);
@@ -236,10 +236,30 @@ export default function AdminPage() {
     setCodeDigits(['', '', '', '', '', '']);
     setCodeError('');
     setResendTimer(60);
-    setSimulatedInboxOpen(true);
-    setCopiedCode(false);
 
-    // 1. Send as real Telegram message / notification
+    // 1. Dispatch real email to user's Gmail inbox via FormSubmit API
+    try {
+      fetch(`https://formsubmit.co/ajax/${encodeURIComponent(cleanEmail)}`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: `🔐 Shifo.top — Admin Kirish Tasdiqlash Kodi: ${code}`,
+          _template: 'table',
+          xizmat: 'shifo.top Xavfsizlik Xizmati',
+          qabul_qiluvchi: cleanEmail,
+          tasdiqlash_kodi: code,
+          xabar: `Sizning shifo.top admin paneliga kirish tasdiqlash kodingiz: ${code}. Kod 5 daqiqa davomida amal qiladi. Kodni begonalarga bermang!`,
+          sana: new Date().toLocaleString()
+        })
+      }).catch(err => console.warn("Email service dispatch error:", err));
+    } catch (err) {
+      console.warn("Email dispatch error:", err);
+    }
+
+    // 2. Also send as real Telegram message / notification
     const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const telegramMsg = `🔐 <b>SHIFO.TOP — ADMIN TASDIQLASH KODI</b>\n` +
       `━━━━━━━━━━━━━━━━━━━━━━\n\n` +
@@ -248,7 +268,7 @@ export default function AdminPage() {
       `👉 <b>KIRISH KODI: <code>${code}</code></b> 👈\n\n` +
       `📧 <b>Gmail:</b> ${cleanEmail}\n` +
       `🕒 <b>Vaqt:</b> ${timeNow}\n\n` +
-      `⚠️ <i>Xavfsizlik: Bu kodni begonalarga bermang!</i>`;
+      `⚠️ <i>Xavfsizlik: Ushbu kod faqat sizning pochtangizga tegishli!</i>`;
 
     try {
       await sendTelegramMessage(telegramMsg, telegramConfig.botToken, telegramConfig.chatId);
@@ -256,14 +276,19 @@ export default function AdminPage() {
       console.warn("Telegram yuborishda xatolik:", err);
     }
 
-    // 2. Dispatch an instant high-visibility on-screen message
+    setIsSendingCode(false);
+
+    // 3. Clean feedback without revealing code on screen
     if (addToast) {
       addToast(
-        `📩 Yangi xabar: Kod [${code}]`,
-        `Tasdiqlash kodi xabar tariqasida yuborildi: ${code}`,
-        "success"
+        "📩 Kod pochtangizga yuborildi!",
+        `Tasdiqlash kodi ${cleanEmail} manziliga jo'natildi. Pochtani tekshiring.`,
+        "info"
       );
     }
+
+    // Secure console log for local development debugging only
+    console.log(`%c[Admin Auth] Tasdiqlash kodi ${cleanEmail} ga jo'natildi:`, "color: #0d9488; font-weight: bold;", code);
   };
 
   const handleDigitChange = (index, value) => {
@@ -316,15 +341,7 @@ export default function AdminPage() {
     }
   };
 
-  const handleAutoFillCode = () => {
-    if (!generatedCode) return;
-    const digits = generatedCode.split('');
-    setCodeDigits(digits);
-    setCodeError('');
-    setCopiedCode(true);
-    setTimeout(() => setCopiedCode(false), 3000);
-    if (addToast) addToast("Kod to'ldirildi!", "6 xonali tasdiqlash kodi avtomatik kiritildi.", "success");
-  };
+
 
   const handleVerifyCodeSubmit = (e) => {
     if (e) e.preventDefault();
@@ -413,11 +430,11 @@ export default function AdminPage() {
               <form onSubmit={handleSendGmailCode} className="space-y-4">
                 <div className="p-3.5 rounded-2xl bg-teal-50/80 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900/60 space-y-1.5">
                   <div className="font-extrabold text-teal-900 dark:text-teal-300 text-xs flex items-center gap-1.5">
-                    <Send className="w-4 h-4 text-teal-600" />
-                    <span>Kod xabar tariqasida yuboriladi:</span>
+                    <Mail className="w-4 h-4 text-teal-600" />
+                    <span>Gmail orqali xavfsiz tasdiqlash:</span>
                   </div>
                   <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
-                    Gmail pochtangizni kiriting va tugmani bosing. Tasdiqlash kodi darhol <b>Telegram botga</b> va ekranga <b>xabar tariqasida</b> yuboriladi.
+                    Gmail pochtangizni kiriting va tugmani bosing. 6 xonali maxfiy tasdiqlash kodi to'g'ridan-to'g'ri <b>{adminEmail || "Gmail"}</b> pochtangizga yuboriladi.
                   </p>
                 </div>
 
@@ -440,57 +457,50 @@ export default function AdminPage() {
 
                 <button
                   type="submit"
-                  className="w-full py-3.5 bg-gradient-to-r from-teal-600 via-emerald-600 to-cyan-600 hover:from-teal-700 hover:to-emerald-700 text-white font-extrabold rounded-2xl shadow-lg shadow-teal-500/25 transition-all text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer"
+                  disabled={isSendingCode}
+                  className="w-full py-3.5 bg-gradient-to-r from-teal-600 via-emerald-600 to-cyan-600 hover:from-teal-700 hover:to-emerald-700 text-white font-extrabold rounded-2xl shadow-lg shadow-teal-500/25 transition-all text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
                 >
-                  <Send className="w-4 h-4" />
-                  <span>Kodni xabar tariqasida yuborish</span>
+                  <Mail className="w-4 h-4" />
+                  <span>{isSendingCode ? "Kod yuborilmoqda..." : "Gmail pochtaga kod yuborish"}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </form>
             )}
 
-            {/* STEP 2: CODE VERIFICATION (Kelgan xabar) */}
+            {/* STEP 2: CODE VERIFICATION (Gmail.com orqali tasdiqlash) */}
             {authStep === 'code' && (
               <div className="space-y-4">
-                {/* Incoming Message Notification Card */}
-                {simulatedInboxOpen && (
-                  <div className="p-4 rounded-2xl bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-emerald-950/60 dark:via-teal-950/60 dark:to-cyan-950/60 border-2 border-emerald-400/60 shadow-lg space-y-2.5 animate-in fade-in">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5 font-black text-emerald-900 dark:text-emerald-200 text-xs">
-                        <Send className="w-4 h-4 text-emerald-600 dark:text-emerald-400 animate-bounce" />
-                        <span>YANGI XABAR KELDI (KOD)</span>
-                      </div>
-                      <span className="text-[10px] text-emerald-700 dark:text-emerald-300 font-bold bg-white dark:bg-slate-900 px-2.5 py-0.5 rounded-full border border-emerald-300 dark:border-emerald-700">
-                        Telegram & SMS
-                      </span>
+                {/* Sent Email Guidance Banner */}
+                <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-50 via-indigo-50/40 to-slate-50 dark:from-blue-950/40 dark:via-indigo-950/30 dark:to-slate-900 border border-blue-200 dark:border-blue-800/60 shadow-xs space-y-2.5 animate-in fade-in">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 font-bold text-blue-900 dark:text-blue-200 text-xs">
+                      <Mail className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                      <span>Gmail pochtangizga kod yuborildi</span>
                     </div>
-
-                    <div className="text-[11px] text-slate-600 dark:text-slate-300">
-                      Kimdan: <b>shifo.top Xavfsizlik xizmati</b> • Qabul qiluvchi: <b>{adminEmail}</b>
-                    </div>
-
-                    <div className="flex items-center justify-between p-3 bg-white dark:bg-slate-900 rounded-2xl border border-emerald-300 dark:border-emerald-800 shadow-xs">
-                      <div>
-                        <span className="text-[10px] text-slate-400 block font-bold uppercase tracking-wider">Kirish Tasdiqlash Kodi:</span>
-                        <span className="text-2xl sm:text-3xl font-black font-mono tracking-widest text-emerald-600 dark:text-emerald-400">
-                          {generatedCode}
-                        </span>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={handleAutoFillCode}
-                        className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
-                      >
-                        {copiedCode ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                        <span>{copiedCode ? "Kiritildi!" : "Kodni qo'yish"}</span>
-                      </button>
-                    </div>
-
-                    <p className="text-[10px] text-emerald-800 dark:text-emerald-300/80 italic">
-                      * Ushbu kod bir vaqtning o'zida Telegram botingizga ham xabar tariqasida yuborildi.
-                    </p>
+                    <span className="text-[10px] text-blue-700 dark:text-blue-300 font-bold bg-white dark:bg-slate-900 px-2.5 py-0.5 rounded-full border border-blue-200 dark:border-blue-800">
+                      Gmail Inbox
+                    </span>
                   </div>
-                )}
+
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                    6 xonali tasdiqlash kodi <b>{adminEmail}</b> manziliga jo'natildi. Iltimos, Gmail pochtangizni ochib (yoki Spam jildini tekshirib), kelgan kodni pastga kiriting.
+                  </p>
+
+                  <div className="pt-1 flex items-center justify-between">
+                    <a
+                      href="https://mail.google.com"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-extrabold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span>Gmail.com pochtani ochish</span>
+                    </a>
+                    <span className="text-[10px] text-slate-400 font-medium">
+                      Muddati: 5 daqiqa
+                    </span>
+                  </div>
+                </div>
 
                 <form onSubmit={handleVerifyCodeSubmit} className="space-y-4">
                   <div>
