@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import Navbar from './components/Navbar';
@@ -38,12 +38,80 @@ function NotFoundPage() {
   );
 }
 
+/**
+ * Intelligent Scroll Restoration Keeper
+ * Keeps exact scroll position on Ctrl+R (reload) or refresh across all routes,
+ * while smoothly resetting scroll to top when navigating to a new page.
+ */
+function ScrollRestorationKeeper() {
+  const location = useLocation();
+  const prevPathRef = useRef(location.pathname);
+
+  // Restore scroll position on reload or path change
+  useEffect(() => {
+    if (location.pathname.startsWith('/admin')) {
+      prevPathRef.current = location.pathname;
+      return;
+    }
+
+    const key = `shifo_scroll_${location.pathname}`;
+    const saved = sessionStorage.getItem(key);
+
+    if (saved) {
+      const top = parseInt(saved, 10);
+      if (!isNaN(top) && top > 0) {
+        requestAnimationFrame(() => window.scrollTo(0, top));
+        const timer = setTimeout(() => window.scrollTo(0, top), 50);
+        return () => clearTimeout(timer);
+      }
+    } else if (prevPathRef.current !== location.pathname) {
+      window.scrollTo(0, 0);
+    }
+    prevPathRef.current = location.pathname;
+  }, [location.pathname]);
+
+  // Continuously record scroll position for current route
+  useEffect(() => {
+    if (location.pathname.startsWith('/admin')) return;
+
+    let timeoutId = null;
+    const handleScroll = () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        try {
+          sessionStorage.setItem(`shifo_scroll_${location.pathname}`, String(window.scrollY));
+        } catch (e) {}
+      }, 80);
+    };
+
+    const handleBeforeUnload = () => {
+      try {
+        sessionStorage.setItem(`shifo_scroll_${location.pathname}`, String(window.scrollY));
+      } catch (e) {}
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [location.pathname]);
+
+  return null;
+}
+
 function AppLayout() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
 
   return (
     <div className={`min-h-screen flex flex-col bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200 ${isAdmin ? 'h-screen overflow-hidden' : ''}`}>
+      {/* Intelligent Scroll Restoration on Ctrl+R */}
+      <ScrollRestorationKeeper />
+
       {/* Main Top Navigation (Hidden in Admin Panel) */}
       {!isAdmin && <Navbar />}
 

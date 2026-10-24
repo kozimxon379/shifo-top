@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { sendTelegramMessage } from '../utils/telegram';
@@ -67,10 +67,86 @@ export default function AdminPage() {
     addToast
   } = useApp();
 
-  // Active tab state: 'dashboard', 'revenue', 'sales', 'products', 'appointments', 'telegram'
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const validTabs = ['dashboard', 'revenue', 'sales', 'products', 'appointments', 'telegram'];
+
+  // Active tab state: persisted across Ctrl+R reload and synced with URL query
+  const [activeTab, setActiveTab] = useState(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const tabFromUrl = params.get('tab');
+      if (tabFromUrl && validTabs.includes(tabFromUrl)) {
+        return tabFromUrl;
+      }
+      const savedTab = localStorage.getItem('shifo_admin_active_tab');
+      if (savedTab && validTabs.includes(savedTab)) {
+        return savedTab;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    return 'dashboard';
+  });
+
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [chartMounted, setChartMounted] = useState(false);
+
+  // Sync activeTab with URL and localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('shifo_admin_active_tab', activeTab);
+      const url = new URL(window.location.href);
+      if (url.searchParams.get('tab') !== activeTab) {
+        url.searchParams.set('tab', activeTab);
+        window.history.replaceState(null, '', url.toString());
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }, [activeTab]);
+
+  // Main scroll container ref and position restoration
+  const mainScrollRef = useRef(null);
+  const scrollDebounceRef = useRef(null);
+
+  const handleMainScroll = (e) => {
+    const top = e.currentTarget.scrollTop;
+    if (scrollDebounceRef.current) clearTimeout(scrollDebounceRef.current);
+    scrollDebounceRef.current = setTimeout(() => {
+      try {
+        sessionStorage.setItem(`shifo_admin_scroll_${activeTab}`, String(top));
+      } catch (err) {}
+    }, 80);
+  };
+
+  // Restore scroll position when tab mounts or changes
+  useEffect(() => {
+    const saved = sessionStorage.getItem(`shifo_admin_scroll_${activeTab}`);
+    if (saved && mainScrollRef.current) {
+      const topNum = parseInt(saved, 10);
+      if (!isNaN(topNum) && topNum > 0) {
+        requestAnimationFrame(() => {
+          if (mainScrollRef.current) mainScrollRef.current.scrollTop = topNum;
+        });
+        const timer = setTimeout(() => {
+          if (mainScrollRef.current) mainScrollRef.current.scrollTop = topNum;
+        }, 50);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [activeTab]);
+
+  // Save scroll position immediately before reload (Ctrl+R)
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (mainScrollRef.current) {
+        try {
+          sessionStorage.setItem(`shifo_admin_scroll_${activeTab}`, String(mainScrollRef.current.scrollTop));
+        } catch (err) {}
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [activeTab]);
 
   useEffect(() => {
     setChartMounted(false);
@@ -93,16 +169,35 @@ export default function AdminPage() {
     description: ''
   });
 
-  // Product search in admin
-  const [prodSearch, setProdSearch] = useState('');
+  // Product search in admin (persisted across reload)
+  const [prodSearch, setProdSearch] = useState(() => {
+    return sessionStorage.getItem('shifo_admin_prod_search') || '';
+  });
+
+  useEffect(() => {
+    sessionStorage.setItem('shifo_admin_prod_search', prodSearch);
+  }, [prodSearch]);
 
   // Telegram settings state
   const [tokenInput, setTokenInput] = useState(telegramConfig.botToken || '');
   const [chatIdInput, setChatIdInput] = useState(telegramConfig.chatId || '');
   const [isTestingTelegram, setIsTestingTelegram] = useState(false);
   const [hoveredBarIndex, setHoveredBarIndex] = useState(null);
-  const [orderSearch, setOrderSearch] = useState('');
-  const [orderFilter, setOrderFilter] = useState('all');
+
+  // Orders search & filter (persisted across reload)
+  const [orderSearch, setOrderSearch] = useState(() => {
+    return sessionStorage.getItem('shifo_admin_order_search') || '';
+  });
+  useEffect(() => {
+    sessionStorage.setItem('shifo_admin_order_search', orderSearch);
+  }, [orderSearch]);
+
+  const [orderFilter, setOrderFilter] = useState(() => {
+    return sessionStorage.getItem('shifo_admin_order_filter') || 'all';
+  });
+  useEffect(() => {
+    sessionStorage.setItem('shifo_admin_order_filter', orderFilter);
+  }, [orderFilter]);
 
   useEffect(() => {
     if (telegramConfig.botToken) setTokenInput(telegramConfig.botToken);
@@ -865,7 +960,7 @@ export default function AdminPage() {
         </header>
 
         {/* SCROLLABLE MAIN CONTENT AREA */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6">
+        <main ref={mainScrollRef} onScroll={handleMainScroll} className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6">
           {/* TAB 1: ASOSIY BOSHQARUV (DASHBOARD) */}
           {activeTab === 'dashboard' && (
             <div className="space-y-6 animate-in fade-in duration-200">
