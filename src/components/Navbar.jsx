@@ -10,15 +10,13 @@ import {
   ShoppingCart,
   Heart,
   User,
-  Shield,
   PhoneCall,
   Menu,
   X,
   MapPin,
   Stethoscope,
   BookOpen,
-  Store,
-  RotateCw
+  Store
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -31,10 +29,7 @@ export default function Navbar() {
     cart,
     favorites,
     user,
-    loginUser,
-    refreshCountdown,
-    isRefreshing,
-    manualRefresh
+    loginUser
   } = useApp();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -48,8 +43,7 @@ export default function Navbar() {
     { to: '/clinics', label: t.nav.clinics, icon: MapPin },
     { to: '/doctors', label: t.nav.doctors, icon: Stethoscope },
     { to: '/store', label: t.nav.store, icon: Store },
-    { to: '/encyclopedia', label: t.nav.encyclopedia, icon: BookOpen },
-    { to: '/admin', label: t.nav.admin, icon: Shield }
+    { to: '/encyclopedia', label: t.nav.encyclopedia, icon: BookOpen }
   ];
 
   const isActive = (path) => {
@@ -57,15 +51,8 @@ export default function Navbar() {
     return location.pathname.startsWith(path);
   };
 
-  const handleAdminLinkClick = (path) => {
-    if (path === '/admin' && user.role !== 'admin') {
-      loginUser({
-        username: 'admin',
-        name: t.nav.adminUser || 'Bosh Administrator',
-        role: 'admin',
-        phone: '+998 71 200 00 03'
-      });
-    }
+  const handleAdminLinkClick = () => {
+    // AdminPage handles secure Gmail + OTP verification
   };
 
   return (
@@ -82,21 +69,6 @@ export default function Navbar() {
               {t.hero.badge}
             </span>
           </div>
-
-          {/* Real-time 10s auto-refresh indicator */}
-          <button
-            type="button"
-            onClick={manualRefresh}
-            title="Ma'lumotlar har 10 soniyada yangilanadi. Hozir yangilash uchun bosing."
-            className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/15 hover:bg-white/25 transition-all text-[11px] text-teal-100 font-bold border border-white/20 shadow-xs cursor-pointer"
-          >
-            <span className={`w-2 h-2 rounded-full ${isRefreshing ? 'bg-amber-300 animate-spin' : 'bg-emerald-400 animate-pulse'}`}></span>
-            <span className="hidden md:inline">10s yangilanish:</span>
-            <span className="font-mono font-extrabold text-white">
-              {isRefreshing ? '...' : `${refreshCountdown}s`}
-            </span>
-            <RotateCw className={`w-3 h-3 text-teal-200 ${isRefreshing ? 'animate-spin' : ''}`} />
-          </button>
 
           <div className="flex items-center gap-3 text-xs font-semibold shrink-0">
             <a
@@ -238,18 +210,21 @@ export default function Navbar() {
                 )}
               </Link>
 
-              {/* User / Login Link */}
+              {/* User / Admin Link (Matching Image 2) */}
               <Link
-                to="/login"
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3 sm:py-2 rounded-2xl border text-xs font-bold transition-all shrink-0 ${
-                  user.isLoggedIn
+                to={user.isLoggedIn && user.role === 'admin' ? '/admin' : '/login'}
+                onClick={() => handleAdminLinkClick('/admin')}
+                className={`inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border text-xs sm:text-sm font-bold transition-all shrink-0 ${
+                  user.isLoggedIn && user.role === 'admin'
+                    ? 'border-emerald-500/80 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 shadow-xs'
+                    : user.isLoggedIn
                     ? 'border-emerald-300 bg-emerald-50 text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300 hover:bg-emerald-100'
                     : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
                 title={user.isLoggedIn ? `${user.name} (${user.role})` : t.nav.login}
               >
-                <User className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span className="hidden xl:inline whitespace-nowrap">
+                <User className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span className="inline whitespace-nowrap text-emerald-400 dark:text-emerald-300 font-bold">
                   {user.isLoggedIn ? (user.role === 'admin' ? (t.nav.admin || 'Admin') : (user.name || user.username)) : t.nav.login}
                 </span>
               </Link>

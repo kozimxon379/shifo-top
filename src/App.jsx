@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -38,43 +38,53 @@ function NotFoundPage() {
   );
 }
 
+function AppLayout() {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith('/admin');
+
+  return (
+    <div className={`min-h-screen flex flex-col bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200 ${isAdmin ? 'h-screen overflow-hidden' : ''}`}>
+      {/* Main Top Navigation (Hidden in Admin Panel) */}
+      {!isAdmin && <Navbar />}
+
+      {/* Main Page Routes */}
+      <main className={`flex-1 ${isAdmin ? 'h-full overflow-hidden' : ''}`}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/clinics" element={<ClinicsPage />} />
+          <Route path="/doctors" element={<DoctorsPage />} />
+          <Route path="/store" element={<StorePage />} />
+          <Route path="/encyclopedia" element={<EncyclopediaPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </main>
+
+      {/* Global Footer (Hidden in Admin Panel) */}
+      {!isAdmin && <Footer />}
+
+      {/* Global Floating AI Medical Consultant (Hidden in Admin Panel) */}
+      {!isAdmin && <AIChatbot />}
+
+      {/* Global Appointment Booking Modal */}
+      <AppointmentModal />
+
+      {/* Global Notifications Container */}
+      <ToastContainer />
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <AppProvider>
       <Router>
-        <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200">
-          {/* Main Top Navigation */}
-          <Navbar />
-
-          {/* Main Page Routes */}
-          <main className="flex-1">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/clinics" element={<ClinicsPage />} />
-              <Route path="/doctors" element={<DoctorsPage />} />
-              <Route path="/store" element={<StorePage />} />
-              <Route path="/encyclopedia" element={<EncyclopediaPage />} />
-              <Route path="/cart" element={<CartPage />} />
-              <Route path="/favorites" element={<FavoritesPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/admin" element={<AdminPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </main>
-
-          {/* Global Footer */}
-          <Footer />
-
-          {/* Global Floating AI Medical Consultant */}
-          <AIChatbot />
-
-          {/* Global Appointment Booking Modal */}
-          <AppointmentModal />
-
-          {/* Global Notifications Container */}
-          <ToastContainer />
-        </div>
+        <AppLayout />
       </Router>
     </AppProvider>
   );
 }
+

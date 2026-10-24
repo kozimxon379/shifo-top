@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { translations } from './i18n';
 import { initialProducts } from '../data/productsData';
+import { initialOrders } from '../data/ordersData';
 import {
   sendTelegramMessage,
   formatAppointmentMessage,
@@ -323,19 +324,33 @@ export function AppProvider({ children }) {
   // 10. Orders state
   const [orders, setOrders] = useState(() => {
     const saved = localStorage.getItem('shifo_orders');
-    return saved ? JSON.parse(saved) : [];
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return initialOrders;
   });
+
+  useEffect(() => {
+    localStorage.setItem('shifo_orders', JSON.stringify(orders));
+  }, [orders]);
 
   const placeOrder = async (orderInfo) => {
     const newOrder = {
       ...orderInfo,
       id: Date.now().toString().slice(-6),
       items: [...cart],
+      status: "delivering",
       deliveryMinutes: "30 - 45",
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString().replace('T', ' ').substring(0, 16)
     };
     setOrders(prev => [newOrder, ...prev]);
-    localStorage.setItem('shifo_orders', JSON.stringify([newOrder, ...orders]));
 
     // Send Telegram Notification with full details and delivery arrival time
     const msg = formatOrderMessage(newOrder);
@@ -347,22 +362,42 @@ export function AppProvider({ children }) {
     return newOrder;
   };
 
+  const updateOrderStatus = (id, newStatus) => {
+    setOrders(prev => prev.map(o => o.id === id ? { ...o, status: newStatus } : o));
+    addToast("Buyurtma holati yangilandi", `Buyurtma #${id}: ${newStatus}`, "info");
+  };
+
+  const deleteOrder = (id) => {
+    setOrders(prev => prev.filter(o => o.id !== id));
+    addToast("Buyurtma o'chirildi", `Buyurtma #${id} ro'yxatdan olib tashlandi`, "warning");
+  };
+
+  const resetOrders = () => {
+    setOrders(initialOrders);
+    addToast("Namuna buyurtmalar yuklandi", "Sinov buyurtmalari ro'yxati qayta tiklandi.", "success");
+  };
+
   // 11. User Auth state
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem('shifo_user');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        if (parsed.role === 'admin' && !parsed.email) {
+          parsed.email = 'admin@gmail.com';
+        }
+        return parsed;
       } catch (e) {
         console.error(e);
       }
     }
     return {
       isLoggedIn: true,
-      username: "bemor_uz",
-      phone: "+998 90 777 88 99",
-      role: "patient", // 'patient', 'doctor', 'admin'
-      name: "Jasur Rahimov"
+      username: "admin@gmail.com",
+      email: "admin@gmail.com",
+      phone: "+998 71 200 00 03",
+      role: "admin",
+      name: "Bosh Administrator"
     };
   });
 
@@ -371,11 +406,21 @@ export function AppProvider({ children }) {
   }, [user]);
 
   const loginUser = (userData) => {
-    setUser({
+    const isRoleAdmin =
+      userData.role === 'admin' ||
+      userData.username?.toLowerCase().includes('admin') ||
+      userData.email?.toLowerCase().includes('admin');
+
+    const updatedUser = {
       isLoggedIn: true,
-      ...userData
-    });
-    addToast("Xush kelibsiz!", `${userData.name || userData.username} tizimga kirdi`, "success");
+      email: userData.email || (isRoleAdmin ? 'admin@gmail.com' : undefined),
+      ...userData,
+      role: isRoleAdmin ? 'admin' : (userData.role || 'patient')
+    };
+
+    setUser(updatedUser);
+    localStorage.setItem('shifo_user', JSON.stringify(updatedUser));
+    addToast("Xush kelibsiz!", `${userData.name || userData.email || userData.username} tizimga kirdi`, "success");
   };
 
   const logoutUser = () => {
@@ -563,6 +608,9 @@ export function AppProvider({ children }) {
         updateAppointmentStatus,
         orders,
         placeOrder,
+        updateOrderStatus,
+        deleteOrder,
+        resetOrders,
         user,
         loginUser,
         logoutUser,
