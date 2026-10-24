@@ -39,66 +39,22 @@ function NotFoundPage() {
 }
 
 /**
- * Intelligent Scroll Restoration Keeper
- * Keeps exact scroll position on Ctrl+R (reload) or refresh across all routes,
- * while smoothly resetting scroll to top when navigating to a new page.
+ * Clean Scroll Manager:
+ * Scrolls to top only when navigating to a DIFFERENT page,
+ * allowing the browser's native engine to restore scroll on Ctrl+R with zero lag or shifting.
  */
-function ScrollRestorationKeeper() {
-  const location = useLocation();
-  const prevPathRef = useRef(location.pathname);
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  const prevPathRef = useRef(pathname);
 
-  // Restore scroll position on reload or path change
   useEffect(() => {
-    if (location.pathname.startsWith('/admin')) {
-      prevPathRef.current = location.pathname;
-      return;
-    }
-
-    const key = `shifo_scroll_${location.pathname}`;
-    const saved = sessionStorage.getItem(key);
-
-    if (saved) {
-      const top = parseInt(saved, 10);
-      if (!isNaN(top) && top > 0) {
-        requestAnimationFrame(() => window.scrollTo(0, top));
-        const timer = setTimeout(() => window.scrollTo(0, top), 50);
-        return () => clearTimeout(timer);
+    if (prevPathRef.current !== pathname) {
+      if (!pathname.startsWith('/admin')) {
+        window.scrollTo(0, 0);
       }
-    } else if (prevPathRef.current !== location.pathname) {
-      window.scrollTo(0, 0);
+      prevPathRef.current = pathname;
     }
-    prevPathRef.current = location.pathname;
-  }, [location.pathname]);
-
-  // Continuously record scroll position for current route
-  useEffect(() => {
-    if (location.pathname.startsWith('/admin')) return;
-
-    let timeoutId = null;
-    const handleScroll = () => {
-      if (timeoutId) clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        try {
-          sessionStorage.setItem(`shifo_scroll_${location.pathname}`, String(window.scrollY));
-        } catch (e) {}
-      }, 80);
-    };
-
-    const handleBeforeUnload = () => {
-      try {
-        sessionStorage.setItem(`shifo_scroll_${location.pathname}`, String(window.scrollY));
-      } catch (e) {}
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      if (timeoutId) clearTimeout(timeoutId);
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [location.pathname]);
+  }, [pathname]);
 
   return null;
 }
@@ -109,8 +65,7 @@ function AppLayout() {
 
   return (
     <div className={`min-h-screen flex flex-col bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200 ${isAdmin ? 'h-screen overflow-hidden' : ''}`}>
-      {/* Intelligent Scroll Restoration on Ctrl+R */}
-      <ScrollRestorationKeeper />
+      <ScrollToTop />
 
       {/* Main Top Navigation (Hidden in Admin Panel) */}
       {!isAdmin && <Navbar />}

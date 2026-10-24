@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { sendTelegramMessage } from '../utils/telegram';
@@ -69,7 +69,7 @@ export default function AdminPage() {
 
   const validTabs = ['dashboard', 'revenue', 'sales', 'products', 'appointments', 'telegram'];
 
-  // Active tab state: persisted across Ctrl+R reload and synced with URL query
+  // Active tab state: read synchronously on init so there is zero flash or delay
   const [activeTab, setActiveTab] = useState(() => {
     try {
       const params = new URLSearchParams(window.location.search);
@@ -81,61 +81,60 @@ export default function AdminPage() {
       if (savedTab && validTabs.includes(savedTab)) {
         return savedTab;
       }
-    } catch (e) {
-      console.error(e);
-    }
+    } catch (e) {}
     return 'dashboard';
   });
 
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [chartMounted, setChartMounted] = useState(false);
+  // Chart is mounted immediately so its height is stable from millisecond 0 (prevents layout shifting)
+  const [chartMounted] = useState(true);
 
-  // Sync activeTab with URL and localStorage
-  useEffect(() => {
+  const handleTabChange = (tabId) => {
+    if (tabId === activeTab) return;
+    setActiveTab(tabId);
+    setMobileSidebarOpen(false);
     try {
-      localStorage.setItem('shifo_admin_active_tab', activeTab);
+      localStorage.setItem('shifo_admin_active_tab', tabId);
       const url = new URL(window.location.href);
-      if (url.searchParams.get('tab') !== activeTab) {
-        url.searchParams.set('tab', activeTab);
-        window.history.replaceState(null, '', url.toString());
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }, [activeTab]);
+      url.searchParams.set('tab', tabId);
+      window.history.replaceState(null, '', url.toString());
+    } catch (e) {}
+  };
 
-  // Main scroll container ref and position restoration
+  // Main scroll container ref
   const mainScrollRef = useRef(null);
   const scrollDebounceRef = useRef(null);
+  const isRestoringScrollRef = useRef(false);
+
+  // Synchronous scroll restoration BEFORE paint to prevent visual jumps and shifts
+  useLayoutEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(`shifo_admin_scroll_${activeTab}`);
+      if (saved && mainScrollRef.current) {
+        const topNum = parseInt(saved, 10);
+        if (!isNaN(topNum) && topNum > 0) {
+          isRestoringScrollRef.current = true;
+          mainScrollRef.current.scrollTop = topNum;
+          requestAnimationFrame(() => {
+            isRestoringScrollRef.current = false;
+          });
+        }
+      }
+    } catch (e) {}
+  }, [activeTab]);
 
   const handleMainScroll = (e) => {
+    if (isRestoringScrollRef.current) return;
     const top = e.currentTarget.scrollTop;
     if (scrollDebounceRef.current) clearTimeout(scrollDebounceRef.current);
     scrollDebounceRef.current = setTimeout(() => {
       try {
         sessionStorage.setItem(`shifo_admin_scroll_${activeTab}`, String(top));
       } catch (err) {}
-    }, 80);
+    }, 150);
   };
 
-  // Restore scroll position when tab mounts or changes
-  useEffect(() => {
-    const saved = sessionStorage.getItem(`shifo_admin_scroll_${activeTab}`);
-    if (saved && mainScrollRef.current) {
-      const topNum = parseInt(saved, 10);
-      if (!isNaN(topNum) && topNum > 0) {
-        requestAnimationFrame(() => {
-          if (mainScrollRef.current) mainScrollRef.current.scrollTop = topNum;
-        });
-        const timer = setTimeout(() => {
-          if (mainScrollRef.current) mainScrollRef.current.scrollTop = topNum;
-        }, 50);
-        return () => clearTimeout(timer);
-      }
-    }
-  }, [activeTab]);
-
-  // Save scroll position immediately before reload (Ctrl+R)
+  // Save scroll position immediately before page reload (Ctrl+R)
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (mainScrollRef.current) {
@@ -146,12 +145,6 @@ export default function AdminPage() {
     };
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-  }, [activeTab]);
-
-  useEffect(() => {
-    setChartMounted(false);
-    const timer = setTimeout(() => setChartMounted(true), 60);
-    return () => clearTimeout(timer);
   }, [activeTab]);
 
   // Product CRUD Modal State
@@ -824,10 +817,7 @@ export default function AdminPage() {
               <button
                 key={item.id}
                 type="button"
-                onClick={() => {
-                  setActiveTab(item.id);
-                  setMobileSidebarOpen(false);
-                }}
+                onClick={() => handleTabChange(item.id)}
                 className={`w-full group flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-xs transition-all duration-200 cursor-pointer ${
                   isActive
                     ? 'bg-gradient-to-r from-teal-600 to-emerald-600 text-white shadow-md shadow-teal-600/20 translate-x-0.5'
@@ -963,7 +953,7 @@ export default function AdminPage() {
         <main ref={mainScrollRef} onScroll={handleMainScroll} className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6">
           {/* TAB 1: ASOSIY BOSHQARUV (DASHBOARD) */}
           {activeTab === 'dashboard' && (
-            <div className="space-y-6 animate-in fade-in duration-200">
+            <div className="space-y-6">
               {/* 4 Stat Cards with Hover Lift */}
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                 <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm flex items-center justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-lg group">
@@ -1263,7 +1253,7 @@ export default function AdminPage() {
 
           {/* TAB 2: DAROMAD DIAGNOSTIKASI */}
           {activeTab === 'revenue' && (
-            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-6 text-xs animate-in fade-in">
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-6 text-xs">
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
                 <div>
                   <h3 className="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
@@ -1349,7 +1339,7 @@ export default function AdminPage() {
 
           {/* TAB 3: SOTUVLAR VA BUYURTMALAR */}
           {activeTab === 'sales' && (
-            <div className="space-y-6 text-xs animate-in fade-in">
+            <div className="space-y-6 text-xs">
               {/* Sales KPI Cards with Hover Lift */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm flex items-center justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-lg group">
@@ -1682,7 +1672,7 @@ export default function AdminPage() {
 
           {/* TAB 4: OMBORXONA / MAHSULOTLAR CRUD */}
           {activeTab === 'products' && (
-            <div className="space-y-5 animate-in fade-in">
+            <div className="space-y-5">
               {/* Top toolbar */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3 flex-1 max-w-md">
@@ -1805,7 +1795,7 @@ export default function AdminPage() {
 
           {/* TAB 5: QABULLAR RO'YXATI */}
           {activeTab === 'appointments' && (
-            <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xs animate-in fade-in">
+            <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xs">
               <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center text-xs">
                 <h3 className="font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <span>{t.admin.appointmentsTable.title}</span>
@@ -1897,7 +1887,7 @@ export default function AdminPage() {
 
           {/* TAB 6: TELEGRAM BOT SOZLAMALARI */}
           {activeTab === 'telegram' && (
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 animate-in fade-in text-xs">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 text-xs">
               <div className="md:col-span-7 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-5">
                 <div>
                   <h3 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
