@@ -122,30 +122,36 @@ export default function AIChatbot() {
     <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50">
       {/* Floating Toggle Button */}
       {!isOpen && (
-        <button
-          type="button"
-          onClick={() => setIsOpen(true)}
-          className="group relative flex items-center gap-3 bg-gradient-to-r from-teal-600 via-cyan-600 to-emerald-600 text-white p-3.5 sm:px-5 sm:py-3.5 rounded-full shadow-2xl hover:shadow-teal-500/50 hover:scale-105 transition-all duration-300 border-2 border-white/20"
-          aria-label={t.aiChat.openAria}
-        >
-          <div className="relative">
-            <Bot className="w-6 h-6 animate-bounce" />
-            <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-teal-700 animate-ping"></span>
-            <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-teal-700"></span>
-          </div>
+        <div className="relative">
+          {/* Subtle radar wave effect around the floating button */}
+          <div className="absolute inset-0 rounded-full bg-teal-500/30 animate-radar-ring pointer-events-none"></div>
 
-          <div className="hidden sm:flex flex-col text-left">
-            <span className="text-xs font-black tracking-wide flex items-center gap-1.5">
-              <span>Shifo AI</span>
-              <span className="bg-emerald-500 text-slate-950 font-extrabold text-[9px] px-1.5 py-0.2 rounded-full uppercase">
-                Online
+          <button
+            type="button"
+            onClick={() => setIsOpen(true)}
+            className="animate-float group relative flex items-center gap-3 bg-gradient-to-r from-teal-600 via-emerald-600 to-cyan-600 text-white p-3.5 sm:px-5 sm:py-3.5 rounded-full shadow-2xl shadow-teal-500/35 hover:shadow-teal-500/50 hover:scale-105 btn-spring btn-shimmer border-2 border-white/30 cursor-pointer"
+            aria-label={t.aiChat.openAria}
+          >
+            <div className="relative">
+              <Bot className="w-6 h-6 animate-heart-pulse text-white drop-shadow-sm" />
+              <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-teal-800 animate-ping"></span>
+              <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-teal-800"></span>
+            </div>
+
+            <div className="hidden sm:flex flex-col text-left">
+              <span className="text-xs font-black tracking-wide flex items-center gap-1.5">
+                <span>Shifo AI</span>
+                <span className="bg-emerald-400 text-slate-950 font-black text-[9px] px-1.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
+                  24/7 Live
+                </span>
               </span>
-            </span>
-            <span className="text-[11px] text-teal-100 font-medium">
-              {t.aiChat.pillSubtitle}
-            </span>
-          </div>
-        </button>
+              <span className="text-[11px] text-teal-100 font-medium flex items-center gap-1">
+                <Sparkles className="w-3 h-3 text-cyan-200" />
+                <span>{t.aiChat.pillSubtitle}</span>
+              </span>
+            </div>
+          </button>
+        </div>
       )}
 
       {/* Chat Window */}

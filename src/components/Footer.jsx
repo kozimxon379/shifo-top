@@ -47,28 +47,28 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <Link to="/clinics" className="hover:text-teal-400 transition-colors">
-                  {t.nav.clinics}
+                <Link to="/clinics" className="hover:text-teal-400 transition-colors flex items-center gap-1.5">
+                  <span>🏥</span> <span>{t.nav.clinics}</span>
                 </Link>
               </li>
               <li>
-                <Link to="/doctors" className="hover:text-teal-400 transition-colors">
-                  {t.nav.doctors}
+                <Link to="/doctors" className="hover:text-teal-400 transition-colors flex items-center gap-1.5">
+                  <span>🩺</span> <span>{t.nav.doctors}</span>
                 </Link>
               </li>
               <li>
-                <Link to="/store" className="hover:text-teal-400 transition-colors">
-                  {t.nav.store}
+                <Link to="/store" className="hover:text-teal-400 transition-colors flex items-center gap-1.5">
+                  <span>💊</span> <span>{t.nav.store}</span>
                 </Link>
               </li>
               <li>
-                <Link to="/encyclopedia" className="hover:text-teal-400 transition-colors">
-                  {t.nav.encyclopedia}
+                <Link to="/encyclopedia" className="hover:text-teal-400 transition-colors flex items-center gap-1.5">
+                  <span>📖</span> <span>{t.nav.encyclopedia}</span>
                 </Link>
               </li>
               <li>
-                <Link to="/admin" className="hover:text-teal-400 transition-colors">
-                  {t.nav.admin}
+                <Link to="/admin" className="hover:text-teal-400 transition-colors flex items-center gap-1.5">
+                  <span>🔐</span> <span>{t.nav.admin}</span>
                 </Link>
               </li>
             </ul>
@@ -82,19 +82,19 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-400">
               <li className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
+                <span className="text-sm shrink-0">📍</span>
                 <span>{t.footer.address}</span>
               </li>
               <li className="flex items-center gap-2">
-                <PhoneCall className="w-4 h-4 text-teal-400 shrink-0" />
-                <span>+998 (71) 200-00-03</span>
+                <span className="text-sm shrink-0">📞</span>
+                <a href="tel:+998712000003" className="hover:text-teal-400 transition-colors">+998 (71) 200-00-03</a>
               </li>
               <li className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-teal-400 shrink-0" />
-                <span>info@shifo.top</span>
+                <span className="text-sm shrink-0">✉️</span>
+                <a href="mailto:info@shifo.top" className="hover:text-teal-400 transition-colors">info@shifo.top</a>
               </li>
               <li className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span className="text-sm shrink-0">🛡️</span>
                 <span>{t.footer.accreditation}</span>
               </li>
             </ul>

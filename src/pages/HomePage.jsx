@@ -9,6 +9,7 @@ import InteractiveMap from '../components/InteractiveMap';
 import DoctorCard from '../components/DoctorCard';
 import ProductCard from '../components/ProductCard';
 import ClinicCard from '../components/ClinicCard';
+import AnimatedCounter from '../components/AnimatedCounter';
 import {
   Search,
   MapPin,
@@ -152,10 +153,11 @@ export default function HomePage() {
     return initialClinics.slice(0, 3);
   }, [clinicFilter]);
 
-  // Medical Specialties Directory
+  // Medical Specialties Directory with Emojis
   const medicalSpecialties = [
     {
       id: 'kardiologiya',
+      emoji: '❤️',
       name: "Kardiologiya",
       nameRu: "Кардиология",
       desc: "Yurak, qon bosimi va tomir kasalliklari diagnostikasi",
@@ -166,6 +168,7 @@ export default function HomePage() {
     },
     {
       id: 'nevrologiya',
+      emoji: '🧠',
       name: "Nevrologiya",
       nameRu: "Неврология",
       desc: "Bosh og'rig'i, migren, asab tizimi va umurtqa pog'onasi",
@@ -176,6 +179,7 @@ export default function HomePage() {
     },
     {
       id: 'terapiya',
+      emoji: '🩺',
       name: "Terapiya & Umumiy amaliyot",
       nameRu: "Терапия и общая практика",
       desc: "Shamollash, gripp, ichki a'zolar va birlamchi konsultatsiya",
@@ -186,6 +190,7 @@ export default function HomePage() {
     },
     {
       id: 'pediatriya',
+      emoji: '👶',
       name: "Pediatriya",
       nameRu: "Педиатрия",
       desc: "Go'daklar va bolalar salomatligi, emlash va rivojlanish",
@@ -196,6 +201,7 @@ export default function HomePage() {
     },
     {
       id: 'stomatologiya',
+      emoji: '🦷',
       name: "Stomatologiya",
       nameRu: "Стоматология",
       desc: "Tish davolash, implantatsiya, karies va estetik restavratsiya",
@@ -206,9 +212,10 @@ export default function HomePage() {
     },
     {
       id: 'travmatologiya',
+      emoji: '🦴',
       name: "Travmatologiya & Ortopediya",
       nameRu: "Травматология и ортопедия",
-      desc: "Suyak sinishi, bo'g'im og'riqlari, artroz va operatsiyadan keyin reabilitatsiya",
+      desc: "Suyak sinishi, bo'g'im og'riqlari, artroz va reabilitatsiya",
       icon: ShieldAlert,
       color: "from-emerald-500/10 to-teal-500/20 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900",
       doctorsCount: 24,
@@ -216,6 +223,7 @@ export default function HomePage() {
     },
     {
       id: 'gastroenterologiya',
+      emoji: '🥗',
       name: "Gastroenterologiya",
       nameRu: "Гастроэнтерология",
       desc: "Oshqozon-ichak trakti, jigar, o't qopi va gastrit muolajasi",
@@ -226,6 +234,7 @@ export default function HomePage() {
     },
     {
       id: 'oftalmologiya',
+      emoji: '👁️',
       name: "Oftalmologiya",
       nameRu: "Офтальмология",
       desc: "Ko'rish qobiliyatini tekshirish, katarakta, lazer korreksiya",
@@ -236,22 +245,24 @@ export default function HomePage() {
     }
   ];
 
-  // How it works steps data
+  // How it works steps data with Emojis
   const stepsData = [
     {
       step: 1,
+      emoji: '🔍',
       title: "Alomat yoki kasallikni yozing",
       desc: "Qidiruv maydoniga og'riq yoki alomatni kiriting. Shifo AI soniyalar ichida sabablarini tahlil qilib, kerakli mutaxassisni tavsiya qiladi.",
       icon: Search,
-      actionText: "Alomatni qidirish",
+      actionText: "Alomatni qidirish 🔍",
       action: () => window.scrollTo({ top: 0, behavior: 'smooth' })
     },
     {
       step: 2,
+      emoji: '🏥',
       title: "Eng yaqin klinika yoki shifokorni tanlang",
       desc: "Interaktiv xaritada o'zingizga eng yaqin tibbiyot markazi, shifokor tajribasi, qabul narxi va bemorlar baholarini taqqoslang.",
       icon: MapPin,
-      actionText: "Xaritani ko'rish",
+      actionText: "Xaritani ko'rish 🗺️",
       action: () => {
         const el = document.getElementById('map-preview-section');
         if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -259,18 +270,20 @@ export default function HomePage() {
     },
     {
       step: 3,
+      emoji: '📅',
       title: "1 bosishda navbatsiz qabulga yoziling",
       desc: "Sizga mos sana va vaqtni tanlang. Telefon raqamingizni kiriting — navbatingiz bir zumda tasdiqlanadi va klinika tizimiga kiritiladi.",
       icon: Calendar,
-      actionText: "Shifokorlarni ko'rish",
+      actionText: "Shifokorlarni ko'rish 🩺",
       action: () => navigate('/doctors')
     },
     {
       step: 4,
+      emoji: '📲',
       title: "Telegram xabarnoma va xarita yo'llanmasi",
       desc: "Uchrashuv vaqti, klinika manzili va eslatmalar to'g'ridan-to'g'ri Telegramingizga keladi. Qabulga kechikmaysiz va navbat kutmaysiz.",
       icon: Smartphone,
-      actionText: "Dorixonaga o'tish",
+      actionText: "Dorixonaga o'tish 💊",
       action: () => navigate('/store')
     }
   ];
@@ -345,123 +358,225 @@ export default function HomePage() {
 
   return (
     <div className="space-y-16 sm:space-y-24 pb-16">
-      {/* 1. HERO SECTION */}
-      <section className="relative pt-8 sm:pt-14 pb-12 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-teal-500/10 via-cyan-500/5 to-transparent blur-3xl pointer-events-none -z-10"></div>
+      {/* 1. HERO SECTION WITH IMAGE & EMOJIS */}
+      <section className="relative pt-6 sm:pt-12 pb-10 overflow-hidden bg-grid-pattern">
+        {/* Ambient Gradient Glows */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[450px] bg-gradient-to-b from-teal-500/15 via-cyan-500/10 to-transparent blur-3xl pointer-events-none -z-10"></div>
+        <div className="absolute top-1/4 -left-20 w-72 h-72 bg-teal-400/10 rounded-full blur-3xl pointer-events-none -z-10 animate-float-slow"></div>
+        <div className="absolute top-1/3 -right-20 w-80 h-80 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none -z-10 animate-float"></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto space-y-6">
-            {/* Pill Tag */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-800 text-teal-700 dark:text-teal-300 text-xs font-bold shadow-xs">
-              <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
-              <span>{t.hero.badge}</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Column: Headlines, Search & Emojis */}
+            <div className="lg:col-span-7 space-y-6 text-left">
+              {/* Pill Tag & Live Status */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-50/90 dark:bg-teal-950/70 border border-teal-200/80 dark:border-teal-800 text-teal-800 dark:text-teal-300 text-xs font-bold shadow-xs backdrop-blur-md">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-teal-500"></span>
+                </span>
+                <span>✨ 🏥 {t.hero.badge || "24/7 Shoshilinch & Malakali Tibbiyot"}</span>
+                <span className="text-slate-300 dark:text-slate-700">|</span>
+                <span className="text-emerald-600 dark:text-emerald-400 font-bold hidden sm:inline">🟢 Jonli Portal</span>
+              </div>
+
+              {/* Main Heading */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.12]">
+                {t.hero.titleMain}{" "}
+                <span className="animate-gradient-shift bg-gradient-to-r from-teal-600 via-cyan-500 to-emerald-600 bg-clip-text text-transparent">
+                  {t.hero.findNearestClinic}
+                </span>{" "}
+                {t.hero.findSuffix} 🩺
+              </h1>
+
+              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed">
+                ⚡ Navbatsiz qabul, O'zbekistonning eng tajribali shifokorlari va 24/7 bepul sun'iy intellekt tibbiy maslahatchisi.
+              </p>
+
+              {/* PRIMARY DISEASE/SYMPTOM SEARCH BAR */}
+              <form
+                onSubmit={handleHeroSearch}
+                className="relative max-w-xl pt-1"
+              >
+                <div className="relative flex items-center bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl shadow-2xl shadow-teal-500/15 border-2 border-teal-500/40 focus-within:border-teal-500 focus-within:shadow-teal-500/25 p-2 sm:p-2.5 transition-all duration-300">
+                  <Search className="w-5 h-5 text-teal-600 dark:text-teal-400 ml-3 shrink-0 animate-pulse" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={t.hero.searchPlaceholder}
+                    className="w-full bg-transparent border-none px-3 py-2 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none"
+                  />
+                  <button
+                    type="submit"
+                    className="btn-spring btn-shimmer shrink-0 bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-bold px-5 sm:px-6 py-3 rounded-2xl text-xs sm:text-sm shadow-md shadow-teal-500/25 flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span>🔍</span>
+                    <span className="hidden sm:inline">{t.hero.searchBtn}</span>
+                    <span className="sm:hidden">{t.common.search}</span>
+                  </button>
+                </div>
+              </form>
+
+              {/* Quick Symptoms Chips with Emojis */}
+              <div className="pt-1 text-xs text-slate-500 dark:text-slate-400">
+                <span className="font-bold text-slate-700 dark:text-slate-300 block sm:inline mb-1.5 sm:mb-0 mr-2">
+                  Tezkor alomatlar:
+                </span>
+                <div className="inline-flex flex-wrap gap-1.5">
+                  {[
+                    { label: "Bosh og'rig'i", emoji: "🤕" },
+                    { label: "Gripp & Isitma", emoji: "🌡️" },
+                    { label: "Yurak sanchishi", emoji: "🫀" },
+                    { label: "Tish og'rig'i", emoji: "🦷" },
+                    { label: "Bel & Bo'g'im", emoji: "🩹" },
+                    { label: "Qandli diabet", emoji: "🩸" },
+                    { label: "Gastrit", emoji: "🍵" }
+                  ].map((s) => (
+                    <button
+                      key={s.label}
+                      type="button"
+                      onClick={() => handleQuickSymptomClick(s.label)}
+                      className="btn-spring flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-slate-800 hover:bg-teal-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200/90 dark:border-slate-700 font-bold hover:border-teal-400 hover:text-teal-700 dark:hover:text-teal-300 transition-all text-[11px] shadow-2xs hover:scale-105 cursor-pointer"
+                    >
+                      <span>{s.emoji}</span>
+                      <span>{s.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Trust Indicators Bar */}
+              <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-500 dark:text-slate-400">
+                <div className="flex items-center gap-1 text-amber-500 font-black">
+                  <span>⭐ 4.9/5</span>
+                  <span className="text-slate-500 dark:text-slate-400 font-normal">(12,400+ bemorlar fikri)</span>
+                </div>
+                <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-bold">
+                  <span>⚡ 0 daqiqa navbat</span>
+                </div>
+                <div className="flex items-center gap-1 text-teal-600 dark:text-teal-400 font-bold">
+                  <span>🛡️ 100% SSV Litsenziyasi</span>
+                </div>
+              </div>
             </div>
 
-            {/* Main Headings */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.15]">
-              {t.hero.titleMain} <br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-teal-600 via-cyan-600 to-emerald-600 bg-clip-text text-transparent">
-                {t.hero.findNearestClinic}
-              </span>{" "}
-              {t.hero.findSuffix}
-            </h1>
+            {/* Right Column: Hero Visual Showcase Photo & Floating Overlay Cards */}
+            <div className="lg:col-span-5 relative mt-6 lg:mt-0">
+              <div className="relative mx-auto max-w-md lg:max-w-none">
+                {/* Glow ring */}
+                <div className="absolute -inset-2 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-3xl blur-xl opacity-25 group-hover:opacity-40 transition duration-700 animate-pulse"></div>
 
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              {t.hero.titleSub}
-            </p>
+                <div className="relative rounded-3xl overflow-hidden border-2 border-white/60 dark:border-slate-800 shadow-2xl bg-white dark:bg-slate-900 group">
+                  <img
+                    src="/images/uzbek_medical_hero.jpg"
+                    alt="Shifo.top professional shifokorlar jamoasi"
+                    className="w-full h-[400px] sm:h-[470px] object-cover object-top group-hover:scale-103 transition-transform duration-700 ease-out"
+                  />
+                  {/* Subtle bottom shadow only for text readability, keeping the doctors bright and clear */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/5 pointer-events-none"></div>
 
-            {/* PRIMARY DISEASE/SYMPTOM SEARCH BAR */}
-            <form
-              onSubmit={handleHeroSearch}
-              className="relative max-w-2xl mx-auto pt-2"
-            >
-              <div className="relative flex items-center bg-white dark:bg-slate-900 rounded-3xl shadow-xl shadow-teal-500/10 border-2 border-teal-500/40 focus-within:border-teal-500 p-2 sm:p-2.5 transition-all">
-                <Search className="w-5 h-5 text-teal-600 dark:text-teal-400 ml-3 shrink-0" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={t.hero.searchPlaceholder}
-                  className="w-full bg-transparent border-none px-3 py-2 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  className="shrink-0 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-bold px-5 py-3 rounded-2xl text-xs sm:text-sm shadow-md transition-all hover:scale-102 flex items-center gap-1.5 cursor-pointer"
-                >
-                  <MapPin className="w-4 h-4" />
-                  <span className="hidden sm:inline">{t.hero.searchBtn}</span>
-                  <span className="sm:hidden">{t.common.search}</span>
-                </button>
-              </div>
-            </form>
+                  {/* Floating live card top-left */}
+                  <div className="absolute top-4 left-4 p-2.5 sm:p-3 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-700/80 shadow-xl backdrop-blur-md animate-float-slow">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                      <span className="text-[11px] font-black text-slate-900 dark:text-white flex items-center gap-1">
+                        <span>🏥 150+ Shifoxonalar</span>
+                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">• 24/7 Ochiq</span>
+                      </span>
+                    </div>
+                  </div>
 
-            {/* Quick Symptoms Chips */}
-            <div className="pt-2 text-xs text-slate-500 dark:text-slate-400">
-              <span className="font-semibold block sm:inline mb-1 sm:mb-0 mr-2">
-                {t.hero.quickSymptomsTitle}
-              </span>
-              <div className="inline-flex flex-wrap justify-center gap-1.5">
-                {(t.hero.quickSymptoms || [
-                  "Bosh og'rig'i",
-                  "Gripp & Isitma",
-                  "Gastrit",
-                  "Yurak sanchishi",
-                  "Tish og'rig'i",
-                  "Bel og'rig'i",
-                  "Qandli diabet"
-                ]).map((symptom) => (
-                  <button
-                    key={symptom}
-                    type="button"
-                    onClick={() => handleQuickSymptomClick(symptom)}
-                    className="px-3 py-1 rounded-full bg-slate-100 hover:bg-teal-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-medium hover:border-teal-400 hover:text-teal-700 dark:hover:text-teal-300 transition-all text-[11px] cursor-pointer"
-                  >
-                    {symptom}
-                  </button>
-                ))}
+                  {/* Floating live card top-right */}
+                  <div className="absolute top-4 right-4 px-3 py-2 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-700/80 shadow-xl backdrop-blur-md animate-float">
+                    <div className="flex items-center gap-1 text-xs font-black text-amber-500">
+                      <span>⭐ 4.9</span>
+                      <span className="text-[10px] text-slate-600 dark:text-slate-300 font-bold">Reyting</span>
+                    </div>
+                  </div>
+
+                  {/* Bottom overlay doctor showcase info card */}
+                  <div className="absolute bottom-4 left-4 right-4 p-3.5 sm:p-4 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-700/80 shadow-2xl backdrop-blur-md flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-teal-600 via-teal-500 to-cyan-500 flex items-center justify-center text-white text-xl shadow-md shrink-0">
+                        🩺
+                      </div>
+                      <div className="min-w-0">
+                        <div className="text-xs font-black text-slate-900 dark:text-white flex items-center gap-1 truncate">
+                          <span>500+ Malakali Do'xtirlar</span>
+                          <span>✨</span>
+                        </div>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium truncate">
+                          Kardiolog, Pediatr, Nevrolog & Terapiya
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => navigate('/doctors')}
+                      className="btn-spring btn-shimmer shrink-0 px-3.5 py-2 rounded-xl bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-black text-xs shadow-md shadow-teal-500/30 cursor-pointer flex items-center gap-1"
+                    >
+                      <span>Yozilish</span>
+                      <span>📅</span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* 4 Feature Highlights Grid */}
+          {/* 4 Feature Highlights Grid with Emojis */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 sm:mt-16">
-            <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center shrink-0">
-                <MapPin className="w-5 h-5" />
+            <div className="interactive-card group bg-white/90 dark:bg-slate-900/90 backdrop-blur-md p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex items-center gap-3">
+              <div className="w-11 h-11 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center text-xl shrink-0 group-hover:scale-115 group-hover:rotate-6 transition-transform duration-300">
+                🏥
               </div>
               <div>
-                <h4 className="font-bold text-xs text-slate-900 dark:text-white">{t.hero.features.f1Title}</h4>
-                <p className="text-[11px] text-slate-500">{t.hero.features.f1Desc}</p>
+                <h4 className="font-bold text-xs text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors flex items-center gap-1">
+                  <span>150+ Shifoxonalar</span>
+                  <span>📍</span>
+                </h4>
+                <p className="text-[11px] text-slate-500">Eng yaqin tibbiyot maskanlari</p>
               </div>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
-                <Stethoscope className="w-5 h-5" />
+            <div className="interactive-card group bg-white/90 dark:bg-slate-900/90 backdrop-blur-md p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex items-center gap-3">
+              <div className="w-11 h-11 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl shrink-0 group-hover:scale-115 group-hover:rotate-6 transition-transform duration-300">
+                👨‍⚕️
               </div>
               <div>
-                <h4 className="font-bold text-xs text-slate-900 dark:text-white">{t.hero.features.f2Title}</h4>
-                <p className="text-[11px] text-slate-500">{t.hero.features.f2Desc}</p>
+                <h4 className="font-bold text-xs text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors flex items-center gap-1">
+                  <span>500+ Malakali vrachlar</span>
+                  <span>🩺</span>
+                </h4>
+                <p className="text-[11px] text-slate-500">Oliy toifali mutaxassislar</p>
               </div>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 flex items-center justify-center shrink-0">
-                <Sparkles className="w-5 h-5" />
+            <div className="interactive-card group bg-white/90 dark:bg-slate-900/90 backdrop-blur-md p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex items-center gap-3">
+              <div className="w-11 h-11 rounded-xl bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 flex items-center justify-center text-xl shrink-0 group-hover:scale-115 group-hover:rotate-6 transition-transform duration-300">
+                🤖
               </div>
               <div>
-                <h4 className="font-bold text-xs text-slate-900 dark:text-white">{t.hero.features.f3Title}</h4>
-                <p className="text-[11px] text-slate-500">{t.hero.features.f3Desc}</p>
+                <h4 className="font-bold text-xs text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors flex items-center gap-1">
+                  <span>24/7 AI Maslahatchi</span>
+                  <span>✨</span>
+                </h4>
+                <p className="text-[11px] text-slate-500">Tezkor bepul tashxis tahlili</p>
               </div>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
-                <Calendar className="w-5 h-5" />
+            <div className="interactive-card group bg-white/90 dark:bg-slate-900/90 backdrop-blur-md p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex items-center gap-3">
+              <div className="w-11 h-11 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl shrink-0 group-hover:scale-115 group-hover:rotate-6 transition-transform duration-300">
+                ⚡
               </div>
               <div>
-                <h4 className="font-bold text-xs text-slate-900 dark:text-white">{t.hero.features.f4Title}</h4>
-                <p className="text-[11px] text-slate-500">{t.hero.features.f4Desc}</p>
+                <h4 className="font-bold text-xs text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors flex items-center gap-1">
+                  <span>1 daqiqada yozilish</span>
+                  <span>📅</span>
+                </h4>
+                <p className="text-[11px] text-slate-500">Navbatsiz elektron qabul</p>
               </div>
             </div>
           </div>
@@ -615,29 +730,36 @@ export default function HomePage() {
               <div
                 key={spec.id}
                 onClick={() => navigate('/doctors')}
-                className="group relative bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs hover:shadow-xl hover:border-teal-500/50 dark:hover:border-teal-500/50 transition-all duration-300 cursor-pointer flex flex-col justify-between"
+                className="interactive-card group relative bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs hover:border-teal-400/60 dark:hover:border-teal-500/50 transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden"
               >
-                <div>
+                {/* Decorative background glow on card hover */}
+                <div className="absolute top-0 right-0 w-28 h-28 bg-teal-500/5 dark:bg-teal-500/10 rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500"></div>
+
+                <div className="relative z-10">
                   <div className="flex items-center justify-between mb-4">
-                    <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${spec.color} flex items-center justify-center border shadow-xs group-hover:scale-110 transition-transform`}>
+                    <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${spec.color} flex items-center justify-center border shadow-xs group-hover:scale-115 group-hover:rotate-6 transition-all duration-300`}>
                       <IconComponent className="w-6 h-6" />
                     </div>
-                    <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                    <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 group-hover:border-teal-300 dark:group-hover:border-teal-700 group-hover:bg-teal-50 dark:group-hover:bg-teal-950/60 group-hover:text-teal-700 dark:group-hover:text-teal-300 transition-colors">
                       {spec.doctorsCount}+ shifokor
                     </span>
                   </div>
 
-                  <h3 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
-                    {spec.name}
+                  <h3 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors flex items-center gap-2">
+                    <span className="text-xl">{spec.emoji}</span>
+                    <span>{spec.name}</span>
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
                     {spec.desc}
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-bold text-teal-600 dark:text-teal-400">
-                  <span>Mutaxassis ko'rigi</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-bold text-teal-600 dark:text-teal-400 relative z-10">
+                  <span className="flex items-center gap-1">
+                    <span>Ko'rikka yozilish</span>
+                    <span>👉</span>
+                  </span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
                 </div>
               </div>
             );
@@ -651,11 +773,12 @@ export default function HomePage() {
           <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-[radial-gradient(ellipse_at_center,#0d9488_0%,transparent_70%)] opacity-20 pointer-events-none"></div>
 
           <div className="max-w-2xl mb-8">
-            <span className="px-3.5 py-1 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30 font-bold text-xs uppercase tracking-wider">
-              Bemorlar uchun qo'llanma
+            <span className="px-3.5 py-1 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 w-fit">
+              <span>📋</span>
+              <span>Bemorlar uchun qo'llanma</span>
             </span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight mt-3">
-              Shifo.top orqali sog'lom hayot sari 4 oddiy qadam
+              Shifo.top orqali sog'lom hayot sari 4 oddiy qadam 🚀
             </h2>
             <p className="text-xs sm:text-sm text-teal-100/80 mt-2 leading-relaxed">
               Hech qanday navbatlarsiz, ortiqcha qog'ozbozliksiz va yashirin to'lovlarsiz tibbiy xizmatlardan foydalaning.
@@ -670,22 +793,24 @@ export default function HomePage() {
                 <div
                   key={item.step}
                   onClick={() => setActiveStep(idx)}
-                  className={`relative p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between ${
+                  className={`btn-spring relative p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between ${
                     isSelected
-                      ? 'bg-white/15 border-teal-400 shadow-lg shadow-teal-500/20 scale-102'
-                      : 'bg-white/5 border-white/10 hover:bg-white/10'
+                      ? 'bg-white/15 border-teal-400 shadow-xl shadow-teal-500/25 scale-[1.03] backdrop-blur-md'
+                      : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
                   }`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-teal-500/30 text-teal-300 flex items-center justify-center font-black text-sm">
-                        0{item.step}
+                      <div className={`w-11 h-11 rounded-xl flex items-center justify-center font-black text-lg transition-all duration-300 ${
+                        isSelected ? 'bg-gradient-to-tr from-teal-400 to-cyan-300 text-slate-950 shadow-lg shadow-teal-400/30 scale-110' : 'bg-teal-500/30 text-teal-300'
+                      }`}>
+                        <span>{item.emoji}</span>
                       </div>
-                      <IconComp className="w-5 h-5 text-teal-300" />
+                      <IconComp className={`w-5 h-5 transition-transform duration-300 ${isSelected ? 'text-teal-300 scale-110' : 'text-teal-400/80'}`} />
                     </div>
 
                     <h3 className="font-bold text-sm text-white leading-snug">
-                      {item.title}
+                      {item.step}. {item.title}
                     </h3>
                     <p className="text-xs text-teal-100/70 mt-2 leading-relaxed">
                       {item.desc}
@@ -698,7 +823,7 @@ export default function HomePage() {
                       e.stopPropagation();
                       item.action();
                     }}
-                    className="mt-4 w-full py-2 px-3 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md cursor-pointer"
+                    className="btn-spring btn-shimmer mt-4 w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-teal-400 to-cyan-300 hover:from-teal-300 hover:to-cyan-200 text-slate-950 font-black text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-teal-500/20 cursor-pointer"
                   >
                     <span>{item.actionText}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -968,14 +1093,26 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Visual BMI Gauge Bar */}
+                {/* Visual BMI Gauge Bar with Animated Marker */}
                 <div className="space-y-1.5 pt-1">
-                  <div className="w-full h-3 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden flex">
-                    <div className="h-full bg-sky-400 w-[20%]" title="Kam vazn (<18.5)"></div>
-                    <div className="h-full bg-emerald-500 w-[35%]" title="Normal (18.5-24.9)"></div>
-                    <div className="h-full bg-amber-400 w-[25%]" title="Ortiqcha vazn (25-29.9)"></div>
-                    <div className="h-full bg-rose-500 w-[20%]" title="Semizlik (>30)"></div>
+                  <div className="relative pt-2">
+                    {/* Animated needle pointer */}
+                    <div
+                      className="absolute top-0 -translate-x-1/2 transition-all duration-500 ease-out flex flex-col items-center pointer-events-none z-10"
+                      style={{ left: `${bmiData.barPercent}%` }}
+                    >
+                      <div className="w-2.5 h-2.5 bg-slate-900 dark:bg-white rounded-full shadow-md animate-pulse"></div>
+                      <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-slate-900 dark:border-t-white -mt-0.5"></div>
+                    </div>
+
+                    <div className="w-full h-3.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden flex shadow-inner">
+                      <div className="h-full bg-sky-400 w-[20%]" title="Kam vazn (<18.5)"></div>
+                      <div className="h-full bg-emerald-500 w-[35%]" title="Normal (18.5-24.9)"></div>
+                      <div className="h-full bg-amber-400 w-[25%]" title="Ortiqcha vazn (25-29.9)"></div>
+                      <div className="h-full bg-rose-500 w-[20%]" title="Semizlik (>30)"></div>
+                    </div>
                   </div>
+
                   <div className="flex justify-between text-[10px] text-slate-400 font-mono">
                     <span>15</span>
                     <span>18.5</span>
@@ -988,7 +1125,7 @@ export default function HomePage() {
                 {/* Medical Advice Box */}
                 <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-2">
                   <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900 dark:text-white">
-                    <CheckCircle2 className="w-4 h-4 text-teal-600" />
+                    <CheckCircle2 className="w-4 h-4 text-teal-600 dark:text-teal-400" />
                     <span>Tavsiya etilgan maqbul vazn:</span>
                   </div>
                   <div className="text-sm font-black text-teal-600 dark:text-teal-400">
@@ -1004,7 +1141,7 @@ export default function HomePage() {
                 <button
                   type="button"
                   onClick={() => navigate('/doctors')}
-                  className="flex-1 py-3 px-4 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-2xl text-xs text-center shadow-md transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                  className="btn-spring btn-shimmer flex-1 py-3 px-4 bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-bold rounded-2xl text-xs text-center shadow-md shadow-teal-500/25 transition-all cursor-pointer flex items-center justify-center gap-1.5"
                 >
                   <Stethoscope className="w-4 h-4" />
                   <span>Terapevt bilan maslahatlashish</span>
@@ -1130,51 +1267,60 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 10. EMERGENCY & TELEGRAM BOT CALLOUT BANNER */}
+      {/* 10. EMERGENCY & TELEGRAM BOT CALLOUT BANNER WITH PHOTO */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-r from-teal-800 via-emerald-800 to-cyan-900 rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden shadow-2xl">
-          <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-[radial-gradient(ellipse_at_top_right,#14b8a6_0%,transparent_70%)] opacity-20 pointer-events-none"></div>
+        <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-teal-500/30">
+          {/* Real Hospital Background Image */}
+          <img
+            src="/images/clinic_hospital.jpg"
+            alt="Zamonaviy shifoxona binosi"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-teal-950/95 via-slate-950/90 to-cyan-950/80"></div>
 
-          <div className="max-w-2xl space-y-4 relative z-10">
-            <span className="px-3 py-1 rounded-full bg-white/20 text-white font-bold text-[10px] uppercase tracking-wider">
-              {t.home.telegramBanner.badge}
+          <div className="relative p-8 sm:p-12 text-white max-w-2xl space-y-4 z-10">
+            <span className="px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-white font-bold text-xs uppercase tracking-wider inline-flex items-center gap-1.5 border border-white/20">
+              <span>🚑</span>
+              <span>24/7 Shoshilinch Yordam & Telegram</span>
             </span>
 
-            <h3 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
-              {t.home.telegramBanner.title}
+            <h3 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight">
+              Shoshilinch tibbiy holatmi yoki navbatsiz qabul kerakmi? ⚡
             </h3>
 
             <p className="text-xs sm:text-sm text-teal-100 leading-relaxed">
-              {t.home.telegramBanner.desc}
+              📞 103 tez yordam xizmati orqali bir zumda brigada chaqiring yoki Telegram bot orqali istalgan klinikaga 30 soniyada navbat oling.
             </p>
 
             <div className="pt-2 flex flex-wrap gap-3">
               <Link
                 to="/doctors"
-                className="px-6 py-3 bg-white text-teal-900 hover:bg-teal-50 font-bold rounded-2xl text-xs shadow-lg transition-all hover:scale-102"
+                className="btn-spring btn-shimmer px-6 py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-slate-950 font-black rounded-2xl text-xs shadow-lg transition-all flex items-center gap-2 cursor-pointer"
               >
-                {t.home.telegramBanner.bookNow}
+                <span>📅 Shifokor qabuliga yozilish</span>
+                <span>👉</span>
               </Link>
               <a
                 href="tel:103"
-                className="px-6 py-3 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-2xl text-xs shadow-lg transition-all flex items-center gap-2"
+                className="btn-spring btn-shimmer px-6 py-3.5 bg-rose-600 hover:bg-rose-700 text-white font-black rounded-2xl text-xs shadow-lg transition-all flex items-center gap-2 cursor-pointer animate-pulse"
               >
                 <PhoneCall className="w-4 h-4" />
-                <span>{t.home.telegramBanner.emergency}</span>
+                <span>🚨 103 Tez Yordam</span>
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 11. VERIFIED PATIENT REVIEWS & TRUST GUARANTEES */}
+      {/* 11. VERIFIED PATIENT REVIEWS & TRUST GUARANTEES WITH EMOJIS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center max-w-2xl mx-auto">
-          <div className="text-xs font-bold text-teal-600 dark:text-teal-400 tracking-wider uppercase">
-            Bemorlar Tajribasi
+          <div className="text-xs font-bold text-teal-600 dark:text-teal-400 tracking-wider uppercase flex items-center justify-center gap-1.5">
+            <span>💬</span>
+            <span>Bemorlar Tajribasi & Fikrlari</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mt-1">
-            Minglab insonlar Shifo.top orqali sog'lig'ini tikladi
+            Minglab insonlar Shifo.top orqali sog'lig'ini tikladi 💖
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Haqiqiy bemorlarning shifokorlar va klinikalar haqidagi xolis fikrlari
@@ -1182,49 +1328,62 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {patientReviews.map((rev) => (
-            <div
-              key={rev.id}
-              className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-xs flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-1 text-amber-400">
-                    {[...Array(rev.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400" />
-                    ))}
-                  </div>
-                  <span className="text-[11px] text-slate-400">{rev.date}</span>
-                </div>
-
-                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed italic">
-                  "{rev.review}"
-                </p>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+          {patientReviews.map((rev, idx) => {
+            const avatarEmojis = ['👨‍💼', '👩‍💼', '🧕', '🧔', '👩‍🦰'];
+            const avatarEmoji = avatarEmojis[idx % avatarEmojis.length];
+            return (
+              <div
+                key={rev.id}
+                className="interactive-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-xs flex flex-col justify-between hover:border-teal-400/50 transition-all duration-300"
+              >
                 <div>
-                  <div className="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1">
-                    <span>{rev.name}</span>
-                    {rev.verified && (
-                      <BadgeCheck className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
-                    )}
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-1.5 text-amber-400">
+                      <span>⭐</span>
+                      <span className="font-black text-xs text-slate-800 dark:text-slate-100">{rev.rating}.0</span>
+                      <div className="flex items-center gap-0.5 ml-1">
+                        {[...Array(rev.rating)].map((_, i) => (
+                          <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                        ))}
+                      </div>
+                    </div>
+                    <span className="text-[11px] text-slate-400">{rev.date}</span>
                   </div>
-                  <div className="text-[10px] text-slate-400">{rev.location}</div>
-                  <div className="text-[10px] font-semibold text-teal-600 dark:text-teal-400 mt-0.5">
-                    {rev.doctorVisited}
+
+                  <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed italic">
+                    "{rev.review}"
+                  </p>
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-full bg-teal-50 dark:bg-teal-950/70 border border-teal-200 dark:border-teal-800 flex items-center justify-center text-base">
+                      {avatarEmoji}
+                    </div>
+                    <div>
+                      <div className="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1">
+                        <span>{rev.name}</span>
+                        {rev.verified && (
+                          <span title="Tasdiqlangan bemor">✅</span>
+                        )}
+                      </div>
+                      <div className="text-[10px] text-slate-400">{rev.location}</div>
+                      <div className="text-[10px] font-semibold text-teal-600 dark:text-teal-400 mt-0.5">
+                        {rev.doctorVisited}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* Trust Badges Bar */}
+        {/* Trust Badges Bar with Emojis */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
-          <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center shrink-0">
-              <ShieldCheck className="w-5 h-5" />
+          <div className="interactive-card p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3">
+            <div className="w-11 h-11 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center text-xl shrink-0">
+              🛡️
             </div>
             <div>
               <div className="text-xs font-black text-slate-900 dark:text-white">100% Litsenziyalangan</div>
@@ -1232,9 +1391,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
-              <Award className="w-5 h-5" />
+          <div className="interactive-card p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3">
+            <div className="w-11 h-11 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl shrink-0">
+              🏆
             </div>
             <div>
               <div className="text-xs font-black text-slate-900 dark:text-white">500+ Oliy Toifali</div>
@@ -1242,9 +1401,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 flex items-center justify-center shrink-0">
-              <Clock className="w-5 h-5" />
+          <div className="interactive-card p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3">
+            <div className="w-11 h-11 rounded-xl bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 flex items-center justify-center text-xl shrink-0">
+              ⏱️
             </div>
             <div>
               <div className="text-xs font-black text-slate-900 dark:text-white">24/7 Uzluksiz Aloqa</div>
@@ -1252,9 +1411,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
-              <Zap className="w-5 h-5" />
+          <div className="interactive-card p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3">
+            <div className="w-11 h-11 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl shrink-0">
+              ⚡
             </div>
             <div>
               <div className="text-xs font-black text-slate-900 dark:text-white">0 daqiqa kutish</div>
@@ -1312,61 +1471,80 @@ export default function HomePage() {
       </section>
 
       {/* 13. REAL STATS COUNTER WITH 10S LIVE TICKER */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl text-xs">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
+        <div className="flex flex-wrap items-center justify-between gap-3 p-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-teal-500/20 dark:border-teal-500/20 rounded-2xl text-xs shadow-sm">
           <div className="flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-            <span className="font-extrabold text-slate-900 dark:text-white">
-              Tizim jonli monitoring ko'rsatkichlari
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
             </span>
-            <span className="text-slate-400">|</span>
-            <span className="text-slate-500 dark:text-slate-400 hidden sm:inline">
-              Hodisa: <b className="text-teal-600 dark:text-teal-400">{liveMetrics?.lastEvent}</b>
+            <span className="font-black text-slate-900 dark:text-white uppercase tracking-wider text-[11px]">
+              Tizim Jonli Monitoringi
+            </span>
+            <span className="text-slate-300 dark:text-slate-700">|</span>
+            <span className="text-slate-600 dark:text-slate-300 hidden sm:inline">
+              Oxirgi hodisa: <b className="text-teal-600 dark:text-teal-400 font-bold">{liveMetrics?.lastEvent}</b>
             </span>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span className="text-[11px] text-slate-500 font-semibold">
-              Monitoring: <b className="text-teal-600 dark:text-teal-400">Faol</b>
+            <span className="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 font-bold text-[11px] flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>10s avto-yangilanish: Faol</span>
             </span>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs transition-all">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 text-center">
+          <div className="interactive-card group bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs hover:border-teal-400/50 transition-all duration-300 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-teal-500/5 dark:bg-teal-500/10 rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform"></div>
             <div className="text-3xl sm:text-4xl font-black text-teal-600 dark:text-teal-400">
-              {liveMetrics?.todayConsultations || 148}+
+              <AnimatedCounter value={liveMetrics?.todayConsultations || 148} duration={500} suffix="+" />
             </div>
-            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
-              Bugungi shifokor qabullari (Jonli)
+            <div className="text-xs font-bold text-slate-700 dark:text-slate-200 mt-2">
+              Bugungi qabullar
+            </div>
+            <div className="text-[11px] text-slate-400 mt-0.5">
+              Jonli ro'yxatdan o'tishlar
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs transition-all">
+          <div className="interactive-card group bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs hover:border-emerald-400/50 transition-all duration-300 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform"></div>
             <div className="text-3xl sm:text-4xl font-black text-emerald-600 dark:text-emerald-400">
-              {liveMetrics?.activeAmbulances || 19}
+              <AnimatedCounter value={liveMetrics?.activeAmbulances || 19} duration={500} />
             </div>
-            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
-              103 Tez yordam brigadalari reysda
+            <div className="text-xs font-bold text-slate-700 dark:text-slate-200 mt-2">
+              Tez yordam (103)
+            </div>
+            <div className="text-[11px] text-slate-400 mt-0.5">
+              Brigadalar faol reysda
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs transition-all">
+          <div className="interactive-card group bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs hover:border-cyan-400/50 transition-all duration-300 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-500/5 dark:bg-cyan-500/10 rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform"></div>
             <div className="text-3xl sm:text-4xl font-black text-cyan-600 dark:text-cyan-400">
-              {liveMetrics?.curedPatientsToday || 132}+
+              <AnimatedCounter value={liveMetrics?.curedPatientsToday || 132} duration={500} suffix="+" />
             </div>
-            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
-              Sog'lom bemorlar (Bugun)
+            <div className="text-xs font-bold text-slate-700 dark:text-slate-200 mt-2">
+              Sog'aygan bemorlar
+            </div>
+            <div className="text-[11px] text-slate-400 mt-0.5">
+              Bugungi muolajalar yakuni
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs transition-all">
+          <div className="interactive-card group bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs hover:border-amber-400/50 transition-all duration-300 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 dark:bg-amber-500/10 rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform"></div>
             <div className="text-3xl sm:text-4xl font-black text-amber-500">
               {liveMetrics?.trafficScore || 2} ball
             </div>
-            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
-              Yo'l holati ({liveMetrics?.trafficText?.split('(')[0] || "Tirbandliksiz"})
+            <div className="text-xs font-bold text-slate-700 dark:text-slate-200 mt-2">
+              Yo'l harakati
+            </div>
+            <div className="text-[11px] text-slate-400 mt-0.5 truncate">
+              {liveMetrics?.trafficText?.split('(')[0] || "Tirbandliksiz"}
             </div>
           </div>
         </div>

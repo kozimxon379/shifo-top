@@ -13,12 +13,12 @@ export default function StorePage() {
   const [sortBy, setSortBy] = useState('featured'); // 'featured', 'priceAsc', 'priceDesc', 'rating', 'name'
 
   const categories = [
-    { key: 'all', label: t.store.allCategories },
-    { key: 'medicines', label: t.store.categories.medicines },
-    { key: 'vitamins', label: t.store.categories.vitamins },
-    { key: 'devices', label: t.store.categories.devices },
-    { key: 'hygiene', label: t.store.categories.hygiene },
-    { key: 'firstaid', label: t.store.categories.firstaid }
+    { key: 'all', label: t.store.allCategories, emoji: '✨' },
+    { key: 'medicines', label: t.store.categories.medicines, emoji: '💊' },
+    { key: 'vitamins', label: t.store.categories.vitamins, emoji: '🌿' },
+    { key: 'devices', label: t.store.categories.devices, emoji: '🩺' },
+    { key: 'hygiene', label: t.store.categories.hygiene, emoji: '🧼' },
+    { key: 'firstaid', label: t.store.categories.firstaid, emoji: '🩹' }
   ];
 
   const filteredProducts = products
@@ -47,18 +47,35 @@ export default function StorePage() {
     });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      {/* Page Header */}
-      <div>
-        <div className="text-xs font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">
-          Onlayn Dorixona & Vositalar
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      {/* Store Page Visual Banner */}
+      <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200/80 dark:border-slate-800 bg-gradient-to-r from-emerald-950 via-teal-900 to-cyan-950 text-white min-h-[200px] flex items-center p-6 sm:p-8">
+        <div className="absolute inset-0 z-0 opacity-20 mix-blend-luminosity">
+          <img
+            src="/images/products/firstaid.jpg"
+            alt="Onlayn dorixona"
+            className="w-full h-full object-cover"
+          />
         </div>
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight mt-1">
-          {t.store.title}
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-          {t.store.subtitle}
-        </p>
+        <div className="absolute inset-0 bg-gradient-to-r from-teal-950/95 via-slate-900/90 to-teal-900/80 z-0"></div>
+
+        <div className="relative z-10 max-w-2xl space-y-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-bold backdrop-blur-md">
+            <span>💊 Sertifikatlangan original dori vositalari</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+          </div>
+          <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+            {t.store.title} 🛍️
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            {t.store.subtitle} Butun Toshkent bo'ylab 45 daqiqada tez va ishonchli yetkazib beramiz! ⚡
+          </p>
+          <div className="flex flex-wrap gap-2 pt-1 text-[11px] font-semibold text-teal-200">
+            <span className="px-2.5 py-1 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">🚚 45 daqiqada yetkazish</span>
+            <span className="px-2.5 py-1 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">🛡️ 100% Original kafolat</span>
+            <span className="px-2.5 py-1 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">💳 Click / Payme / Naqd</span>
+          </div>
+        </div>
       </div>
 
       {/* Category Pills Slider */}
@@ -68,13 +85,14 @@ export default function StorePage() {
             key={cat.key}
             type="button"
             onClick={() => setSelectedCategory(cat.key)}
-            className={`px-4 py-2.5 rounded-2xl font-bold whitespace-nowrap transition-all shrink-0 ${
+            className={`btn-spring px-4 py-2.5 rounded-2xl font-bold whitespace-nowrap transition-all shrink-0 flex items-center gap-1.5 ${
               selectedCategory === cat.key
-                ? 'bg-teal-600 text-white shadow-md shadow-teal-500/20'
+                ? 'bg-gradient-to-r from-teal-600 to-cyan-600 text-white shadow-md shadow-teal-500/25 scale-[1.02]'
                 : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
             }`}
           >
-            {cat.label}
+            <span>{cat.emoji}</span>
+            <span>{cat.label}</span>
           </button>
         ))}
       </div>
@@ -114,14 +132,14 @@ export default function StorePage() {
 
           <div className="flex flex-wrap items-center gap-4 justify-between sm:justify-end w-full sm:w-auto">
             {/* Prescription toggle */}
-            <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-700 dark:text-slate-300 select-none">
+            <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-700 dark:text-slate-300 select-none hover:text-teal-600 transition-colors">
               <input
                 type="checkbox"
                 checked={prescriptionOnly}
                 onChange={(e) => setPrescriptionOnly(e.target.checked)}
                 className="w-4 h-4 text-teal-600 rounded-sm focus:ring-teal-500"
               />
-              <span>{t.store.prescription}</span>
+              <span>📋 {t.store.prescription}</span>
             </label>
 
             {/* Sort Dropdown */}
@@ -133,11 +151,11 @@ export default function StorePage() {
                 onChange={(e) => setSortBy(e.target.value)}
                 className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-slate-800 dark:text-slate-200 font-bold focus:outline-none"
               >
-                <option value="featured">{t.store.sortOptions.featured}</option>
-                <option value="priceAsc">{t.store.sortOptions.priceAsc}</option>
-                <option value="priceDesc">{t.store.sortOptions.priceDesc}</option>
-                <option value="rating">{t.store.sortOptions.rating}</option>
-                <option value="name">{t.store.sortOptions.name}</option>
+                <option value="featured">✨ {t.store.sortOptions.featured}</option>
+                <option value="priceAsc">💵 {t.store.sortOptions.priceAsc}</option>
+                <option value="priceDesc">💎 {t.store.sortOptions.priceDesc}</option>
+                <option value="rating">⭐ {t.store.sortOptions.rating}</option>
+                <option value="name">🔤 {t.store.sortOptions.name}</option>
               </select>
             </div>
           </div>

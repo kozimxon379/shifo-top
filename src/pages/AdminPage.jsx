@@ -705,36 +705,42 @@ export default function AdminPage() {
       id: 'dashboard',
       label: t.admin.sidebar.dashboard,
       icon: LayoutDashboard,
+      emoji: '📊',
       badge: null
     },
     {
       id: 'revenue',
       label: t.admin.sidebar.revenue,
       icon: TrendingUp,
+      emoji: '📈',
       badge: '+18.4%'
     },
     {
       id: 'sales',
       label: t.admin.sidebar.sales,
       icon: BarChart3,
+      emoji: '🛍️',
       badge: orders.length > 0 ? `${orders.length}` : null
     },
     {
       id: 'products',
       label: t.admin.sidebar.inventory,
       icon: PieChart,
+      emoji: '📦',
       badge: `${products.length}`
     },
     {
       id: 'appointments',
       label: t.admin.sidebar.appointments,
       icon: Calendar,
+      emoji: '📅',
       badge: `${appointments.length}`
     },
     {
       id: 'telegram',
       label: t.admin.sidebar.telegram,
       icon: Send,
+      emoji: '✈️',
       badge: telegramConfig.isConnected ? t.admin.sidebar.statusConnected : t.admin.sidebar.statusDemo
     }
   ];
@@ -840,6 +846,7 @@ export default function AdminPage() {
                       isActive ? 'text-white' : 'text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-200'
                     }`}
                   />
+                  <span className="text-sm shrink-0">{item.emoji}</span>
                   <span className="truncate">{item.label}</span>
                 </div>
 

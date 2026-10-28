@@ -14,9 +14,12 @@ export default function ProductCard({ product }) {
     : 0;
 
   return (
-    <div className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
+    <div className="interactive-card group bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-4 hover:border-teal-400/60 dark:hover:border-teal-500/50 transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
+      {/* Decorative ambient card glow */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/5 dark:bg-teal-500/10 rounded-full blur-2xl pointer-events-none group-hover:scale-150 transition-transform duration-500"></div>
+
       {/* Top badges & Favorite heart */}
-      <div className="relative rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800 h-44 mb-3">
+      <div className="relative rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800 h-44 mb-3 relative z-10 shadow-xs">
         <img
           src={product.image}
           alt={product.name}
@@ -24,7 +27,7 @@ export default function ProductCard({ product }) {
             e.currentTarget.onerror = null;
             e.currentTarget.src = createProductFallbackSvg(product.name, product.category);
           }}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
           loading="lazy"
         />
 
@@ -32,19 +35,19 @@ export default function ProductCard({ product }) {
         <button
           type="button"
           onClick={() => toggleFavorite(product.id)}
-          className={`absolute top-2.5 right-2.5 p-2 rounded-full backdrop-blur-md transition-all ${
+          className={`btn-spring absolute top-2.5 right-2.5 p-2 rounded-2xl backdrop-blur-md transition-all cursor-pointer ${
             isFav
-              ? 'bg-rose-500 text-white shadow-md'
-              : 'bg-white/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-300 hover:text-rose-500'
+              ? 'bg-rose-500 text-white shadow-md scale-105'
+              : 'bg-white/85 dark:bg-slate-900/85 text-slate-600 dark:text-slate-300 hover:text-rose-500 shadow-xs'
           }`}
           aria-label="Sevimlilarga qo'shish"
         >
-          <Heart className={`w-4 h-4 ${isFav ? 'fill-white' : ''}`} />
+          <Heart className={`w-4 h-4 transition-transform ${isFav ? 'fill-white scale-110' : ''}`} />
         </button>
 
         {/* Discount badge */}
         {discountPercent > 0 && (
-          <span className="absolute top-2.5 left-2.5 bg-rose-600 text-white font-extrabold text-[10px] px-2 py-0.5 rounded-full shadow-xs">
+          <span className="absolute top-2.5 left-2.5 bg-rose-600 text-white font-black text-[10px] px-2.5 py-0.5 rounded-full shadow-xs animate-pulse">
             -{discountPercent}%
           </span>
         )}
@@ -52,11 +55,11 @@ export default function ProductCard({ product }) {
         {/* Prescription Tag */}
         <div className="absolute bottom-2 left-2 right-2">
           {product.prescriptionRequired ? (
-            <span className="inline-block bg-amber-500/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-md backdrop-blur-xs">
+            <span className="inline-block bg-amber-500/90 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-lg backdrop-blur-md shadow-xs">
               {t.store.prescription}
             </span>
           ) : (
-            <span className="inline-block bg-emerald-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-md backdrop-blur-xs">
+            <span className="inline-block bg-emerald-600/90 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-lg backdrop-blur-md shadow-xs">
               {t.store.noPrescription}
             </span>
           )}
@@ -64,17 +67,17 @@ export default function ProductCard({ product }) {
       </div>
 
       {/* Product Content */}
-      <div className="space-y-2 flex-1">
+      <div className="space-y-2 flex-1 relative z-10">
         <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
-          <span className="capitalize">{t.store.categories[product.category] || product.categoryName || product.category}</span>
-          <div className="flex items-center gap-1 text-amber-500 font-bold">
+          <span className="capitalize font-semibold text-teal-600 dark:text-teal-400">{t.store.categories[product.category] || product.categoryName || product.category}</span>
+          <div className="flex items-center gap-1 text-amber-500 font-bold bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded-md">
             <Star className="w-3.5 h-3.5 fill-amber-400" />
             <span>{product.rating}</span>
-            <span className="text-slate-400">({product.reviewsCount})</span>
+            <span className="text-slate-400 text-[10px] font-normal">({product.reviewsCount})</span>
           </div>
         </div>
 
-        <h3 className="font-bold text-sm text-slate-900 dark:text-white line-clamp-2 leading-snug">
+        <h3 className="font-bold text-sm text-slate-900 dark:text-white line-clamp-2 leading-snug group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
           {product.name}
         </h3>
 
@@ -84,9 +87,9 @@ export default function ProductCard({ product }) {
       </div>
 
       {/* Pricing & Cart Action */}
-      <div className="pt-3 mt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+      <div className="pt-3 mt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2 relative z-10">
         <div>
-          <div className="text-base font-extrabold text-teal-600 dark:text-teal-400">
+          <div className="text-base font-black text-teal-600 dark:text-teal-400">
             {Number(product.price).toLocaleString()} <span className="text-xs font-normal">{t.common.currency}</span>
           </div>
           {product.originalPrice && (
@@ -99,10 +102,10 @@ export default function ProductCard({ product }) {
         <button
           type="button"
           onClick={() => addToCart(product)}
-          className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all shadow-sm ${
+          className={`btn-spring btn-shimmer flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all shadow-sm cursor-pointer ${
             inCart
-              ? 'bg-emerald-600 text-white hover:bg-emerald-700'
-              : 'bg-teal-600 hover:bg-teal-700 text-white shadow-teal-500/20'
+              ? 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-emerald-500/20'
+              : 'bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white shadow-teal-500/20'
           }`}
         >
           {inCart ? (
@@ -113,7 +116,7 @@ export default function ProductCard({ product }) {
           ) : (
             <>
               <ShoppingCart className="w-4 h-4" />
-              <span>{t.store.addToCart}</span>
+              <span>{t.store.buyBtn}</span>
             </>
           )}
         </button>

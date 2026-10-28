@@ -37,29 +37,46 @@ export default function DoctorsPage() {
     });
 
   const specialtiesList = [
-    { key: 'all', label: t.doctors.specialties.all },
-    { key: 'therapist', label: t.doctors.specialties.therapist },
-    { key: 'cardiologist', label: t.doctors.specialties.cardiologist },
-    { key: 'neurologist', label: t.doctors.specialties.neurologist },
-    { key: 'pediatrician', label: t.doctors.specialties.pediatrician },
-    { key: 'surgeon', label: t.doctors.specialties.surgeon },
-    { key: 'dentist', label: t.doctors.specialties.dentist },
-    { key: 'endocrinologist', label: t.doctors.specialties.endocrinologist }
+    { key: 'all', label: t.doctors.specialties.all, emoji: '✨' },
+    { key: 'therapist', label: t.doctors.specialties.therapist, emoji: '🩺' },
+    { key: 'cardiologist', label: t.doctors.specialties.cardiologist, emoji: '❤️' },
+    { key: 'neurologist', label: t.doctors.specialties.neurologist, emoji: '🧠' },
+    { key: 'pediatrician', label: t.doctors.specialties.pediatrician, emoji: '👶' },
+    { key: 'surgeon', label: t.doctors.specialties.surgeon, emoji: '🔪' },
+    { key: 'dentist', label: t.doctors.specialties.dentist, emoji: '🦷' },
+    { key: 'endocrinologist', label: t.doctors.specialties.endocrinologist, emoji: '🩸' }
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      {/* Page Title */}
-      <div>
-        <div className="text-xs font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">
-          Oliy Toifali Mutaxassislar
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      {/* Doctors Page Visual Banner */}
+      <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200/80 dark:border-slate-800 bg-gradient-to-r from-teal-900 via-slate-900 to-cyan-950 text-white min-h-[200px] flex items-center p-6 sm:p-8">
+        <div className="absolute inset-0 z-0 opacity-25 mix-blend-luminosity">
+          <img
+            src="/images/medical_hero_team.jpg"
+            alt="Shifokorlar jamoasi"
+            className="w-full h-full object-cover"
+          />
         </div>
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight mt-1">
-          {t.doctors.title}
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-          {t.doctors.subtitle}
-        </p>
+        <div className="absolute inset-0 bg-gradient-to-r from-teal-950/95 via-slate-900/90 to-teal-900/80 z-0"></div>
+
+        <div className="relative z-10 max-w-2xl space-y-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/20 border border-teal-400/30 text-teal-300 text-xs font-bold backdrop-blur-md">
+            <span>🩺 500+ Oliy toifali shifokorlar</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-ping"></span>
+          </div>
+          <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+            {t.doctors.title} 👨‍⚕️👩‍⚕️
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            {t.doctors.subtitle} O'zingizga qulay vaqtni tanlang va 1 daqiqada qabulga yoziling! ⚡
+          </p>
+          <div className="flex flex-wrap gap-2 pt-1 text-[11px] font-semibold text-teal-200">
+            <span className="px-2.5 py-1 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">⭐ 4.9/5 Haqiqiy baholash</span>
+            <span className="px-2.5 py-1 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">🛡️ Tasdiqlangan diplomlar</span>
+            <span className="px-2.5 py-1 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">💳 Click & Payme to'lovi</span>
+          </div>
+        </div>
       </div>
 
       {/* Specialty Filter Buttons Row */}
@@ -69,13 +86,14 @@ export default function DoctorsPage() {
             key={sp.key}
             type="button"
             onClick={() => setSelectedSpecialty(sp.key)}
-            className={`px-4 py-2 rounded-2xl font-bold whitespace-nowrap transition-all shrink-0 ${
+            className={`btn-spring px-4 py-2.5 rounded-2xl font-bold whitespace-nowrap transition-all shrink-0 flex items-center gap-1.5 ${
               selectedSpecialty === sp.key
-                ? 'bg-teal-600 text-white shadow-md shadow-teal-500/20'
+                ? 'bg-gradient-to-r from-teal-600 to-cyan-600 text-white shadow-md shadow-teal-500/25 scale-[1.02]'
                 : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
             }`}
           >
-            {sp.label}
+            <span>{sp.emoji}</span>
+            <span>{sp.label}</span>
           </button>
         ))}
       </div>

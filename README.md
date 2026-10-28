@@ -86,3 +86,4 @@ Brauzeringizda oching: `http://localhost:5173/`
 - **Lucide React** (professional tibbiy piktogrammalar)
 - **Canvas Confetti**
 - **Telegram Bot API**
+# shifo-top

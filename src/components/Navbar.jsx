@@ -39,11 +39,11 @@ export default function Navbar() {
   const favoritesCount = favorites.length;
 
   const navLinks = [
-    { to: '/', label: t.nav.home, icon: Home },
-    { to: '/clinics', label: t.nav.clinics, icon: MapPin },
-    { to: '/doctors', label: t.nav.doctors, icon: Stethoscope },
-    { to: '/store', label: t.nav.store, icon: Store },
-    { to: '/encyclopedia', label: t.nav.encyclopedia, icon: BookOpen }
+    { to: '/', label: t.nav.home, icon: Home, emoji: '🏠' },
+    { to: '/clinics', label: t.nav.clinics, icon: MapPin, emoji: '🏥' },
+    { to: '/doctors', label: t.nav.doctors, icon: Stethoscope, emoji: '🩺' },
+    { to: '/store', label: t.nav.store, icon: Store, emoji: '💊' },
+    { to: '/encyclopedia', label: t.nav.encyclopedia, icon: BookOpen, emoji: '📖' }
   ];
 
   const isActive = (path) => {
@@ -90,13 +90,13 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2.5 group shrink-0">
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-teal-600 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-teal-500/20 group-hover:scale-105 transition-transform">
-                <HeartPulse className="w-6 h-6 animate-pulse" />
+            <Link to="/" className="flex items-center gap-2.5 group shrink-0 btn-spring">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-teal-600 via-teal-500 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-teal-500/25 group-hover:scale-108 group-hover:rotate-3 transition-all duration-300">
+                <HeartPulse className="w-6 h-6 animate-heart-pulse drop-shadow-xs" />
               </div>
               <div className="flex flex-col">
                 <span className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white flex items-center">
-                  shifo<span className="text-teal-600 dark:text-teal-400">.top</span>
+                  shifo<span className="bg-gradient-to-r from-teal-600 to-cyan-500 bg-clip-text text-transparent">.top</span>
                 </span>
                 <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400 -mt-1 hidden 2xl:block">
                   {t.tagline}
@@ -114,19 +114,20 @@ export default function Navbar() {
                     key={link.to}
                     to={link.to}
                     onClick={() => handleAdminLinkClick(link.to)}
-                    className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-2xl text-xs xl:text-sm font-bold whitespace-nowrap transition-all duration-200 ${
+                    className={`btn-spring inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-xs xl:text-sm font-bold whitespace-nowrap transition-all duration-200 ${
                       active
-                        ? 'bg-teal-600 text-white shadow-md shadow-teal-600/25 scale-[1.02]'
+                        ? 'bg-gradient-to-r from-teal-600 to-cyan-600 text-white shadow-md shadow-teal-600/30 scale-[1.02]'
                         : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/90 dark:hover:bg-slate-800/70'
                     }`}
                   >
                     {IconComp && (
                       <IconComp
                         className={`w-4 h-4 shrink-0 transition-transform ${
-                          active ? 'text-white' : 'text-slate-500 dark:text-slate-400'
+                          active ? 'text-white' : 'text-slate-500 dark:text-slate-400 group-hover:scale-110'
                         }`}
                       />
                     )}
+                    <span className="text-sm">{link.emoji}</span>
                     <span>{link.label}</span>
                   </Link>
                 );
@@ -176,21 +177,21 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={toggleTheme}
-                className="p-2 sm:p-2.5 rounded-2xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0"
+                className="btn-spring p-2 sm:p-2.5 rounded-2xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all shrink-0 cursor-pointer"
                 aria-label="Mavzuni almashtirish"
               >
-                {darkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-700" />}
+                {darkMode ? <Sun className="w-4 h-4 text-amber-400 hover:rotate-90 transition-transform duration-300" /> : <Moon className="w-4 h-4 text-slate-700 hover:-rotate-12 transition-transform duration-300" />}
               </button>
 
               {/* Favorites Link */}
               <Link
                 to="/favorites"
-                className="relative p-2 sm:p-2.5 rounded-2xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0"
+                className="btn-spring relative p-2 sm:p-2.5 rounded-2xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all shrink-0"
                 aria-label={t.nav.favorites}
               >
-                <Heart className={`w-4 h-4 ${favoritesCount > 0 ? 'text-rose-500 fill-rose-500' : ''}`} />
+                <Heart className={`w-4 h-4 transition-transform ${favoritesCount > 0 ? 'text-rose-500 fill-rose-500 scale-105' : 'hover:text-rose-500'}`} />
                 {favoritesCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
+                  <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-xs animate-pulse">
                     {favoritesCount}
                   </span>
                 )}
@@ -199,22 +200,22 @@ export default function Navbar() {
               {/* Cart Link */}
               <Link
                 to="/cart"
-                className="relative inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-md shadow-teal-600/20 transition-all hover:scale-102 shrink-0 whitespace-nowrap"
+                className="btn-spring btn-shimmer relative inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-2xl bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-bold text-xs shadow-md shadow-teal-600/25 transition-all shrink-0 whitespace-nowrap"
               >
                 <ShoppingCart className="w-4 h-4" />
                 <span className="hidden sm:inline">{t.nav.cart}</span>
                 {cartCount > 0 && (
-                  <span className="bg-white text-teal-800 text-[10px] font-black px-1.5 py-0.2 rounded-full ml-0.5">
+                  <span className="bg-white text-teal-800 text-[10px] font-black px-1.5 py-0.2 rounded-full ml-0.5 animate-pulse">
                     {cartCount}
                   </span>
                 )}
               </Link>
 
-              {/* User / Admin Link (Matching Image 2) */}
+              {/* User / Admin Link */}
               <Link
                 to={user.isLoggedIn && user.role === 'admin' ? '/admin' : '/login'}
                 onClick={() => handleAdminLinkClick('/admin')}
-                className={`inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border text-xs sm:text-sm font-bold transition-all shrink-0 ${
+                className={`btn-spring inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border text-xs sm:text-sm font-bold transition-all shrink-0 ${
                   user.isLoggedIn && user.role === 'admin'
                     ? 'border-emerald-500/80 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 shadow-xs'
                     : user.isLoggedIn
@@ -223,8 +224,8 @@ export default function Navbar() {
                 }`}
                 title={user.isLoggedIn ? `${user.name} (${user.role})` : t.nav.login}
               >
-                <User className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span className="inline whitespace-nowrap text-emerald-400 dark:text-emerald-300 font-bold">
+                <User className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0" />
+                <span className="inline whitespace-nowrap text-emerald-600 dark:text-emerald-300 font-bold">
                   {user.isLoggedIn ? (user.role === 'admin' ? (t.nav.admin || 'Admin') : (user.name || user.username)) : t.nav.login}
                 </span>
               </Link>
@@ -263,6 +264,7 @@ export default function Navbar() {
                   }`}
                 >
                   {IconComp && <IconComp className="w-4 h-4 text-teal-600 dark:text-teal-400" />}
+                  <span className="text-base">{link.emoji}</span>
                   <span>{link.label}</span>
                 </Link>
               );
