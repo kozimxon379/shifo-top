@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AIChatbot from './components/AIChatbot';
 import AppointmentModal from './components/AppointmentModal';
+import ReviewModal from './components/ReviewModal';
 import ToastContainer from './components/ToastContainer';
 
 // Pages
@@ -17,6 +18,7 @@ import CartPage from './pages/CartPage';
 import FavoritesPage from './pages/FavoritesPage';
 import LoginPage from './pages/LoginPage';
 import AdminPage from './pages/AdminPage';
+import HealthToolsPage from './pages/HealthToolsPage';
 
 function NotFoundPage() {
   return (
@@ -78,6 +80,7 @@ function AppLayout() {
           <Route path="/doctors" element={<DoctorsPage />} />
           <Route path="/store" element={<StorePage />} />
           <Route path="/encyclopedia" element={<EncyclopediaPage />} />
+          <Route path="/health-tools" element={<HealthToolsPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -94,6 +97,9 @@ function AppLayout() {
 
       {/* Global Appointment Booking Modal */}
       <AppointmentModal />
+
+      {/* Global 5-Star Reviews & Ratings Modal */}
+      <ReviewModal />
 
       {/* Global Notifications Container */}
       <ToastContainer />

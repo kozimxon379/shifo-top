@@ -1,7 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { HeartPulse, PhoneCall, ShieldCheck, Send, MapPin, Mail, Award, Clock } from 'lucide-react';
+import {
+  HeartPulse,
+  PhoneCall,
+  ShieldCheck,
+  Send,
+  MapPin,
+  Mail,
+  Building2,
+  Stethoscope,
+  Pill,
+  BookOpenText,
+  Activity,
+  Lock,
+  Clock,
+  Phone
+} from 'lucide-react';
 
 export default function Footer() {
   const { t } = useApp();
@@ -12,11 +27,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Col 1: Brand & Emergency */}
           <div className="space-y-4">
-            <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-teal-500 to-cyan-400 flex items-center justify-center text-white shadow-md">
+            <Link to="/" className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-teal-600 flex items-center justify-center text-white shadow-md">
                 <HeartPulse className="w-6 h-6" />
               </div>
-              <span className="text-2xl font-black text-white">
+              <span className="text-2xl font-black text-white tracking-tight">
                 shifo<span className="text-teal-400">.top</span>
               </span>
             </Link>
@@ -25,13 +40,13 @@ export default function Footer() {
               {t.footer.desc}
             </p>
 
-            <div className="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700/60 space-y-1.5">
+            <div className="p-3.5 bg-slate-800/80 rounded-xl border border-slate-700/60 space-y-1.5">
               <div className="flex items-center gap-2 text-rose-400 text-xs font-bold uppercase tracking-wider">
                 <PhoneCall className="w-4 h-4" />
                 <span>{t.footer.emergencyHelp}</span>
               </div>
               <div className="flex items-baseline gap-3">
-                <a href="tel:103" className="text-xl font-black text-white hover:text-rose-400 transition-colors">
+                <a href="tel:103" className="text-2xl font-black text-white hover:text-rose-400 transition-colors">
                   103
                 </a>
                 <span className="text-xs text-slate-400">{t.footer.emergencyDesc}</span>
@@ -41,34 +56,44 @@ export default function Footer() {
 
           {/* Col 2: Sahifalar */}
           <div className="space-y-3">
-            <h4 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <Award className="w-4 h-4 text-teal-400" />
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider">
               {t.footer.mainSections}
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <Link to="/clinics" className="hover:text-teal-400 transition-colors flex items-center gap-1.5">
-                  <span>🏥</span> <span>{t.nav.clinics}</span>
+                <Link to="/clinics" className="hover:text-teal-400 transition-colors flex items-center gap-2">
+                  <Building2 className="w-3.5 h-3.5 text-teal-400" />
+                  <span>{t.nav.clinics}</span>
                 </Link>
               </li>
               <li>
-                <Link to="/doctors" className="hover:text-teal-400 transition-colors flex items-center gap-1.5">
-                  <span>🩺</span> <span>{t.nav.doctors}</span>
+                <Link to="/doctors" className="hover:text-teal-400 transition-colors flex items-center gap-2">
+                  <Stethoscope className="w-3.5 h-3.5 text-teal-400" />
+                  <span>{t.nav.doctors}</span>
                 </Link>
               </li>
               <li>
-                <Link to="/store" className="hover:text-teal-400 transition-colors flex items-center gap-1.5">
-                  <span>💊</span> <span>{t.nav.store}</span>
+                <Link to="/store" className="hover:text-teal-400 transition-colors flex items-center gap-2">
+                  <Pill className="w-3.5 h-3.5 text-teal-400" />
+                  <span>{t.nav.store}</span>
                 </Link>
               </li>
               <li>
-                <Link to="/encyclopedia" className="hover:text-teal-400 transition-colors flex items-center gap-1.5">
-                  <span>📖</span> <span>{t.nav.encyclopedia}</span>
+                <Link to="/encyclopedia" className="hover:text-teal-400 transition-colors flex items-center gap-2">
+                  <BookOpenText className="w-3.5 h-3.5 text-teal-400" />
+                  <span>{t.nav.encyclopedia}</span>
                 </Link>
               </li>
               <li>
-                <Link to="/admin" className="hover:text-teal-400 transition-colors flex items-center gap-1.5">
-                  <span>🔐</span> <span>{t.nav.admin}</span>
+                <Link to="/health-tools" className="hover:text-teal-400 transition-colors flex items-center gap-2">
+                  <Activity className="w-3.5 h-3.5 text-teal-400" />
+                  <span>{t.nav.healthTools || "Tahlillar & Vositalar"}</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/admin" className="hover:text-teal-400 transition-colors flex items-center gap-2">
+                  <Lock className="w-3.5 h-3.5 text-teal-400" />
+                  <span>{t.nav.admin}</span>
                 </Link>
               </li>
             </ul>
@@ -76,25 +101,24 @@ export default function Footer() {
 
           {/* Col 3: Bog'lanish va manzillar */}
           <div className="space-y-3">
-            <h4 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <Clock className="w-4 h-4 text-teal-400" />
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider">
               {t.footer.contactsTitle}
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-400">
               <li className="flex items-start gap-2">
-                <span className="text-sm shrink-0">📍</span>
+                <MapPin className="w-3.5 h-3.5 text-teal-400 shrink-0 mt-0.5" />
                 <span>{t.footer.address}</span>
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-sm shrink-0">📞</span>
+                <Phone className="w-3.5 h-3.5 text-teal-400 shrink-0" />
                 <a href="tel:+998712000003" className="hover:text-teal-400 transition-colors">+998 (71) 200-00-03</a>
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-sm shrink-0">✉️</span>
+                <Mail className="w-3.5 h-3.5 text-teal-400 shrink-0" />
                 <a href="mailto:info@shifo.top" className="hover:text-teal-400 transition-colors">info@shifo.top</a>
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-sm shrink-0">🛡️</span>
+                <ShieldCheck className="w-3.5 h-3.5 text-teal-400 shrink-0" />
                 <span>{t.footer.accreditation}</span>
               </li>
             </ul>
@@ -102,8 +126,7 @@ export default function Footer() {
 
           {/* Col 4: Telegram & Xavfsizlik */}
           <div className="space-y-3">
-            <h4 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <Send className="w-4 h-4 text-cyan-400" />
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider">
               {t.footer.telegramService}
             </h4>
             <p className="text-xs text-slate-400 leading-relaxed">
@@ -113,9 +136,9 @@ export default function Footer() {
               href="https://t.me"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors shadow-md shadow-cyan-600/30"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-semibold text-xs transition-colors shadow-xs"
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-3.5 h-3.5" />
               <span>@shifo_top_bot</span>
             </a>
           </div>
@@ -123,13 +146,13 @@ export default function Footer() {
 
         {/* Bottom medical disclaimer and copyright */}
         <div className="mt-12 pt-8 border-t border-slate-800 text-center space-y-3">
-          <p className="text-[11px] text-slate-500 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-[11px] text-slate-400 max-w-4xl mx-auto leading-relaxed">
             {t.footer.disclaimer}
           </p>
           <div className="text-xs text-slate-400 flex flex-col sm:flex-row items-center justify-center gap-4">
             <span>{t.footer.rights}</span>
             <span className="hidden sm:inline">•</span>
-            <span>React + Tailwind CSS + Telegram Bot API</span>
+            <span>O'zbekiston Respublikasi Sog'liqni Saqlash Vazirligi standarti asosida</span>
           </div>
         </div>
       </div>

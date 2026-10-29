@@ -11,255 +11,172 @@
   body {
     font-family: var(--font-sans);
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+  }
+
+  /* Accessible focus indicators */
+  :focus-visible {
+    outline: 2px solid #0d9488;
+    outline-offset: 2px;
   }
 }
 
-/* Custom Scrollbar */
+/* Custom Refined Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #94a3b8;
+  background: #cbd5e1;
   border-radius: 9999px;
 }
 .dark ::-webkit-scrollbar-thumb {
   background: #334155;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+  background: #94a3b8;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
 }
 
-/* Glassmorphism */
-.glass {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+/* Premium Surface & Elevation System */
+.surface-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
 }
 
-.dark .glass {
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(51, 65, 85, 0.5);
+.dark .surface-card {
+  background-color: #0f172a;
+  border-color: #1e293b;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.9);
+.surface-card-elevated {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05), 0 12px 24px -4px rgba(15, 23, 42, 0.04);
+}
+
+.dark .surface-card-elevated {
+  background-color: #0f172a;
+  border-color: #1e293b;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 12px 24px -4px rgba(0, 0, 0, 0.4);
+}
+
+/* Subtle, crisp glass headers without over-blurring */
+.glass-nav {
+  background-color: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
 }
 
-.dark .glass-card {
-  background: rgba(15, 23, 42, 0.9);
+.dark .glass-nav {
+  background-color: rgba(15, 23, 42, 0.88);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(51, 65, 85, 0.45);
+  border-bottom: 1px solid rgba(30, 41, 59, 0.8);
 }
 
 /* =========================================
    KEYFRAME ANIMATIONS
    ========================================= */
 
-/* Floating Animations */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-8px) rotate(0.5deg);
-  }
-}
-
-@keyframes floatSlow {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
-}
-
-@keyframes floatReverse {
-  0%, 100% {
-    transform: translateY(-8px);
-  }
-  50% {
-    transform: translateY(2px);
-  }
-}
-
-/* Shimmer Light Beam */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-/* Flowing Gradient */
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-/* Pulse Badge & Glow */
 @keyframes pulseGlow {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.45);
+    box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4);
   }
   50% {
-    box-shadow: 0 0 0 12px rgba(14, 165, 233, 0);
+    box-shadow: 0 0 0 8px rgba(13, 148, 136, 0);
   }
 }
 
-@keyframes pulseEmeraldGlow {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 0 14px rgba(16, 185, 129, 0);
-  }
-}
-
-/* Radar Wave Ring */
-@keyframes radarPing {
-  0% {
-    transform: scale(0.9);
-    opacity: 0.8;
-  }
-  70% {
-    transform: scale(2.2);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(2.4);
-    opacity: 0;
-  }
-}
-
-/* Route pulse */
-@keyframes routePulse {
-  from {
-    stroke-dashoffset: 20;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-/* Subtle Heartbeat Pulse */
 @keyframes heartPulseSubtle {
   0%, 100% {
     transform: scale(1);
   }
   14% {
-    transform: scale(1.12);
+    transform: scale(1.08);
   }
   28% {
     transform: scale(1);
   }
   42% {
-    transform: scale(1.08);
+    transform: scale(1.04);
   }
   70% {
     transform: scale(1);
   }
 }
 
-/* =========================================
-   ANIMATION UTILITY CLASSES
-   ========================================= */
-
-.animate-float {
-  animation: float 4s ease-in-out infinite;
-}
-
-.animate-float-slow {
-  animation: floatSlow 6s ease-in-out infinite;
-}
-
-.animate-float-reverse {
-  animation: floatReverse 5s ease-in-out infinite;
-}
-
-.animate-gradient-shift {
-  background-size: 200% 200%;
-  animation: gradientShift 6s ease infinite;
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 2.5s infinite ease-in-out;
-}
-
-.animate-pulse-emerald {
-  animation: pulseEmeraldGlow 2s infinite ease-in-out;
-}
-
-.animate-radar-ring {
-  animation: radarPing 2.2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+@keyframes subtleRadar {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
 }
 
 .animate-heart-pulse {
-  animation: heartPulseSubtle 2.5s ease-in-out infinite;
+  animation: heartPulseSubtle 2.8s ease-in-out infinite;
 }
 
-.animate-route-flow {
-  animation: routePulse 1.2s linear infinite;
+.animate-radar-ring {
+  animation: subtleRadar 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 
-.pulse-emergency {
-  animation: pulseGlow 2s infinite ease-in-out;
-}
-
-/* Interactive Card Hover & Depth */
+/* Card Interaction: smooth, subtle, premium */
 .interactive-card {
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.25s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease;
 }
 
 .interactive-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 30px -10px rgba(13, 148, 136, 0.15),
-              0 10px 15px -5px rgba(0, 0, 0, 0.05);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.08),
+              0 4px 8px -2px rgba(15, 23, 42, 0.04);
+  border-color: #0d9488;
 }
 
 .dark .interactive-card:hover {
-  box-shadow: 0 20px 35px -10px rgba(20, 184, 166, 0.12),
-              0 10px 20px -5px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 30px -6px rgba(0, 0, 0, 0.5),
+              0 4px 8px -2px rgba(0, 0, 0, 0.3);
+  border-color: #14b8a6;
 }
 
-/* Button Micro-Interactions */
+/* Buttons micro-interactions */
 .btn-spring {
   transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
-              box-shadow 0.2s ease,
-              filter 0.2s ease;
+              background-color 0.18s ease,
+              border-color 0.18s ease,
+              box-shadow 0.18s ease;
 }
 
 .btn-spring:active {
-  transform: scale(0.96);
+  transform: scale(0.97);
 }
 
-/* Shimmer Button Effect */
+/* Subtle Shimmer for primary actions */
 .btn-shimmer {
   position: relative;
   overflow: hidden;
@@ -270,12 +187,12 @@
   position: absolute;
   top: 0;
   left: -100%;
-  width: 60%;
+  width: 50%;
   height: 100%;
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.25),
+    rgba(255, 255, 255, 0.2),
     transparent
   );
   transform: skewX(-20deg);
@@ -286,24 +203,13 @@
   left: 140%;
 }
 
-/* Subtle Animated Ambient Background Grid / Dot Pattern */
-.bg-grid-pattern {
-  background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+/* Clean, subtle background pattern for subtle texture */
+.bg-subtle-pattern {
+  background-image: radial-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-.dark .bg-grid-pattern {
-  background-image: 
-    linear-gradient(to right, rgba(51, 65, 85, 0.2) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(51, 65, 85, 0.2) 1px, transparent 1px);
+.dark .bg-subtle-pattern {
+  background-image: radial-gradient(rgba(51, 65, 85, 0.25) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
-
-/* Smooth transitions */
-* {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-

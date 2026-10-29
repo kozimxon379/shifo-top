@@ -119,35 +119,30 @@ export default function AIChatbot() {
   }, [lang, t.aiChat.greeting]);
 
   return (
-    <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50">
+    <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40">
       {/* Floating Toggle Button */}
       {!isOpen && (
         <div className="relative">
-          {/* Subtle radar wave effect around the floating button */}
-          <div className="absolute inset-0 rounded-full bg-teal-500/30 animate-radar-ring pointer-events-none"></div>
-
           <button
             type="button"
             onClick={() => setIsOpen(true)}
-            className="animate-float group relative flex items-center gap-3 bg-gradient-to-r from-teal-600 via-emerald-600 to-cyan-600 text-white p-3.5 sm:px-5 sm:py-3.5 rounded-full shadow-2xl shadow-teal-500/35 hover:shadow-teal-500/50 hover:scale-105 btn-spring btn-shimmer border-2 border-white/30 cursor-pointer"
+            className="group relative flex items-center gap-3 bg-teal-600 hover:bg-teal-700 text-white p-3 sm:px-4 sm:py-3 rounded-full shadow-xl shadow-teal-600/25 btn-spring border border-white/20 cursor-pointer"
             aria-label={t.aiChat.openAria}
           >
-            <div className="relative">
-              <Bot className="w-6 h-6 animate-heart-pulse text-white drop-shadow-sm" />
-              <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-teal-800 animate-ping"></span>
-              <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-teal-800"></span>
+            <div className="relative flex items-center justify-center">
+              <Bot className="w-5 h-5 text-white" />
+              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full border border-teal-800"></span>
             </div>
 
             <div className="hidden sm:flex flex-col text-left">
-              <span className="text-xs font-black tracking-wide flex items-center gap-1.5">
+              <span className="text-xs font-bold tracking-wide flex items-center gap-1.5 leading-tight">
                 <span>Shifo AI</span>
-                <span className="bg-emerald-400 text-slate-950 font-black text-[9px] px-1.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
+                <span className="bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 font-semibold text-[9px] px-1.5 py-0.2 rounded-full uppercase tracking-wider">
                   24/7 Live
                 </span>
               </span>
-              <span className="text-[11px] text-teal-100 font-medium flex items-center gap-1">
-                <Sparkles className="w-3 h-3 text-cyan-200" />
-                <span>{t.aiChat.pillSubtitle}</span>
+              <span className="text-[11px] text-teal-100 font-medium">
+                {t.aiChat.pillSubtitle}
               </span>
             </div>
           </button>
@@ -157,24 +152,24 @@ export default function AIChatbot() {
       {/* Chat Window */}
       {isOpen && (
         <div
-          className={`flex flex-col bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 animate-in zoom-in-95 ${
+          className={`flex flex-col bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 animate-in zoom-in-95 ${
             isExpanded
               ? 'w-[92vw] sm:w-[580px] h-[85vh] sm:h-[680px]'
               : 'w-[92vw] sm:w-[420px] h-[540px]'
           }`}
         >
           {/* Header */}
-          <div className="bg-gradient-to-r from-teal-700 via-emerald-700 to-cyan-800 text-white px-4 py-3.5 flex items-center justify-between shrink-0">
+          <div className="bg-slate-900 text-white px-4 py-3 flex items-center justify-between shrink-0 border-b border-slate-800">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20">
-                <Bot className="w-5 h-5 text-teal-200" />
+              <div className="w-9 h-9 rounded-xl bg-teal-600 flex items-center justify-center text-white">
+                <Bot className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="text-sm font-bold flex items-center gap-1.5 leading-none">
                   <span>Shifo AI</span>
-                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                  <Sparkles className="w-3.5 h-3.5 text-teal-400" />
                 </h3>
-                <span className="text-[10px] text-teal-200 font-medium">
+                <span className="text-[10px] text-slate-400 font-medium">
                   {t.aiChat.subtitle}
                 </span>
               </div>
@@ -259,7 +254,36 @@ export default function AIChatbot() {
                   )}
 
                   {/* Rich structured medical AI Consultation */}
-                  {msg.aiData && (
+                  {msg.aiData && !msg.aiData.matched ? (
+                    <div className="space-y-2.5">
+                      <div className="flex items-center gap-2 text-rose-500 font-bold text-xs pb-1 border-b border-slate-200 dark:border-slate-700">
+                        <AlertTriangle className="w-4 h-4 shrink-0" />
+                        <span>Unaqa kasallik yo'q (Topilmadi)</span>
+                      </div>
+                      <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-xs">
+                        {msg.aiData.summary}
+                      </p>
+                      {msg.aiData.suggestedDiseases && msg.aiData.suggestedDiseases.length > 0 && (
+                        <div className="pt-1.5">
+                          <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block mb-1.5">
+                            Mavjud haqiqiy kasalliklardan birini tanlang:
+                          </span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {msg.aiData.suggestedDiseases.map((sd) => (
+                              <button
+                                key={sd.id}
+                                type="button"
+                                onClick={() => handleSend(sd.name)}
+                                className="text-[11px] px-2.5 py-1 rounded-lg bg-teal-50 dark:bg-slate-700 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-slate-600 hover:bg-teal-600 hover:text-white transition-colors cursor-pointer"
+                              >
+                                {sd.name}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : msg.aiData && (
                     <div className="space-y-3">
                       {/* Condition Title */}
                       <div className="flex items-start justify-between gap-2 border-b border-slate-200 dark:border-slate-700 pb-2">

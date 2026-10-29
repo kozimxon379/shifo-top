@@ -2,6 +2,9 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { translations } from './i18n';
 import { initialProducts } from '../data/productsData';
 import { initialOrders } from '../data/ordersData';
+import { initialDoctors } from '../data/doctorsData';
+import { initialClinics } from '../data/clinicsData';
+import { initialReviews } from '../data/reviewsData';
 import {
   sendTelegramMessage,
   formatAppointmentMessage,
@@ -59,18 +62,24 @@ export function AppProvider({ children }) {
     setToasts(prev => prev.filter(t => t.id !== id));
   };
 
-  // 4. Products state (with CRUD persistence and local asset migration)
+  // 4. Products state (with CRUD persistence, smart merge, and local asset migration)
   const [products, setProducts] = useState(() => {
     const saved = localStorage.getItem('shifo_products');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        const needsUpdate = parsed.some(p => p.image && (p.image.includes('unsplash.com') || p.image.endsWith('.svg')));
-        if (needsUpdate) {
-          localStorage.setItem('shifo_products', JSON.stringify(initialProducts));
-          return initialProducts;
+        if (parsed && Array.isArray(parsed)) {
+          const initialIds = new Set(initialProducts.map(p => p.id));
+          const hasAll = initialProducts.every(initP => parsed.some(p => p.id === initP.id));
+          if (hasAll && parsed.length >= initialProducts.length) {
+            return parsed;
+          }
+          // Automatically merge newly added products with any custom user products
+          const customProds = parsed.filter(p => !initialIds.has(p.id));
+          const merged = [...initialProducts, ...customProds];
+          localStorage.setItem('shifo_products', JSON.stringify(merged));
+          return merged;
         }
-        return parsed;
       } catch (e) {
         console.error(e);
       }
@@ -236,6 +245,176 @@ export function AppProvider({ children }) {
     setTelegramConfig(newConfig);
     localStorage.setItem('shifo_telegram', JSON.stringify(newConfig));
     addToast("Telegram sozlamalari saqlandi", "Bildirishnomalar avtomatik yuboriladi.", "success");
+  };
+
+  // 8.5 Doctors state (with persistence, smart merge, and CRUD)
+  const [doctors, setDoctors] = useState(() => {
+    const saved = localStorage.getItem('shifo_doctors');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed && Array.isArray(parsed)) {
+          const initialIds = new Set(initialDoctors.map(d => d.id));
+          const hasAll = initialDoctors.every(initDoc => parsed.some(p => p.id === initDoc.id));
+          if (hasAll && parsed.length >= initialDoctors.length) {
+            return parsed;
+          }
+          // Automatically merge newly added doctors with any custom ones
+          const customDocs = parsed.filter(p => !initialIds.has(p.id));
+          const merged = [...initialDoctors, ...customDocs];
+          localStorage.setItem('shifo_doctors', JSON.stringify(merged));
+          return merged;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return initialDoctors;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('shifo_doctors', JSON.stringify(doctors));
+  }, [doctors]);
+
+  const addDoctor = (newDoc) => {
+    const doc = {
+      ...newDoc,
+      id: 'doc-' + Date.now(),
+      rating: newDoc.rating || 5.0,
+      patientsTreated: Number(newDoc.patientsTreated) || 0,
+      price: Number(newDoc.price) || 120000,
+      experienceYears: Number(newDoc.experienceYears) || 5,
+      image: newDoc.image || '/images/doc_alisher.jpg',
+      workDays: newDoc.workDays || ["Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma"],
+      availableSlots: newDoc.availableSlots || ["09:00", "11:00", "14:00", "16:00"]
+    };
+    setDoctors(prev => [doc, ...prev]);
+    addToast(t.common?.success || "Muvaffaqiyatli", `${doc.name} ro'yxatga qo'shildi!`, 'success');
+  };
+
+  const updateDoctor = (id, updatedFields) => {
+    setDoctors(prev => prev.map(d => (d.id === id ? { ...d, ...updatedFields } : d)));
+    addToast(t.common?.success || "Muvaffaqiyatli", `Shifokor ma'lumotlari yangilandi!`, 'info');
+  };
+
+  const deleteDoctor = (id) => {
+    setDoctors(prev => prev.filter(d => d.id !== id));
+    addToast(t.common?.success || "O'chirildi", `Shifokor tizimdan o'chirildi!`, 'warning');
+  };
+
+  // 8.6 Clinics state (with persistence and live reviews updates)
+  const [clinics, setClinics] = useState(() => {
+    const saved = localStorage.getItem('shifo_clinics');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed && Array.isArray(parsed) && parsed.length >= initialClinics.length) {
+          return parsed;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return initialClinics;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('shifo_clinics', JSON.stringify(clinics));
+  }, [clinics]);
+
+  // 8.7 Patient Reviews & 5-Star Ratings State
+  const [reviews, setReviews] = useState(() => {
+    const saved = localStorage.getItem('shifo_reviews');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed && Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return initialReviews;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('shifo_reviews', JSON.stringify(reviews));
+  }, [reviews]);
+
+  const [reviewModalTarget, setReviewModalTarget] = useState(null);
+
+  const openReviewModal = (targetData) => {
+    setReviewModalTarget(targetData);
+  };
+
+  const closeReviewModal = () => {
+    setReviewModalTarget(null);
+  };
+
+  const addReview = (reviewData) => {
+    const newRev = {
+      id: 'rev-' + Date.now(),
+      targetType: reviewData.targetType,
+      targetId: reviewData.targetId,
+      targetName: reviewData.targetName,
+      patientName: reviewData.patientName,
+      rating: Number(reviewData.rating) || 5,
+      date: "Hozirgina",
+      visitDate: reviewData.visitDate || new Date().toISOString().split('T')[0],
+      serviceUsed: reviewData.serviceUsed || "Tibbiy ko'rik",
+      comment: reviewData.comment,
+      verifiedVisit: true,
+      likes: 0
+    };
+
+    setReviews(prev => [newRev, ...prev]);
+
+    // Live update for Clinic rating and reviewsCount
+    if (reviewData.targetType === 'clinic') {
+      setClinics(prev => prev.map(c => {
+        if (c.id === reviewData.targetId) {
+          const currentCount = Number(c.reviewsCount) || 10;
+          const newCount = currentCount + 1;
+          const newRating = Number(((c.rating * currentCount + newRev.rating) / newCount).toFixed(1));
+          return {
+            ...c,
+            rating: Math.min(5, Math.max(1, newRating)),
+            reviewsCount: newCount
+          };
+        }
+        return c;
+      }));
+    }
+
+    // Live update for Doctor rating
+    if (reviewData.targetType === 'doctor') {
+      setDoctors(prev => prev.map(d => {
+        if (d.id === reviewData.targetId) {
+          const currentCount = (Number(d.patientsTreated) || 100) + 1;
+          const newRating = Number(((d.rating * 10 + newRev.rating) / 11).toFixed(1));
+          return {
+            ...d,
+            rating: Math.min(5, Math.max(1, newRating)),
+            patientsTreated: currentCount
+          };
+        }
+        return d;
+      }));
+    }
+
+    addToast(
+      "Bahoyingiz qabul qilindi!",
+      `«${reviewData.targetName}» uchun ${newRev.rating} yulduzli baho va fikringiz e'lon qilindi. Rahmat!`,
+      "success"
+    );
+
+    return newRev;
+  };
+
+  const likeReview = (reviewId) => {
+    setReviews(prev => prev.map(r => r.id === reviewId ? { ...r, likes: (r.likes || 0) + 1 } : r));
+    addToast("Rahmat!", "Fikr foydali deb belgilandi.", "info");
   };
 
   // 9. Appointments state
@@ -606,6 +785,17 @@ export function AppProvider({ children }) {
         appointments,
         bookAppointment,
         updateAppointmentStatus,
+        doctors,
+        addDoctor,
+        updateDoctor,
+        deleteDoctor,
+        clinics,
+        reviews,
+        reviewModalTarget,
+        openReviewModal,
+        closeReviewModal,
+        addReview,
+        likeReview,
         orders,
         placeOrder,
         updateOrderStatus,

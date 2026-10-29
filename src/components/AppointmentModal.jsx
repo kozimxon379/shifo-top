@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useApp } from '../context/AppContext';
 import { initialDoctors } from '../data/doctorsData';
 import { createDoctorFallbackSvg } from '../utils/imageFallback';
@@ -50,6 +51,13 @@ export default function AppointmentModal() {
     }
 
     setIsSuccess(false);
+
+    // Lock background scroll
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
   }, [bookingModalDoctor, user]);
 
   if (!bookingModalDoctor) return null;
@@ -96,20 +104,28 @@ export default function AppointmentModal() {
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-in fade-in">
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden animate-in zoom-in-95">
+  if (typeof document === 'undefined') return null;
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[100] !m-0 !p-4 w-screen h-screen flex items-center justify-center bg-slate-950/80 backdrop-blur-md animate-in fade-in"
+      onClick={closeBookingModal}
+    >
+      <div
+        className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-in zoom-in-95"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div className="bg-gradient-to-r from-teal-700 via-emerald-700 to-cyan-800 text-white p-5 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20">
-              <Calendar className="w-5 h-5 text-teal-200" />
+        <div className="bg-slate-900 text-white p-5 flex items-center justify-between border-b border-slate-800">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-teal-600 flex items-center justify-center text-white shrink-0">
+              <Calendar className="w-5 h-5" />
             </div>
             <div>
               <h3 className="text-base font-bold leading-tight">
                 {t.appointment.title}
               </h3>
-              <p className="text-xs text-teal-200">
+              <p className="text-xs text-slate-400">
                 {t.appointment.subtitle}
               </p>
             </div>
@@ -118,7 +134,7 @@ export default function AppointmentModal() {
           <button
             type="button"
             onClick={closeBookingModal}
-            className="p-1.5 text-white/80 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
+            className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -176,7 +192,7 @@ export default function AppointmentModal() {
         ) : (
           <form onSubmit={handleSubmit} className="p-5 space-y-4 max-h-[75vh] overflow-y-auto text-xs">
             {/* Selected Doctor Summary Card */}
-            <div className="p-3 rounded-2xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900/60 flex items-center gap-3">
+            <div className="p-3 rounded-xl surface-card flex items-center gap-3">
               <img
                 src={currentDoctor.image}
                 alt={currentDoctor.name}
@@ -184,16 +200,16 @@ export default function AppointmentModal() {
                   e.currentTarget.onerror = null;
                   e.currentTarget.src = createDoctorFallbackSvg(currentDoctor.name, currentDoctor.specialty);
                 }}
-                className="w-12 h-12 rounded-2xl object-cover border-2 border-teal-500"
+                className="w-12 h-12 rounded-xl object-cover border border-slate-200 dark:border-slate-700"
               />
               <div className="flex-1 min-w-0">
-                <h4 className="font-bold text-sm text-teal-950 dark:text-teal-100 truncate">
+                <h4 className="font-bold text-sm text-slate-900 dark:text-white truncate">
                   {currentDoctor.name}
                 </h4>
-                <div className="text-[11px] text-teal-700 dark:text-teal-300">
+                <div className="text-[11px] text-slate-500">
                   {currentDoctor.specialty} • {currentDoctor.clinicName}
                 </div>
-                <div className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">
+                <div className="text-[11px] font-bold text-teal-600 dark:text-teal-400 mt-0.5">
                   {t.appointment.price}: {Number(currentDoctor.price).toLocaleString()} {t.common.currency}
                 </div>
               </div>
@@ -201,7 +217,7 @@ export default function AppointmentModal() {
 
             {/* Date Picker */}
             <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 {t.appointment.selectDate} *
               </label>
               <input
@@ -216,7 +232,7 @@ export default function AppointmentModal() {
 
             {/* Time Slot Picker */}
             <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 {t.appointment.selectTime} *
               </label>
               <div className="grid grid-cols-3 gap-2">
@@ -227,9 +243,9 @@ export default function AppointmentModal() {
                       key={slot}
                       type="button"
                       onClick={() => setSelectedTimeSlot(slot)}
-                      className={`py-2 px-3 rounded-xl border text-center font-bold transition-all ${
+                      className={`py-2 px-3 rounded-xl border text-center font-semibold transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-teal-600 text-white border-teal-600 shadow-sm'
+                          ? 'bg-teal-600 text-white border-teal-600 shadow-xs'
                           : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
                       }`}
                     >
@@ -243,7 +259,7 @@ export default function AppointmentModal() {
 
             {/* Full Name */}
             <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 {t.appointment.fullName} *
               </label>
               <div className="relative">
@@ -261,7 +277,7 @@ export default function AppointmentModal() {
 
             {/* Phone Number */}
             <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 {t.appointment.phone} *
               </label>
               <div className="relative">
@@ -279,7 +295,7 @@ export default function AppointmentModal() {
 
             {/* Symptoms Description */}
             <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 {t.appointment.symptoms}
               </label>
               <div className="relative">
@@ -299,7 +315,7 @@ export default function AppointmentModal() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3 bg-gradient-to-r from-teal-600 via-emerald-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-bold rounded-2xl shadow-lg shadow-teal-500/20 transition-all flex items-center justify-center gap-2"
+                className="w-full py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Calendar className="w-4 h-4" />
                 <span>
@@ -310,6 +326,7 @@ export default function AppointmentModal() {
           </form>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

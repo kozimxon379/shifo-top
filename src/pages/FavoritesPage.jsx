@@ -70,7 +70,7 @@ export default function FavoritesPage() {
       </div>
 
       {totalCount === 0 ? (
-        <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 space-y-4 max-w-xl mx-auto">
+        <div className="text-center py-20 surface-card rounded-2xl p-8 space-y-4 max-w-xl mx-auto">
           <div className="w-16 h-16 rounded-full bg-rose-50 dark:bg-rose-950/40 text-rose-500 mx-auto flex items-center justify-center">
             <Heart className="w-8 h-8" />
           </div>
