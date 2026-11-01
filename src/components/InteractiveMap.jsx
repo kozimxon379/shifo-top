@@ -170,14 +170,12 @@ export default function InteractiveMap({ selectedClinicId, onSelectClinic }) {
         </div>
 
         <div className="flex items-center gap-2">
-          {/* 10-second live auto-refresh indicator */}
+          {/* Live map status badge */}
           <div
-            title="Xarita va yo'l ma'lumotlari har 10 soniyada yangilanadi"
             className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 shadow-xs"
           >
-            <span className={`w-2 h-2 rounded-full ${isRefreshing ? 'bg-amber-400 animate-spin' : 'bg-emerald-500 animate-pulse'}`}></span>
-            <span className="hidden sm:inline">10s yangilanish:</span>
-            <span className="font-mono text-teal-600 dark:text-teal-400">{isRefreshing ? '...' : `${refreshCountdown}s`}</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>{t.common?.liveSync || "Jonli xarita"}</span>
           </div>
 
           {/* Quick Route Toggle */}

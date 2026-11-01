@@ -25,13 +25,12 @@ export default function ReviewModal() {
     addReview,
     likeReview,
     user,
-    addToast
+    addToast,
+    t
   } = useApp();
 
-  // If no target is selected, do not render modal
-  if (!reviewModalTarget) return null;
-
-  const { targetType, target } = reviewModalTarget; // targetType: 'clinic' | 'doctor', target: object
+  const targetType = reviewModalTarget?.targetType; // targetType: 'clinic' | 'doctor', target: object
+  const target = reviewModalTarget?.target;
   const targetId = target?.id;
   const targetName = target?.name;
 
@@ -45,16 +44,7 @@ export default function ReviewModal() {
   const [verifiedConsent, setVerifiedConsent] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Lock background scroll when modal is open
-  useEffect(() => {
-    if (reviewModalTarget) {
-      const prev = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
-      return () => {
-        document.body.style.overflow = prev;
-      };
-    }
-  }, [reviewModalTarget]);
+
 
   // Filter reviews for this specific target
   const targetReviews = useMemo(() => {
@@ -85,13 +75,13 @@ export default function ReviewModal() {
     e.preventDefault();
     if (!comment.trim()) {
       if (addToast) {
-        addToast("Izoh kiritilmadi", "Iltimos, o'z taassurotingiz va fikringizni yozing!", "warning");
+        addToast(t.common?.error || "Izoh kiritilmadi", t.reviewsModal?.yourFeedback || "Iltimos, fikringizni yozing!", "warning");
       }
       return;
     }
     if (!patientName.trim()) {
       if (addToast) {
-        addToast("Ism kiritilmadi", "Iltimos, ismingizni kiriting!", "warning");
+        addToast(t.common?.error || "Ism kiritilmadi", t.reviewsModal?.yourName || "Iltimos, ismingizni kiriting!", "warning");
       }
       return;
     }
@@ -118,21 +108,21 @@ export default function ReviewModal() {
   const getRatingLabel = (val) => {
     switch (val) {
       case 5:
-        return "5 yulduz — A'lo darajada! Barchaga tavsiya qilaman";
+        return t.reviewsModal?.rating5 || "5 yulduz — A'lo darajada! Barchaga tavsiya qilaman";
       case 4:
-        return "4 yulduz — Juda yaxshi, xizmat ko'rsatish yoqdi";
+        return t.reviewsModal?.rating4 || "4 yulduz — Juda yaxshi, xizmat ko'rsatish yoqdi";
       case 3:
-        return "3 yulduz — O'rtacha, kamchiliklar bor";
+        return t.reviewsModal?.rating3 || "3 yulduz — O'rtacha, kamchiliklar bor";
       case 2:
-        return "2 yulduz — Qoniqarsiz, navbat va muomala yoqmadi";
+        return t.reviewsModal?.rating2 || "2 yulduz — Qoniqarsiz, navbat va muomala yoqmadi";
       case 1:
-        return "1 yulduz — Juda yomon, tavsiya qilmayman";
+        return t.reviewsModal?.rating1 || "1 yulduz — Juda yomon, tavsiya qilmayman";
       default:
-        return "Bahoni tanlang";
+        return t.reviewsModal?.ratingSelect || "Bahoni tanlang";
     }
   };
 
-  if (typeof document === 'undefined') return null;
+  if (!reviewModalTarget || typeof document === 'undefined') return null;
 
   return createPortal(
     <div
@@ -152,11 +142,11 @@ export default function ReviewModal() {
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-400/30">
-                  {targetType === 'clinic' ? "Klinika Baholari" : "Shifokor Baholari"}
+                  {targetType === 'clinic' ? (t.reviewsModal?.titleClinic || "Klinika Baholari") : (t.reviewsModal?.titleDoctor || "Shifokor Baholari")}
                 </span>
                 <span className="text-[10px] text-slate-400 flex items-center gap-1">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>100% Tasdiqlangan tashriflar</span>
+                  <span>{t.reviewsModal?.verifiedVisits || "100% Tasdiqlangan tashriflar"}</span>
                 </span>
               </div>
               <h3 className="text-lg font-bold text-white mt-0.5 line-clamp-1">
@@ -196,7 +186,7 @@ export default function ReviewModal() {
                 ))}
               </div>
               <div className="text-[11px] font-semibold text-slate-500">
-                {totalCount} ta bemor bahosi asosida
+                {totalCount} {t.reviewsModal?.basedOnPatients || "ta bemor bahosi asosida"}
               </div>
             </div>
 
@@ -232,10 +222,10 @@ export default function ReviewModal() {
               <div>
                 <h4 className="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-teal-600 dark:text-teal-400" />
-                  <span>Siz ham borib ko'rdingizmi? Fikr va 5 yulduzli baho qoldiring</span>
+                  <span>{t.reviewsModal?.writeReviewTitle || "Siz ham borib ko'rdingizmi? Fikr va 5 yulduzli baho qoldiring"}</span>
                 </h4>
                 <p className="text-[11px] text-slate-500 mt-0.5">
-                  Boshqa bemorlar to'g'ri shifokor va klinikani tanlashi uchun xolis tajribangizni ulashing
+                  {t.reviewsModal?.writeReviewDesc || "Boshqa bemorlar to'g'ri shifokor va klinikani tanlashi uchun xolis tajribangizni ulashing"}
                 </p>
               </div>
             </div>
@@ -244,7 +234,7 @@ export default function ReviewModal() {
               {/* Interactive 5-Star Rating Selector */}
               <div>
                 <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                  Xizmat sifatini 5 yulduzda baholang *
+                  {t.reviewsModal?.rateService || "Xizmat sifatini 5 yulduzda baholang *"}
                 </label>
                 <div className="flex items-center gap-2 flex-wrap">
                   <div className="flex items-center gap-1.5 p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
@@ -258,7 +248,7 @@ export default function ReviewModal() {
                           onMouseLeave={() => setHoverRating(0)}
                           onClick={() => setRating(starNum)}
                           className="p-1 text-slate-300 hover:scale-125 transition-transform cursor-pointer focus:outline-none"
-                          aria-label={`${starNum} yulduz`}
+                          aria-label={`${starNum} ${t.reviewsModal?.starUnit || "yulduz"}`}
                         >
                           <Star
                             className={`w-6 h-6 transition-colors ${
@@ -282,7 +272,7 @@ export default function ReviewModal() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                    Ism-familiyangiz *
+                    {t.reviewsModal?.yourName || "Ism-familiyangiz *"}
                   </label>
                   <div className="relative">
                     <User className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3" />
@@ -291,7 +281,7 @@ export default function ReviewModal() {
                       required
                       value={patientName}
                       onChange={(e) => setPatientName(e.target.value)}
-                      placeholder="Masalan: Dilshod Rahimov"
+                      placeholder={t.reviewsModal?.namePlaceholder || "Masalan: Dilshod Rahimov"}
                       className="w-full pl-9 pr-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
                     />
                   </div>
@@ -299,7 +289,7 @@ export default function ReviewModal() {
 
                 <div>
                   <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                    Tashrif buyurilgan sana *
+                    {t.reviewsModal?.visitDate || "Tashrif buyurilgan sana *"}
                   </label>
                   <div className="relative">
                     <Calendar className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3" />
@@ -317,7 +307,7 @@ export default function ReviewModal() {
               {/* Service used */}
               <div>
                 <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Ko'rsatilgan tibbiy xizmat turi (ixtiyoriy)
+                  {t.reviewsModal?.serviceType || "Ko'rsatilgan tibbiy xizmat turi (ixtiyoriy)"}
                 </label>
                 <input
                   type="text"
@@ -325,8 +315,8 @@ export default function ReviewModal() {
                   onChange={(e) => setServiceUsed(e.target.value)}
                   placeholder={
                     targetType === 'clinic'
-                      ? "Masalan: Kardiologiya tekshiruvi, MRT, Statsionar davolash"
-                      : "Masalan: Birlamchi ko'rik, EKG tahlili, Davolash rejasi"
+                      ? (t.reviewsModal?.servicePlaceholderClinic || "Masalan: Kardiologiya tekshiruvi, MRT, Statsionar davolash")
+                      : (t.reviewsModal?.servicePlaceholderDoctor || "Masalan: Birlamchi ko'rik, EKG tahlili, Davolash rejasi")
                   }
                   className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
                 />
@@ -335,14 +325,14 @@ export default function ReviewModal() {
               {/* Comment Textarea */}
               <div>
                 <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Taassurot va xolis fikringiz *
+                  {t.reviewsModal?.yourFeedback || "Taassurot va xolis fikringiz *"}
                 </label>
                 <textarea
                   required
                   rows={3}
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  placeholder="Shifokor va xodimlar muomalasi, qabul vaqtiga rioya qilingani, tozalik va natijalar haqida batafsil fikringizni yozing..."
+                  placeholder={t.reviewsModal?.feedbackPlaceholder || "Shifokor va xodimlar muomalasi, qabul vaqtiga rioya qilingani, tozalik va natijalar haqida batafsil fikringizni yozing..."}
                   className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none font-medium leading-relaxed"
                 />
               </div>
@@ -357,7 +347,7 @@ export default function ReviewModal() {
                 />
                 <span className="flex items-center gap-1 font-medium">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>Men ushbu muassasaga shaxsan borganimni va fikrim xolisligini tasdiqlayman</span>
+                  <span>{t.reviewsModal?.consent || "Men ushbu muassasaga shaxsan borganimni va fikrim xolisligini tasdiqlayman"}</span>
                 </span>
               </label>
 
@@ -368,7 +358,7 @@ export default function ReviewModal() {
                 className="btn-spring w-full py-2.5 px-4 bg-teal-600 hover:bg-teal-700 disabled:opacity-50 text-white font-bold rounded-xl text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
               >
                 <Send className="w-3.5 h-3.5" />
-                <span>Bahoni e'lon qilish va tasdiqlash</span>
+                <span>{t.reviewsModal?.submitBtn || "Bahoni e'lon qilish va tasdiqlash"}</span>
               </button>
             </form>
           </div>
@@ -378,10 +368,10 @@ export default function ReviewModal() {
             <div className="flex items-center justify-between">
               <h4 className="font-extrabold text-slate-900 dark:text-white text-xs flex items-center gap-2">
                 <MessageSquare className="w-4 h-4 text-teal-600" />
-                <span>Borib kelgan bemorlar fikrlari ({targetReviews.length})</span>
+                <span>{t.reviewsModal?.patientReviews || "Borib kelgan bemorlar fikrlari"} ({targetReviews.length})</span>
               </h4>
               <span className="text-[10px] text-slate-400 font-medium">
-                Eng yangi fikrlar birinchi
+                {t.reviewsModal?.newestFirst || "Eng yangi fikrlar birinchi"}
               </span>
             </div>
 
@@ -389,10 +379,10 @@ export default function ReviewModal() {
               <div className="p-8 text-center bg-slate-50 dark:bg-slate-800/40 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2">
                 <Star className="w-8 h-8 text-slate-300 mx-auto" />
                 <p className="font-bold text-slate-700 dark:text-slate-300">
-                  Hozircha birinchi fikrni siz qoldiring!
+                  {t.reviewsModal?.noReviewsYet || "Hozircha birinchi fikrni siz qoldiring!"}
                 </p>
                 <p className="text-slate-400 text-[11px]">
-                  Yuqoridagi shakl orqali 5 yulduzli baho va fikringizni yozing.
+                  {t.reviewsModal?.noReviewsSub || "Yuqoridagi shakl orqali 5 yulduzli baho va fikringizni yozing."}
                 </p>
               </div>
             ) : (
@@ -419,12 +409,12 @@ export default function ReviewModal() {
                             {rev.verifiedVisit && (
                               <span className="inline-flex items-center gap-0.5 text-[9px] font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800/80 px-1.5 py-0.2 rounded-full">
                                 <ShieldCheck className="w-2.5 h-2.5 text-emerald-500" />
-                                <span>Tasdiqlangan tashrif</span>
+                                <span>{t.reviewsModal?.verifiedVisitTag || "Tasdiqlangan tashrif"}</span>
                               </span>
                             )}
                           </div>
                           <div className="text-[10px] text-slate-400 flex items-center gap-2 mt-0.5">
-                            <span>Tashrif sanasi: {rev.visitDate || rev.date}</span>
+                            <span>{t.reviewsModal?.visitDateLabel || "Tashrif sanasi:"} {rev.visitDate || rev.date}</span>
                             <span>•</span>
                             <span>{rev.date}</span>
                           </div>
@@ -464,14 +454,14 @@ export default function ReviewModal() {
 
                     {/* Thumbs up like action */}
                     <div className="pt-1 flex items-center justify-between text-[11px] text-slate-400">
-                      <span className="text-[10px]">Shifo.top orqali tasdiqlangan</span>
+                      <span className="text-[10px]">{t.reviewsModal?.verifiedByShifo || "Shifo.top orqali tasdiqlangan"}</span>
                       <button
                         type="button"
                         onClick={() => likeReview && likeReview(rev.id)}
                         className="btn-spring inline-flex items-center gap-1 text-slate-500 hover:text-teal-600 dark:hover:text-teal-400 font-medium cursor-pointer"
                       >
                         <ThumbsUp className="w-3 h-3" />
-                        <span>Foydali ({rev.likes || 0})</span>
+                        <span>{t.reviewsModal?.helpful || "Foydali"} ({rev.likes || 0})</span>
                       </button>
                     </div>
                   </div>
@@ -484,14 +474,14 @@ export default function ReviewModal() {
         {/* Modal Footer */}
         <div className="p-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center shrink-0">
           <span className="text-xs text-slate-500 font-medium">
-            Shifo.top xolis va halol baholash tizimi
+            {t.reviewsModal?.systemNotice || "Shifo.top xolis va halol baholash tizimi"}
           </span>
           <button
             type="button"
             onClick={closeReviewModal}
             className="px-5 py-2 bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white font-bold rounded-xl transition-colors cursor-pointer text-xs shadow-xs"
           >
-            Yopish
+            {t.reviewsModal?.closeBtn || t.common?.close || "Yopish"}
           </button>
         </div>
       </div>

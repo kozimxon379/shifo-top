@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 
 export default function AppointmentModal() {
-  const { bookingModalDoctor, closeBookingModal, bookAppointment, t, user } = useApp();
+  const { bookingModalDoctor, closeBookingModal, bookAppointment, t, user, addToast } = useApp();
 
   const [selectedDoctorId, setSelectedDoctorId] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
@@ -32,13 +32,10 @@ export default function AppointmentModal() {
 
   // Set default values when modal opens
   useEffect(() => {
-    if (bookingModalDoctor) {
-      setSelectedDoctorId(bookingModalDoctor.id);
-      setSelectedTimeSlot(bookingModalDoctor.availableSlots?.[0] || '10:00');
-    } else if (initialDoctors.length > 0) {
-      setSelectedDoctorId(initialDoctors[0].id);
-      setSelectedTimeSlot(initialDoctors[0].availableSlots?.[0] || '10:00');
-    }
+    if (!bookingModalDoctor) return;
+
+    setSelectedDoctorId(bookingModalDoctor.id);
+    setSelectedTimeSlot(bookingModalDoctor.availableSlots?.[0] || '10:00');
 
     // Default date to tomorrow
     const tomorrow = new Date();
@@ -51,13 +48,6 @@ export default function AppointmentModal() {
     }
 
     setIsSuccess(false);
-
-    // Lock background scroll
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = prev;
-    };
   }, [bookingModalDoctor, user]);
 
   if (!bookingModalDoctor) return null;
@@ -67,7 +57,9 @@ export default function AppointmentModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!patientName || !phone || !selectedDate || !selectedTimeSlot) {
-      alert("Iltimos, barcha majburiy maydonlarni to'ldiring!");
+      if (addToast) {
+        addToast(t.common?.error || "Xatolik", t.cartExtra?.fillDeliveryPrompt || "Iltimos, barcha majburiy maydonlarni to'ldiring!", "warning");
+      }
       return;
     }
 
@@ -112,11 +104,11 @@ export default function AppointmentModal() {
       onClick={closeBookingModal}
     >
       <div
-        className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-in zoom-in-95"
+        className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-in zoom-in-95 max-h-[92vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="bg-slate-900 text-white p-5 flex items-center justify-between border-b border-slate-800">
+        <div className="bg-slate-900 text-white p-5 flex items-center justify-between border-b border-slate-800 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-teal-600 flex items-center justify-center text-white shrink-0">
               <Calendar className="w-5 h-5" />
@@ -142,7 +134,7 @@ export default function AppointmentModal() {
 
         {/* Modal Body */}
         {isSuccess ? (
-          <div className="p-6 text-center space-y-4">
+          <div className="p-6 text-center space-y-4 overflow-y-auto flex-1">
             <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center shadow-lg">
               <CheckCircle2 className="w-10 h-10" />
             </div>
@@ -190,7 +182,7 @@ export default function AppointmentModal() {
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="p-5 space-y-4 max-h-[75vh] overflow-y-auto text-xs">
+          <form onSubmit={handleSubmit} className="p-5 space-y-4 overflow-y-auto flex-1 text-xs">
             {/* Selected Doctor Summary Card */}
             <div className="p-3 rounded-xl surface-card flex items-center gap-3">
               <img
@@ -267,7 +259,7 @@ export default function AppointmentModal() {
                 <input
                   type="text"
                   required
-                  placeholder="Masalan: Sardor Aliyev"
+                  placeholder={t.reviewsModal?.namePlaceholder || "Masalan: Sardor Aliyev"}
                   value={patientName}
                   onChange={(e) => setPatientName(e.target.value)}
                   className="w-full pl-9 pr-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -302,7 +294,7 @@ export default function AppointmentModal() {
                 <FileText className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
                 <textarea
                   rows="2"
-                  placeholder="Shifokorga qisqacha shikoyatingiz..."
+                  placeholder={t.appointment?.symptomsPlaceholder || "Shifokorga qisqacha shikoyatingiz..."}
                   value={symptoms}
                   onChange={(e) => setSymptoms(e.target.value)}
                   className="w-full pl-9 pr-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"

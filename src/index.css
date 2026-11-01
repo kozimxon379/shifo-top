@@ -8,9 +8,18 @@
     --font-heading: 'Outfit', system-ui, -apple-system, sans-serif;
   }
 
+  html {
+    overflow-x: clip;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    height: 100%;
+  }
+
   body {
     font-family: var(--font-sans);
-    overflow-x: hidden;
+    overflow-x: clip;
+    overflow-y: visible;
+    min-height: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;

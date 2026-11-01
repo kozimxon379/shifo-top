@@ -48,7 +48,7 @@ export default function LoginPage() {
       });
       sessionStorage.setItem('shifo_admin_code_verified', 'true');
       if (addToast) {
-        addToast("Muvaffaqiyatli!", "Admin tizimiga xush kelibsiz!", "success");
+        addToast(t.common?.success || "Muvaffaqiyatli!", t.loginExtra?.adminWelcome || "Admin tizimiga xush kelibsiz!", "success");
       }
       navigate('/admin');
       return;
@@ -63,7 +63,7 @@ export default function LoginPage() {
         phone: '+998 90 333 44 55'
       });
       if (addToast) {
-        addToast("Xush kelibsiz!", "Shifokor profiliga muvaffaqiyatli kirdingiz.", "success");
+        addToast(t.common?.success || "Xush kelibsiz!", t.loginExtra?.doctorWelcome || "Shifokor profiliga muvaffaqiyatli kirdingiz.", "success");
       }
       navigate('/');
       return;
@@ -77,7 +77,7 @@ export default function LoginPage() {
       phone: '+998 90 123 45 67'
     });
     if (addToast) {
-      addToast("Xush kelibsiz!", "Tizimga muvaffaqiyatli kirdingiz.", "success");
+      addToast(t.common?.success || "Xush kelibsiz!", t.loginExtra?.userWelcome || "Tizimga muvaffaqiyatli kirdingiz.", "success");
     }
     navigate('/');
   };
@@ -249,7 +249,9 @@ export default function LoginPage() {
 
   const handleSendSms = () => {
     if (phone.length < 9) {
-      alert("Iltimos, to'liq telefon raqamingizni kiriting!");
+      if (addToast) {
+        addToast(t.common?.error || "Xatolik", t.loginExtra?.fillPhonePrompt || "Iltimos, to'liq telefon raqamingizni kiriting!", "warning");
+      }
       return;
     }
     setSmsSent(true);

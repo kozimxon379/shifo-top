@@ -99,17 +99,17 @@ export function AppProvider({ children }) {
       reviewsCount: 1
     };
     setProducts(prev => [prod, ...prev]);
-    addToast(t.common.success, `${prod.name} muvaffaqiyatli qo'shildi!`, 'success');
+    addToast(t.common.success, `${prod.name} ${t.toasts.productAdded}`, 'success');
   };
 
   const updateProduct = (id, updatedFields) => {
     setProducts(prev => prev.map(p => p.id === id ? { ...p, ...updatedFields } : p));
-    addToast(t.common.success, `Mahsulot ma'lumotlari yangilandi!`, 'info');
+    addToast(t.common.success, t.toasts.productUpdated, 'info');
   };
 
   const deleteProduct = (id) => {
     setProducts(prev => prev.filter(p => p.id !== id));
-    addToast(t.common.success, `Mahsulot o'chirildi!`, 'warning');
+    addToast(t.common.success, t.toasts.productDeleted, 'warning');
   };
 
   // 5. Cart state
@@ -141,7 +141,7 @@ export function AppProvider({ children }) {
       }
       return [...prev, { ...product, quantity }];
     });
-    addToast("Savatga qo'shildi", `${product.name} savatga kiritildi.`, 'success');
+    addToast(t.toasts.addedToCart, `${product.name} ${t.toasts.addedToCartDesc}`, 'success');
   };
 
   const updateCartQuantity = (id, delta) => {
@@ -156,7 +156,7 @@ export function AppProvider({ children }) {
 
   const removeFromCart = (id) => {
     setCart(prev => prev.filter(item => item.id !== id));
-    addToast("O'chirildi", "Mahsulot savatdan olib tashlandi", 'info');
+    addToast(t.toasts.removedFromCart, t.toasts.removedFromCartDesc, 'info');
   };
 
   const clearCart = () => setCart([]);
@@ -182,10 +182,10 @@ export function AppProvider({ children }) {
     setFavorites(prev => {
       const isFav = prev.includes(itemId);
       if (isFav) {
-        addToast("Sevimlilardan olib tashlandi", "", "info");
+        addToast(t.toasts.removedFromFavorites, "", "info");
         return prev.filter(id => id !== itemId);
       } else {
-        addToast("Sevimlilarga qo'shildi!", "", "success");
+        addToast(t.toasts.addedToFavorites, "", "success");
         return [...prev, itemId];
       }
     });
@@ -200,18 +200,18 @@ export function AppProvider({ children }) {
     const clean = code.trim().toUpperCase();
     if (clean === 'SHIFO2026') {
       setAppliedPromo({ code: 'SHIFO2026', discountPercent: 20, desc: "20% maxsus chegirma" });
-      addToast("Promokod faollashtirildi!", "SHIFO2026 orqali 20% chegirma berildi!", "success");
+      addToast(t.toasts.promoActivated, t.toasts.promoShifo, "success");
       return true;
     } else if (clean === 'SALOM') {
       setAppliedPromo({ code: 'SALOM', discountPercent: 10, desc: "10% xush kelibsiz chegirmasi" });
-      addToast("Promokod faollashtirildi!", "10% chegirma qo'llandi!", "success");
+      addToast(t.toasts.promoActivated, t.toasts.promoSalom, "success");
       return true;
     } else if (clean === 'BEPUL') {
       setAppliedPromo({ code: 'BEPUL', freeDelivery: true, desc: "Bepul yetkazib berish" });
-      addToast("Promokod faollashtirildi!", "Yetkazib berish bepul qilindi!", "success");
+      addToast(t.toasts.promoActivated, t.toasts.promoFree, "success");
       return true;
     } else {
-      addToast("Xato promokod", "Bunday promokod mavjud emas yoki muddati o'tgan.", "error");
+      addToast(t.toasts.promoError, t.toasts.promoErrorDesc, "error");
       return false;
     }
   };
@@ -244,7 +244,7 @@ export function AppProvider({ children }) {
     };
     setTelegramConfig(newConfig);
     localStorage.setItem('shifo_telegram', JSON.stringify(newConfig));
-    addToast("Telegram sozlamalari saqlandi", "Bildirishnomalar avtomatik yuboriladi.", "success");
+    addToast(t.toasts.telegramSaved, t.toasts.telegramSavedDesc, "success");
   };
 
   // 8.5 Doctors state (with persistence, smart merge, and CRUD)
@@ -289,17 +289,17 @@ export function AppProvider({ children }) {
       availableSlots: newDoc.availableSlots || ["09:00", "11:00", "14:00", "16:00"]
     };
     setDoctors(prev => [doc, ...prev]);
-    addToast(t.common?.success || "Muvaffaqiyatli", `${doc.name} ro'yxatga qo'shildi!`, 'success');
+    addToast(t.common.success, `${doc.name} ${t.toasts.doctorAdded}`, 'success');
   };
 
   const updateDoctor = (id, updatedFields) => {
     setDoctors(prev => prev.map(d => (d.id === id ? { ...d, ...updatedFields } : d)));
-    addToast(t.common?.success || "Muvaffaqiyatli", `Shifokor ma'lumotlari yangilandi!`, 'info');
+    addToast(t.common.success, t.toasts.doctorUpdated, 'info');
   };
 
   const deleteDoctor = (id) => {
     setDoctors(prev => prev.filter(d => d.id !== id));
-    addToast(t.common?.success || "O'chirildi", `Shifokor tizimdan o'chirildi!`, 'warning');
+    addToast(t.common.success, t.toasts.doctorDeleted, 'warning');
   };
 
   // 8.6 Clinics state (with persistence and live reviews updates)
@@ -404,8 +404,8 @@ export function AppProvider({ children }) {
     }
 
     addToast(
-      "Bahoyingiz qabul qilindi!",
-      `«${reviewData.targetName}» uchun ${newRev.rating} yulduzli baho va fikringiz e'lon qilindi. Rahmat!`,
+      t.toasts.reviewAccepted,
+      `«${reviewData.targetName}» — ${newRev.rating} ⭐`,
       "success"
     );
 
@@ -414,7 +414,7 @@ export function AppProvider({ children }) {
 
   const likeReview = (reviewId) => {
     setReviews(prev => prev.map(r => r.id === reviewId ? { ...r, likes: (r.likes || 0) + 1 } : r));
-    addToast("Rahmat!", "Fikr foydali deb belgilandi.", "info");
+    addToast(t.toasts.reviewLiked, t.toasts.reviewLikedDesc, "info");
   };
 
   // 9. Appointments state
@@ -474,9 +474,9 @@ export function AppProvider({ children }) {
     };
     setAppointments(prev => [newApt, ...prev]);
 
-    // Format and send via Telegram Bot
+    // Format and send via Telegram Bot in background
     const msg = formatAppointmentMessage(newApt);
-    await sendTelegramMessage(msg, telegramConfig.botToken, telegramConfig.chatId);
+    sendTelegramMessage(msg, telegramConfig.botToken, telegramConfig.chatId).catch(() => {});
 
     addToast(t.appointment.successTitle, t.appointment.telegramSent, "success");
     return newApt;
@@ -497,7 +497,7 @@ export function AppProvider({ children }) {
       await sendTelegramMessage(msg, telegramConfig.botToken, telegramConfig.chatId);
     }
 
-    addToast("Holat yangilandi", `Qabul holati: ${newStatus}`, "info");
+    addToast(t.toasts.statusUpdated, `${t.toasts.statusUpdatedDesc} ${newStatus}`, "info");
   };
 
   // 10. Orders state
@@ -537,23 +537,23 @@ export function AppProvider({ children }) {
 
     clearCart();
     setAppliedPromo(null);
-    addToast("Buyurtma tasdiqlandi!", "Telegram botga buyurtma va yetkazish vaqti yuborildi.", "success");
+    addToast(t.toasts.orderConfirmed, t.toasts.orderConfirmedDesc, "success");
     return newOrder;
   };
 
   const updateOrderStatus = (id, newStatus) => {
     setOrders(prev => prev.map(o => o.id === id ? { ...o, status: newStatus } : o));
-    addToast("Buyurtma holati yangilandi", `Buyurtma #${id}: ${newStatus}`, "info");
+    addToast(t.toasts.orderStatusUpdated, `#${id}: ${newStatus}`, "info");
   };
 
   const deleteOrder = (id) => {
     setOrders(prev => prev.filter(o => o.id !== id));
-    addToast("Buyurtma o'chirildi", `Buyurtma #${id} ro'yxatdan olib tashlandi`, "warning");
+    addToast(t.toasts.orderDeleted, `#${id} ${t.toasts.orderDeletedDesc}`, "warning");
   };
 
   const resetOrders = () => {
     setOrders(initialOrders);
-    addToast("Namuna buyurtmalar yuklandi", "Sinov buyurtmalari ro'yxati qayta tiklandi.", "success");
+    addToast(t.toasts.ordersSampleLoaded, t.toasts.ordersSampleLoadedDesc, "success");
   };
 
   // 11. User Auth state
@@ -599,7 +599,7 @@ export function AppProvider({ children }) {
 
     setUser(updatedUser);
     localStorage.setItem('shifo_user', JSON.stringify(updatedUser));
-    addToast("Xush kelibsiz!", `${userData.name || userData.email || userData.username} tizimga kirdi`, "success");
+    addToast(t.toasts.welcome, `${userData.name || userData.email || userData.username} ${t.toasts.welcomeDesc}`, "success");
   };
 
   const logoutUser = () => {
@@ -610,7 +610,7 @@ export function AppProvider({ children }) {
       role: "guest",
       name: ""
     });
-    addToast("Chiqildi", "Hisobdan muvaffaqiyatli chiqdingiz", "info");
+    addToast(t.toasts.loggedOut, t.toasts.loggedOutDesc, "info");
   };
 
   // 12. Global Booking Modal target
@@ -628,7 +628,7 @@ export function AppProvider({ children }) {
   const [refreshCountdown, setRefreshCountdown] = useState(10);
   const [lastUpdated, setLastUpdated] = useState(() => new Date().toLocaleTimeString());
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [autoRefreshEnabled, setAutoRefreshEnabled] = useState(true);
+  const [autoRefreshEnabled, setAutoRefreshEnabled] = useState(false);
 
   const [liveMetrics, setLiveMetrics] = useState({
     trafficScore: 1,
@@ -715,19 +715,13 @@ export function AppProvider({ children }) {
     }, 600);
   };
 
-  // 1-second countdown ticker for 10-second auto refresh
+  // Gentle auto-refresh without high-frequency 1-second re-render ticks
   useEffect(() => {
     if (!autoRefreshEnabled) return;
 
     const timer = setInterval(() => {
-      setRefreshCountdown(prev => {
-        if (prev <= 1) {
-          executeDataRefresh();
-          return 10;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+      executeDataRefresh();
+    }, 60000); // 60 seconds calm refresh
 
     return () => clearInterval(timer);
   }, [autoRefreshEnabled]);
@@ -752,7 +746,7 @@ export function AppProvider({ children }) {
   const manualRefresh = () => {
     setRefreshCountdown(10);
     executeDataRefresh();
-    addToast(t.common.liveSync || "Jonli yangilanish", "Ma'lumotlar muvaffaqiyatli yangilandi!", "info");
+    addToast(t.common.liveSync, t.toasts.dataRefreshed, "info");
   };
 
   return (

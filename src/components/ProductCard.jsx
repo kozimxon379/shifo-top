@@ -37,7 +37,7 @@ export default function ProductCard({ product }) {
               ? 'bg-rose-500 text-white shadow-xs'
               : 'bg-white/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-300 hover:text-rose-500'
           }`}
-          aria-label="Sevimlilarga qo'shish"
+          aria-label={t.cardsExtra?.saveFavorite || "Sevimlilarga qo'shish"}
         >
           <Heart className={`w-4 h-4 ${isFav ? 'fill-white' : ''}`} />
         </button>

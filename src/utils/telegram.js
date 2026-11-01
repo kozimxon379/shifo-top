@@ -7,9 +7,12 @@ export async function sendTelegramMessage(text, botToken, chatId) {
   const token = (botToken || DEFAULT_TELEGRAM_TOKEN).trim();
   const id = (chatId || DEFAULT_TELEGRAM_CHAT_ID).trim();
 
-  // If token and chatId are provided, dispatch directly to Telegram Bot API
+  // If token and chatId are provided, dispatch directly to Telegram Bot API with timeout
   if (token && id) {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2500);
+
       const url = `https://api.telegram.org/bot${token}/sendMessage`;
       const response = await fetch(url, {
         method: "POST",
@@ -18,12 +21,14 @@ export async function sendTelegramMessage(text, botToken, chatId) {
           chat_id: id,
           text: text,
           parse_mode: "HTML"
-        })
+        }),
+        signal: controller.signal
       });
+      clearTimeout(timeoutId);
       const data = await response.json();
       return { success: data.ok, data, simulated: false };
     } catch (err) {
-      console.warn("Telegram dispatch network error, falling back to simulation:", err);
+      console.warn("Telegram dispatch network/CORS fallback to simulated mode:", err.message);
       return { success: true, error: err.message, simulated: true };
     }
   }

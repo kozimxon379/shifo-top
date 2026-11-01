@@ -30,7 +30,8 @@ export default function CartPage() {
     appliedPromo,
     applyPromoCode,
     placeOrder,
-    user
+    user,
+    addToast
   } = useApp();
 
   const [promoInput, setPromoInput] = useState('');
@@ -38,20 +39,11 @@ export default function CartPage() {
   const [customerName, setCustomerName] = useState(user?.name || '');
   const [phone, setPhone] = useState(user?.phone || '');
   const [address, setAddress] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('Naqd yoki karta bilan qabul qilganda');
+  const [paymentMethod, setPaymentMethod] = useState('cash');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderComplete, setOrderComplete] = useState(null);
 
-  // Lock background scroll when modal is open
-  useEffect(() => {
-    if (checkoutModalOpen) {
-      const prev = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
-      return () => {
-        document.body.style.overflow = prev;
-      };
-    }
-  }, [checkoutModalOpen]);
+
 
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
@@ -75,7 +67,9 @@ export default function CartPage() {
   const handleCheckoutSubmit = async (e) => {
     e.preventDefault();
     if (!address.trim() || !phone.trim() || !customerName.trim()) {
-      alert("Iltimos, yetkazib berish ma'lumotlarini to'ldiring!");
+      if (addToast) {
+        addToast(t.common?.error || "Xatolik", t.cartExtra?.fillDeliveryPrompt || "Iltimos, yetkazib berish ma'lumotlarini to'ldiring!", "warning");
+      }
       return;
     }
 
@@ -132,34 +126,34 @@ export default function CartPage() {
         <div className="p-4 bg-emerald-50 dark:bg-emerald-950/40 rounded-2xl border border-emerald-200 dark:border-emerald-900 text-xs text-emerald-900 dark:text-emerald-200 flex items-center justify-center gap-2.5 max-w-lg mx-auto shadow-sm">
           <Clock className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 animate-pulse" />
           <span className="font-extrabold text-sm">
-            Yetkazib berish vaqti: {orderComplete.deliveryMinutes || "30 - 45"} daqiqa ichida yetib boradi!
+            {t.cartExtra?.deliveryTime || "Yetkazib berish vaqti: 30 - 45 daqiqa ichida yetib boradi!"}
           </span>
         </div>
 
         {/* Telegram receipt notification status */}
         <div className="p-4 bg-teal-50 dark:bg-teal-950/40 rounded-2xl border border-teal-200 dark:border-teal-900 text-xs text-teal-900 dark:text-teal-200 flex items-center justify-center gap-2 max-w-lg mx-auto">
           <Send className="w-4 h-4 text-teal-600 shrink-0" />
-          <span>Telegram (@abusasiqcha123bot) orqali buyurtma tasdiqlandi, narxlari va yetkazish vaqti yuborildi.</span>
+          <span>{t.cartExtra?.telegramNotice || "Telegram (@abusasiqcha123bot) orqali buyurtma tasdiqlandi, narxlari va yetkazish vaqti yuborildi."}</span>
         </div>
 
         {/* Quick Order Summary */}
         <div className="max-w-lg mx-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 text-left text-xs space-y-3 shadow-sm">
           <div className="font-bold text-slate-900 dark:text-white pb-2 border-b border-slate-100 dark:border-slate-800 flex justify-between">
-            <span>Buyurtma qilingan mahsulotlar</span>
-            <span className="text-emerald-600 font-extrabold">Jami: {Number(orderComplete.total).toLocaleString()} so'm</span>
+            <span>{t.cartExtra?.orderedProducts || "Buyurtma qilingan mahsulotlar"}</span>
+            <span className="text-emerald-600 font-extrabold">{t.cart?.finalTotal || "Jami"}: {Number(orderComplete.total).toLocaleString()} {t.common?.currency}</span>
           </div>
           <div className="space-y-2 max-h-44 overflow-y-auto pr-1">
             {(orderComplete.items || []).map((item, idx) => (
               <div key={idx} className="flex justify-between items-center text-slate-600 dark:text-slate-300">
                 <span className="truncate max-w-[220px]">{item.name} × {item.quantity}</span>
                 <span className="font-bold text-slate-900 dark:text-white">
-                  {(item.price * item.quantity).toLocaleString()} so'm
+                  {(item.price * item.quantity).toLocaleString()} {t.common?.currency}
                 </span>
               </div>
             ))}
           </div>
           <div className="pt-2 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-500">
-            📍 Manzil: {orderComplete.address} • 📞 {orderComplete.phone}
+            📍 {t.cartExtra?.addressLabel || "Manzil:"} {orderComplete.address} • 📞 {t.cartExtra?.phoneLabel || "Tel:"} {orderComplete.phone}
           </div>
         </div>
 

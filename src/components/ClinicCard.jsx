@@ -43,11 +43,11 @@ export default function ClinicCard({ clinic, onSelectOnMap }) {
                 if (openReviewModal) openReviewModal({ targetType: 'clinic', target: clinic });
               }}
               className="flex items-center gap-1.5 text-xs font-bold text-amber-300 bg-slate-950/80 hover:bg-amber-400 hover:text-slate-950 transition-colors backdrop-blur-sm px-2.5 py-1 rounded-lg border border-white/10 cursor-pointer shadow-xs group/rating"
-              title="Barcha fikrlar va 5 yulduzli baholarni ko'rish / baholash"
+              title={t.cardsExtra?.patientReviewsTooltip || "Barcha fikrlar va 5 yulduzli baholarni ko'rish / baholash"}
             >
               <Star className="w-3.5 h-3.5 fill-amber-300 group-hover/rating:fill-slate-950" />
               <span>{clinic.rating}</span>
-              <span className="text-[10px] opacity-80">({clinic.reviewsCount} baho)</span>
+              <span className="text-[10px] opacity-80">({clinic.reviewsCount} {t.cardsExtra?.reviewsCountSuffix || "baho"})</span>
             </button>
             <span className="text-[10px] font-medium text-teal-200 bg-slate-950/70 backdrop-blur-sm px-2 py-0.5 rounded-md border border-white/10">
               {clinic.region}
@@ -114,7 +114,7 @@ export default function ClinicCard({ clinic, onSelectOnMap }) {
           className="btn-spring w-full py-2 px-3 bg-amber-50 dark:bg-amber-950/40 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-300 rounded-xl font-bold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
         >
           <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-          <span>Fikrlar & 5★ Baho qo'yish ({clinic.reviewsCount})</span>
+          <span>{t.cardsExtra?.reviewsBtn || "Fikrlar & 5★ Baho qo'yish"} ({clinic.reviewsCount})</span>
         </button>
 
         <div className="grid grid-cols-2 gap-2 text-xs">

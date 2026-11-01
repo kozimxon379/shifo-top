@@ -12,7 +12,6 @@ import {
   Stethoscope,
   Pill,
   BookOpenText,
-  Activity,
   Lock,
   Clock,
   Phone
@@ -85,12 +84,6 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/health-tools" className="hover:text-teal-400 transition-colors flex items-center gap-2">
-                  <Activity className="w-3.5 h-3.5 text-teal-400" />
-                  <span>{t.nav.healthTools || "Tahlillar & Vositalar"}</span>
-                </Link>
-              </li>
-              <li>
                 <Link to="/admin" className="hover:text-teal-400 transition-colors flex items-center gap-2">
                   <Lock className="w-3.5 h-3.5 text-teal-400" />
                   <span>{t.nav.admin}</span>
@@ -152,7 +145,7 @@ export default function Footer() {
           <div className="text-xs text-slate-400 flex flex-col sm:flex-row items-center justify-center gap-4">
             <span>{t.footer.rights}</span>
             <span className="hidden sm:inline">•</span>
-            <span>O'zbekiston Respublikasi Sog'liqni Saqlash Vazirligi standarti asosida</span>
+            <span>{t.footerExtra?.ministryStandard || "O'zbekiston Respublikasi Sog'liqni Saqlash Vazirligi standarti asosida"}</span>
           </div>
         </div>
       </div>

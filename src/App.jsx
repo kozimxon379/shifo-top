@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AppProvider } from './context/AppContext';
+import { AppProvider, useApp } from './context/AppContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AIChatbot from './components/AIChatbot';
@@ -18,23 +18,23 @@ import CartPage from './pages/CartPage';
 import FavoritesPage from './pages/FavoritesPage';
 import LoginPage from './pages/LoginPage';
 import AdminPage from './pages/AdminPage';
-import HealthToolsPage from './pages/HealthToolsPage';
 
 function NotFoundPage() {
+  const { t } = useApp();
   return (
     <div className="max-w-md mx-auto px-4 py-24 text-center space-y-4">
-      <div className="text-6xl font-black text-teal-600">404</div>
+      <div className="text-6xl font-black text-teal-600">{t.notFound?.code || "404"}</div>
       <h2 className="text-xl font-bold text-slate-800 dark:text-white">
-        Sahifa topilmadi
+        {t.notFound?.title || "Page not found"}
       </h2>
       <p className="text-xs text-slate-500">
-        Kechirasiz, siz qidirayotgan sahifa mavjud emas yoki boshqa manzilga ko'chirilgan.
+        {t.notFound?.desc || "Sorry, the page you are looking for does not exist."}
       </p>
       <a
         href="/"
         className="inline-block px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl text-xs transition-colors"
       >
-        Bosh sahifaga qaytish
+        {t.notFound?.backHome || "Back to Home"}
       </a>
     </div>
   );
@@ -50,6 +50,9 @@ function ScrollToTop() {
   const prevPathRef = useRef(pathname);
 
   useEffect(() => {
+    if (!pathname.startsWith('/admin')) {
+      document.body.style.overflow = '';
+    }
     if (prevPathRef.current !== pathname) {
       if (!pathname.startsWith('/admin')) {
         window.scrollTo(0, 0);
@@ -64,6 +67,13 @@ function ScrollToTop() {
 function AppLayout() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
+
+  useEffect(() => {
+    if (!isAdmin) {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+  }, [isAdmin]);
 
   return (
     <div className={`min-h-screen flex flex-col bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200 ${isAdmin ? 'h-screen overflow-hidden' : ''}`}>
@@ -80,7 +90,6 @@ function AppLayout() {
           <Route path="/doctors" element={<DoctorsPage />} />
           <Route path="/store" element={<StorePage />} />
           <Route path="/encyclopedia" element={<EncyclopediaPage />} />
-          <Route path="/health-tools" element={<HealthToolsPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/login" element={<LoginPage />} />

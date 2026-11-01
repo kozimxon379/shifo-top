@@ -25,7 +25,7 @@ export default function DoctorCard({ doctor }) {
                 loading="lazy"
               />
             </div>
-            <span className="absolute -bottom-1 -right-1 bg-emerald-500 text-white p-1 rounded-full border-2 border-white dark:border-slate-900" title="Tasdiqlangan mutaxassis">
+            <span className="absolute -bottom-1 -right-1 bg-emerald-500 text-white p-1 rounded-full border-2 border-white dark:border-slate-900" title={t.cardsExtra?.verifiedDoctor || "Tasdiqlangan mutaxassis"}>
               <CheckCircle2 className="w-3 h-3" />
             </span>
           </div>
@@ -50,7 +50,7 @@ export default function DoctorCard({ doctor }) {
                 ? 'bg-rose-50 border-rose-200 text-rose-500 fill-rose-500'
                 : 'border-slate-200 dark:border-slate-800 text-slate-400 hover:text-rose-500 hover:bg-slate-50 dark:hover:bg-slate-800'
             }`}
-            aria-label="Sevimlilarga saqlash"
+            aria-label={t.cardsExtra?.saveFavorite || "Sevimlilarga saqlash"}
           >
             <Heart className={`w-4 h-4 ${isFav ? 'fill-rose-500' : ''}`} />
           </button>
@@ -60,7 +60,7 @@ export default function DoctorCard({ doctor }) {
         <div className="grid grid-cols-3 gap-2 py-2.5 px-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100 dark:border-slate-800 text-center text-xs mb-3">
           <div>
             <div className="font-bold text-slate-900 dark:text-white">
-              {doctor.experienceYears}+ yil
+              {doctor.experienceYears}+ {t.cardsExtra?.yearsSuffix || "yil"}
             </div>
             <div className="text-[10px] text-slate-400 font-medium">
               {t.doctors.exp}
@@ -73,14 +73,14 @@ export default function DoctorCard({ doctor }) {
               if (openReviewModal) openReviewModal({ targetType: 'doctor', target: doctor });
             }}
             className="border-x border-slate-200 dark:border-slate-700 hover:bg-amber-50 dark:hover:bg-amber-950/40 rounded-lg transition-colors cursor-pointer p-0.5 text-center group/rate"
-            title="Bemorlar baholari va fikrlarini ko'rish / baholash"
+            title={t.cardsExtra?.patientReviewsTooltip || "Bemorlar baholari va fikrlarini ko'rish / baholash"}
           >
             <div className="font-bold text-amber-500 flex items-center justify-center gap-1 group-hover/rate:scale-105 transition-transform">
               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
               <span>{doctor.rating}</span>
             </div>
             <div className="text-[10px] text-slate-400 font-medium group-hover/rate:text-amber-600">
-              {t.doctors.rating} (Fikrlar)
+              {t.doctors.rating} ({t.reviewsModal?.patientReviews || "Fikrlar"})
             </div>
           </button>
 
@@ -142,7 +142,7 @@ export default function DoctorCard({ doctor }) {
           className="btn-spring w-full py-1.5 px-3 bg-amber-50 dark:bg-amber-950/40 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-300 rounded-xl font-bold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
         >
           <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-          <span>Fikrlar & 5★ Baho qo'yish</span>
+          <span>{t.cardsExtra?.reviewsBtn || "Fikrlar & 5★ Baho qo'yish"}</span>
         </button>
 
         <div className="flex items-center justify-between gap-3">
