@@ -60,14 +60,14 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 w-full transition-colors">
       {/* Top Clinical & Emergency Notice Bar */}
-      <div className="bg-slate-900 text-slate-200 text-xs py-1.5 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
+      <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-slate-200 text-xs py-1.5 px-4 sm:px-6 lg:px-8 border-b border-slate-800/80">
         <div className="w-full flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-xs shadow-emerald-400"></span>
             </span>
-            <span className="font-medium tracking-wide text-slate-300 hidden sm:inline whitespace-nowrap">
+            <span className="font-semibold tracking-wide text-slate-300 hidden sm:inline whitespace-nowrap">
               {t.hero.badge || "24/7 Shoshilinch & Malakali Tibbiyot Portali"}
             </span>
           </div>
@@ -78,7 +78,7 @@ export default function Navbar() {
             </span>
             <a
               href="tel:103"
-              className="inline-flex items-center gap-1.5 bg-rose-600 hover:bg-rose-700 text-white px-3 py-0.5 rounded-full font-bold transition-colors shadow-xs whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white px-3 py-1 rounded-full font-bold transition-all shadow-sm shadow-rose-600/30 whitespace-nowrap btn-spring"
               title={t.aria?.emergencyCall || "Favqulodda tez yordamga qo'ng'iroq qilish"}
             >
               <PhoneCall className="w-3 h-3" />
@@ -96,21 +96,22 @@ export default function Navbar() {
             <div className="flex items-center gap-4 xl:gap-8 min-w-0">
               {/* Logo */}
               <Link to="/" className="flex items-center gap-3 group shrink-0 btn-spring">
-                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-teal-600 text-white flex items-center justify-center shadow-md shadow-teal-600/20 group-hover:bg-teal-700 transition-colors shrink-0">
-                  <HeartPulse className="w-6 h-6 animate-heart-pulse" />
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-teal-700 via-teal-600 to-emerald-500 text-white flex items-center justify-center shadow-lg shadow-teal-600/20 ring-1 ring-white/20 group-hover:scale-105 transition-all shrink-0">
+                  <HeartPulse className="w-5 h-5 sm:w-6 sm:h-6 animate-heart-pulse" />
                 </div>
                 <div className="flex flex-col shrink-0">
                   <span className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white flex items-center whitespace-nowrap leading-tight">
-                    shifo<span className="text-teal-600 dark:text-teal-400">.top</span>
+                    shifo<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-400">.top</span>
                   </span>
-                  <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 hidden sm:block whitespace-nowrap leading-none mt-0.5">
-                    {t.tagline || "Aqlli tibbiyot portali"}
+                  <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 hidden sm:flex items-center gap-1.5 whitespace-nowrap leading-none mt-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    <span>{t.tagline || "Aqlli tibbiyot portali"}</span>
                   </span>
                 </div>
               </Link>
 
               {/* Desktop Navigation Links */}
-              <div className="hidden lg:flex items-center gap-1.5 xl:gap-2 shrink-0">
+              <div className="hidden lg:flex items-center gap-1 xl:gap-1.5 shrink-0">
                 {navLinks.map((link) => {
                   const active = isActive(link.to);
                   const IconComp = link.icon;
@@ -120,16 +121,19 @@ export default function Navbar() {
                       to={link.to}
                       className={`inline-flex items-center gap-2 px-3 py-2 xl:px-3.5 xl:py-2 rounded-xl text-xs xl:text-sm font-semibold whitespace-nowrap shrink-0 transition-all ${
                         active
-                          ? 'bg-teal-50 dark:bg-teal-950/60 text-teal-800 dark:text-teal-300 border border-teal-200/80 dark:border-teal-800'
-                          : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/60'
+                          ? 'bg-teal-500/10 dark:bg-teal-400/10 text-teal-700 dark:text-teal-300 border border-teal-500/20 dark:border-teal-400/20 shadow-xs'
+                          : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-slate-800/60'
                       }`}
                     >
                       <IconComp
-                        className={`w-4 h-4 shrink-0 ${
-                          active ? 'text-teal-600 dark:text-teal-400' : 'text-slate-400 dark:text-slate-500'
+                        className={`w-4 h-4 shrink-0 transition-transform ${
+                          active ? 'text-teal-600 dark:text-teal-400 scale-105' : 'text-slate-400 dark:text-slate-500'
                         }`}
                       />
                       <span className="whitespace-nowrap select-none">{link.label}</span>
+                      {active && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-teal-500 dark:bg-teal-400 ml-0.5 animate-pulse" />
+                      )}
                     </Link>
                   );
                 })}

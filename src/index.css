@@ -62,41 +62,83 @@
 /* Premium Surface & Elevation System */
 .surface-card {
   background-color: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 1px solid rgba(226, 232, 240, 0.85);
   box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dark .surface-card {
-  background-color: #0f172a;
-  border-color: #1e293b;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+  background-color: #0d1527;
+  border-color: rgba(30, 41, 59, 0.85);
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
 }
 
 .surface-card-elevated {
   background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05), 0 12px 24px -4px rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dark .surface-card-elevated {
-  background-color: #0f172a;
-  border-color: #1e293b;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 12px 24px -4px rgba(0, 0, 0, 0.4);
+  background-color: #0f192e;
+  border-color: rgba(30, 41, 59, 0.9);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
 }
 
-/* Subtle, crisp glass headers without over-blurring */
+/* Subtle, crisp glass headers with enhanced multi-layer blur */
 .glass-nav {
-  background-color: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.85);
 }
 
 .dark .glass-nav {
-  background-color: rgba(15, 23, 42, 0.88);
+  background-color: rgba(10, 17, 32, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(30, 41, 59, 0.85);
+}
+
+/* Modern Gradient Text */
+.text-gradient-teal {
+  background: linear-gradient(135deg, #0d9488 0%, #0284c7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark .text-gradient-teal {
+  background: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-emerald {
+  background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark .text-gradient-emerald {
+  background: linear-gradient(135deg, #34d399 0%, #2dd4bf 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Premium pill glass effect */
+.glass-pill {
+  background-color: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.dark .glass-pill {
+  background-color: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* =========================================
@@ -222,3 +264,64 @@
   background-image: radial-gradient(rgba(51, 65, 85, 0.25) 1px, transparent 1px);
   background-size: 24px 24px;
 }
+
+/* Modern Medical Ambient Background */
+.medical-hero-mesh {
+  background-color: #fafbfc;
+  background-image:
+    radial-gradient(at 15% 15%, rgba(13, 148, 136, 0.08) 0px, transparent 55%),
+    radial-gradient(at 85% 25%, rgba(14, 165, 233, 0.07) 0px, transparent 50%),
+    radial-gradient(at 50% 85%, rgba(16, 185, 129, 0.05) 0px, transparent 55%);
+}
+
+.dark .medical-hero-mesh {
+  background-color: #080d1a;
+  background-image:
+    radial-gradient(at 15% 15%, rgba(13, 148, 136, 0.15) 0px, transparent 55%),
+    radial-gradient(at 85% 25%, rgba(14, 165, 233, 0.12) 0px, transparent 50%),
+    radial-gradient(at 50% 85%, rgba(16, 185, 129, 0.08) 0px, transparent 55%);
+}
+
+/* Omnibar multi-layer shadow & ring */
+.omnibar-shell {
+  background: #ffffff;
+  border: 1px solid rgba(203, 213, 225, 0.85);
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05),
+              0 20px 30px -10px rgba(13, 148, 136, 0.08),
+              0 1px 2px 0 rgba(15, 23, 42, 0.06);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .omnibar-shell {
+  background: #0f172a;
+  border-color: rgba(51, 65, 85, 0.85);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
+              0 20px 30px -10px rgba(13, 148, 136, 0.15),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+}
+
+.omnibar-shell:focus-within {
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.22),
+              0 20px 35px -10px rgba(13, 148, 136, 0.15);
+}
+
+.dark .omnibar-shell:focus-within {
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.3),
+              0 20px 35px -10px rgba(20, 184, 166, 0.2);
+}
+
+/* Subtle badge shine */
+.badge-verified {
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.08) 0%, rgba(16, 185, 129, 0.12) 100%);
+  border: 1px solid rgba(13, 148, 136, 0.25);
+  color: #0f766e;
+}
+
+.dark .badge-verified {
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.25) 0%, rgba(16, 185, 129, 0.2) 100%);
+  border-color: rgba(20, 184, 166, 0.35);
+  color: #5eead4;
+}
+

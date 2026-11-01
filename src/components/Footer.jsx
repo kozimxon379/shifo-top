@@ -21,17 +21,17 @@ export default function Footer() {
   const { t } = useApp();
 
   return (
-    <footer className="bg-slate-900 text-slate-300 pt-16 pb-12 border-t border-slate-800 transition-colors">
+    <footer className="bg-slate-950 text-slate-300 pt-16 pb-12 border-t border-slate-800 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Col 1: Brand & Emergency */}
           <div className="space-y-4">
-            <Link to="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-teal-600 flex items-center justify-center text-white shadow-md">
-                <HeartPulse className="w-6 h-6" />
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-teal-700 via-teal-600 to-emerald-500 flex items-center justify-center text-white shadow-lg shadow-teal-600/20 ring-1 ring-white/10 group-hover:scale-105 transition-transform">
+                <HeartPulse className="w-5 h-5 animate-heart-pulse" />
               </div>
               <span className="text-2xl font-black text-white tracking-tight">
-                shifo<span className="text-teal-400">.top</span>
+                shifo<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-400">.top</span>
               </span>
             </Link>
 
@@ -39,9 +39,13 @@ export default function Footer() {
               {t.footer.desc}
             </p>
 
-            <div className="p-3.5 bg-slate-800/80 rounded-xl border border-slate-700/60 space-y-1.5">
+            <div className="p-3.5 bg-slate-900/90 rounded-2xl border border-slate-800 space-y-1.5 shadow-sm">
               <div className="flex items-center gap-2 text-rose-400 text-xs font-bold uppercase tracking-wider">
-                <PhoneCall className="w-4 h-4" />
+                <span className="flex h-2 w-2 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
+                </span>
+                <PhoneCall className="w-3.5 h-3.5" />
                 <span>{t.footer.emergencyHelp}</span>
               </div>
               <div className="flex items-baseline gap-3">

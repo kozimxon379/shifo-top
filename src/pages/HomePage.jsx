@@ -372,26 +372,26 @@ export default function HomePage() {
   return (
     <div className="space-y-16 sm:space-y-24 pb-16">
       {/* 1. HERO SECTION */}
-      <section className="relative pt-8 sm:pt-14 pb-10 bg-subtle-pattern">
+      <section className="relative pt-8 sm:pt-16 pb-14 medical-hero-mesh border-b border-slate-200/60 dark:border-slate-800/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Column: Headlines, Search & Quick Chips */}
             <div className="lg:col-span-7 space-y-6 text-left">
               {/* Clinical Verification Tag */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-800 text-teal-800 dark:text-teal-300 text-xs font-semibold">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full badge-verified text-xs font-semibold shadow-xs">
                 <span className="flex h-2 w-2 relative">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-600"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-600 shadow-xs shadow-teal-500"></span>
                 </span>
-                <span>{t.hero.badge || "24/7 Shoshilinch & Malakali Tibbiyot"}</span>
-                <span className="text-slate-300 dark:text-slate-700">|</span>
-                <span className="text-emerald-700 dark:text-emerald-400 font-bold hidden sm:inline">Jonli Portal</span>
+                <span className="tracking-wide">{t.hero.badge || "24/7 Shoshilinch & Malakali Tibbiyot"}</span>
+                <span className="text-teal-300 dark:text-teal-700">|</span>
+                <span className="text-emerald-700 dark:text-emerald-300 font-bold hidden sm:inline">Jonli Portal</span>
               </div>
 
               {/* Main Heading */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.14]">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.12]">
                 {t.hero.titleMain}{" "}
-                <span className="text-teal-600 dark:text-teal-400">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 via-teal-500 to-emerald-500 dark:from-teal-400 dark:via-teal-300 dark:to-emerald-300">
                   {t.hero.findNearestClinic}
                 </span>{" "}
                 {t.hero.findSuffix}
@@ -401,12 +401,12 @@ export default function HomePage() {
                 Navbatsiz qabul, O'zbekistonning eng tajribali shifokorlari va 24/7 bepul sun'iy intellekt tibbiy maslahatchisi bir joyda.
               </p>
 
-              {/* PRIMARY SEARCH CONSOLE */}
+              {/* PRIMARY SEARCH CONSOLE (Omnibar) */}
               <form
                 onSubmit={handleHeroSearch}
                 className="relative max-w-xl pt-1"
               >
-                <div className="surface-card-elevated rounded-2xl p-2 sm:p-2.5 flex items-center gap-2 transition-shadow">
+                <div className="omnibar-shell rounded-2xl p-2 sm:p-2.5 flex items-center gap-2">
                   <Search className="w-5 h-5 text-teal-600 dark:text-teal-400 ml-2.5 shrink-0" />
                   <input
                     type="text"
@@ -415,11 +415,11 @@ export default function HomePage() {
                     onFocus={() => setIsSearchFocused(true)}
                     onBlur={() => setTimeout(() => setIsSearchFocused(false), 250)}
                     placeholder={t.hero.searchPlaceholder}
-                    className="w-full bg-transparent border-none px-2 py-2 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none"
+                    className="w-full bg-transparent border-none px-2 py-2 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none"
                   />
                   <button
                     type="submit"
-                    className="btn-spring shrink-0 bg-teal-600 hover:bg-teal-700 text-white font-semibold px-5 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm shadow-xs flex items-center gap-2 cursor-pointer"
+                    className="btn-spring btn-shimmer shrink-0 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-500 hover:to-teal-600 text-white font-semibold px-5 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-teal-600/20 flex items-center gap-2 cursor-pointer"
                   >
                     <Search className="w-4 h-4" />
                     <span className="hidden sm:inline">{t.hero.searchBtn}</span>
@@ -616,51 +616,51 @@ export default function HomePage() {
 
           {/* 4 Feature Highlights Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 sm:mt-16">
-            <div className="interactive-card surface-card p-4 rounded-2xl flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center shrink-0">
+            <div className="interactive-card surface-card p-4 rounded-2xl flex items-center gap-3.5 border border-slate-200/80 dark:border-slate-800/80 hover:border-teal-500/50 transition-all">
+              <div className="w-11 h-11 rounded-2xl bg-teal-500/10 dark:bg-teal-400/10 text-teal-600 dark:text-teal-400 flex items-center justify-center shrink-0 shadow-xs">
                 <Building2 className="w-5 h-5" />
               </div>
-              <div>
-                <h4 className="font-bold text-xs text-slate-900 dark:text-white">
+              <div className="min-w-0">
+                <h4 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white truncate">
                   150+ Shifoxonalar
                 </h4>
-                <p className="text-[11px] text-slate-500">Eng yaqin tibbiyot maskanlari</p>
+                <p className="text-[11px] text-slate-500 truncate">Eng yaqin markazlar</p>
               </div>
             </div>
 
-            <div className="interactive-card surface-card p-4 rounded-2xl flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+            <div className="interactive-card surface-card p-4 rounded-2xl flex items-center gap-3.5 border border-slate-200/80 dark:border-slate-800/80 hover:border-emerald-500/50 transition-all">
+              <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 dark:bg-emerald-400/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 shadow-xs">
                 <UserCheck className="w-5 h-5" />
               </div>
-              <div>
-                <h4 className="font-bold text-xs text-slate-900 dark:text-white">
+              <div className="min-w-0">
+                <h4 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white truncate">
                   500+ Malakali vrachlar
                 </h4>
-                <p className="text-[11px] text-slate-500">Oliy toifali mutaxassislar</p>
+                <p className="text-[11px] text-slate-500 truncate">Oliy toifali vrachlar</p>
               </div>
             </div>
 
-            <div className="interactive-card surface-card p-4 rounded-2xl flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 flex items-center justify-center shrink-0">
+            <div className="interactive-card surface-card p-4 rounded-2xl flex items-center gap-3.5 border border-slate-200/80 dark:border-slate-800/80 hover:border-cyan-500/50 transition-all">
+              <div className="w-11 h-11 rounded-2xl bg-cyan-500/10 dark:bg-cyan-400/10 text-cyan-600 dark:text-cyan-400 flex items-center justify-center shrink-0 shadow-xs">
                 <Sparkles className="w-5 h-5" />
               </div>
-              <div>
-                <h4 className="font-bold text-xs text-slate-900 dark:text-white">
+              <div className="min-w-0">
+                <h4 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white truncate">
                   24/7 AI Maslahatchi
                 </h4>
-                <p className="text-[11px] text-slate-500">Tezkor bepul tashxis tahlili</p>
+                <p className="text-[11px] text-slate-500 truncate">Tezkor bepul tahlil</p>
               </div>
             </div>
 
-            <div className="interactive-card surface-card p-4 rounded-2xl flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+            <div className="interactive-card surface-card p-4 rounded-2xl flex items-center gap-3.5 border border-slate-200/80 dark:border-slate-800/80 hover:border-amber-500/50 transition-all">
+              <div className="w-11 h-11 rounded-2xl bg-amber-500/10 dark:bg-amber-400/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 shadow-xs">
                 <CalendarCheck className="w-5 h-5" />
               </div>
-              <div>
-                <h4 className="font-bold text-xs text-slate-900 dark:text-white">
+              <div className="min-w-0">
+                <h4 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white truncate">
                   1 daqiqada yozilish
                 </h4>
-                <p className="text-[11px] text-slate-500">Navbatsiz elektron qabul</p>
+                <p className="text-[11px] text-slate-500 truncate">Navbatsiz qabul</p>
               </div>
             </div>
           </div>

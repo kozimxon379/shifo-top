@@ -14,9 +14,9 @@ export default function ProductCard({ product }) {
     : 0;
 
   return (
-    <div className="interactive-card group surface-card rounded-2xl p-4 flex flex-col justify-between relative overflow-hidden">
+    <div className="interactive-card group surface-card rounded-2xl p-4 flex flex-col justify-between relative overflow-hidden border border-slate-200/80 dark:border-slate-800/80 hover:border-teal-500/50 shadow-xs hover:shadow-md transition-all duration-300">
       {/* Top badges & Favorite heart */}
-      <div className="relative rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 h-44 mb-3 z-10">
+      <div className="relative rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800 h-44 mb-3 z-10 shadow-xs">
         <img
           src={product.image}
           alt={product.name}
@@ -101,10 +101,10 @@ export default function ProductCard({ product }) {
         <button
           type="button"
           onClick={() => addToCart(product)}
-          className={`btn-spring flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-colors shadow-xs cursor-pointer ${
+          className={`btn-spring btn-shimmer flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all shadow-xs cursor-pointer ${
             inCart
-              ? 'bg-emerald-600 text-white hover:bg-emerald-700'
-              : 'bg-teal-600 hover:bg-teal-700 text-white'
+              ? 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-emerald-600/20'
+              : 'bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-500 hover:to-teal-600 text-white shadow-teal-600/20'
           }`}
         >
           {inCart ? (

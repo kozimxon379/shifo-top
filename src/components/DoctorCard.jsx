@@ -8,12 +8,12 @@ export default function DoctorCard({ doctor }) {
   const isFav = isFavorite(doctor.id);
 
   return (
-    <div className="interactive-card group surface-card rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden">
+    <div className="interactive-card group surface-card rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden border border-slate-200/80 dark:border-slate-800/80 hover:border-teal-500/50 shadow-xs hover:shadow-md transition-all duration-300">
       {/* Top section: Avatar, Info, Favorite */}
       <div className="relative z-10">
         <div className="flex items-start justify-between gap-3 mb-4">
           <div className="relative shrink-0">
-            <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800">
+            <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 shadow-xs">
               <img
                 src={doctor.image}
                 alt={doctor.name}
@@ -25,7 +25,7 @@ export default function DoctorCard({ doctor }) {
                 loading="lazy"
               />
             </div>
-            <span className="absolute -bottom-1 -right-1 bg-emerald-500 text-white p-1 rounded-full border-2 border-white dark:border-slate-900" title={t.cardsExtra?.verifiedDoctor || "Tasdiqlangan mutaxassis"}>
+            <span className="absolute -bottom-1 -right-1 bg-emerald-500 text-white p-1 rounded-full border-2 border-white dark:border-slate-900 shadow-xs" title={t.cardsExtra?.verifiedDoctor || "Tasdiqlangan mutaxassis"}>
               <CheckCircle2 className="w-3 h-3" />
             </span>
           </div>
@@ -47,7 +47,7 @@ export default function DoctorCard({ doctor }) {
             onClick={() => toggleFavorite(doctor.id)}
             className={`p-2 rounded-xl border btn-spring transition-colors shrink-0 cursor-pointer ${
               isFav
-                ? 'bg-rose-50 border-rose-200 text-rose-500 fill-rose-500'
+                ? 'bg-rose-50 border-rose-200 text-rose-500 fill-rose-500 shadow-xs'
                 : 'border-slate-200 dark:border-slate-800 text-slate-400 hover:text-rose-500 hover:bg-slate-50 dark:hover:bg-slate-800'
             }`}
             aria-label={t.cardsExtra?.saveFavorite || "Sevimlilarga saqlash"}
@@ -158,7 +158,7 @@ export default function DoctorCard({ doctor }) {
           <button
             type="button"
             onClick={() => openBookingModal(doctor)}
-            className="btn-spring flex items-center gap-1.5 px-3.5 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-xs font-semibold shadow-xs cursor-pointer"
+            className="btn-spring btn-shimmer flex items-center gap-1.5 px-3.5 py-2 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-500 hover:to-teal-600 text-white rounded-xl text-xs font-semibold shadow-sm shadow-teal-600/20 cursor-pointer"
           >
             <Calendar className="w-3.5 h-3.5" />
             <span>{t.doctors.bookAppointment}</span>

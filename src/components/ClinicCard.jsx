@@ -8,10 +8,10 @@ export default function ClinicCard({ clinic, onSelectOnMap }) {
   const { t, openBookingModal, openReviewModal } = useApp();
 
   return (
-    <div className="interactive-card group surface-card rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden">
+    <div className="interactive-card group surface-card rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden border border-slate-200/80 dark:border-slate-800/80 hover:border-teal-500/50 shadow-xs hover:shadow-md transition-all duration-300">
       <div className="relative z-10">
         {/* Image & Badges */}
-        <div className="relative rounded-xl overflow-hidden h-44 mb-4 bg-slate-100 dark:bg-slate-800">
+        <div className="relative rounded-2xl overflow-hidden h-44 mb-4 bg-slate-100 dark:bg-slate-800 shadow-xs">
           <img
             src={clinic.image}
             alt={clinic.name}
@@ -22,15 +22,15 @@ export default function ClinicCard({ clinic, onSelectOnMap }) {
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/10"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent"></div>
 
           <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 flex-wrap">
             {clinic.emergency247 && (
-              <span className="bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+              <span className="bg-rose-600 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs shadow-rose-600/30">
                 {t.clinics.open247}
               </span>
             )}
-            <span className="bg-slate-900/90 text-white text-[10px] font-medium px-2 py-0.5 rounded-full border border-white/10">
+            <span className="bg-slate-950/80 backdrop-blur-md text-white text-[10px] font-medium px-2.5 py-0.5 rounded-full border border-white/10">
               {clinic.distanceKm} km {t.map.distanceAway}
             </span>
           </div>
