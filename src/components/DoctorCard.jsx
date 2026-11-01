@@ -108,22 +108,31 @@ export default function DoctorCard({ doctor }) {
 
         {/* Available Time Slots Preview */}
         {doctor.availableSlots && doctor.availableSlots.length > 0 && (
-          <div className="mt-3">
-            <div className="text-[10px] font-semibold text-slate-400 mb-1.5 flex items-center gap-1">
-              <Clock className="w-3 h-3 text-teal-600 dark:text-teal-400" />
-              <span>{t.doctors.slotsAvailable}</span>
+          <div className="mt-3.5 pt-3 border-t border-slate-100/80 dark:border-slate-800/80">
+            <div className="text-[10px] font-bold text-slate-400 mb-1.5 flex items-center justify-between">
+              <span className="flex items-center gap-1 text-slate-600 dark:text-slate-300">
+                <Clock className="w-3 h-3 text-teal-600 dark:text-teal-400" />
+                <span>{t.doctors.slotsAvailable}</span>
+              </span>
+              <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Bugun ochiq</span>
+              </span>
             </div>
             <div className="flex flex-wrap gap-1.5">
               {doctor.availableSlots.slice(0, 4).map((slot) => (
-                <span
+                <button
                   key={slot}
-                  className="px-2 py-0.5 rounded-md bg-teal-50 dark:bg-teal-950/60 border border-teal-200/60 dark:border-teal-800/60 text-teal-700 dark:text-teal-300 font-medium text-[10px]"
+                  type="button"
+                  onClick={() => openBookingModal(doctor)}
+                  className="px-2.5 py-1 rounded-lg bg-teal-50/80 dark:bg-teal-950/60 border border-teal-200/60 dark:border-teal-800/60 text-teal-700 dark:text-teal-300 font-semibold text-[10px] hover:bg-teal-600 hover:text-white transition-colors cursor-pointer"
+                  title={`${slot} vaqtiga yozilish`}
                 >
                   {slot}
-                </span>
+                </button>
               ))}
               {doctor.availableSlots.length > 4 && (
-                <span className="text-[10px] text-slate-400 px-1 py-0.5 font-medium">
+                <span className="text-[10px] text-slate-400 px-1.5 py-1 font-medium">
                   +{doctor.availableSlots.length - 4} {t.doctors.moreSlots}
                 </span>
               )}

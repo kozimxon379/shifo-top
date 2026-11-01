@@ -98,12 +98,44 @@ export default function HomePage() {
   // Selected clinic category filter on homepage
   const [clinicFilter, setClinicFilter] = useState('all');
 
+  // Hero Omnibar Search Tabs (All, Doctors, Clinics, Pharmacy, AI)
+  const [heroSearchTab, setHeroSearchTab] = useState('all');
+
+  const getSearchPlaceholder = () => {
+    switch (heroSearchTab) {
+      case 'doctors':
+        return "Shifokor ismi yoki mutaxassisligini qidiring (masalan: Kardiolog)...";
+      case 'clinics':
+        return "Klinika nomi yoki yo'nalishini kiriting (masalan: Shox Med)...";
+      case 'store':
+        return "Dori vositasi yoki vitamin nomini kiriting (masalan: Paratsetamol)...";
+      case 'ai':
+        return "Sizni nima bezovta qilyapti? (masalan: bosh og'rig'i va holsizlik)...";
+      default:
+        return t.hero.searchPlaceholder || "Kasallik, alomat, shifokor yoki klinika nomini yozing...";
+    }
+  };
+
   const handleHeroSearch = (e) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
 
     setIsSearchFocused(false);
-    const result = consultMedicalAI(searchQuery, lang || 'uz');
+
+    if (heroSearchTab === 'doctors') {
+      navigate('/doctors?q=' + encodeURIComponent(searchQuery.trim()));
+      return;
+    }
+    if (heroSearchTab === 'clinics') {
+      navigate('/clinics?q=' + encodeURIComponent(searchQuery.trim()));
+      return;
+    }
+    if (heroSearchTab === 'store') {
+      navigate('/store?q=' + encodeURIComponent(searchQuery.trim()));
+      return;
+    }
+
+    const result = consultMedicalAI(searchQuery.trim(), lang || 'uz');
     setDiagnosisModalResult(result);
   };
 
@@ -187,7 +219,9 @@ export default function HomePage() {
       desc: "Yurak, qon bosimi va tomir kasalliklari diagnostikasi",
       icon: HeartPulse,
       doctorsCount: 42,
-      specialtyQuery: "Kardiolog"
+      specialtyQuery: "Kardiolog",
+      badgeColor: "bg-rose-500/10 text-rose-600 dark:text-rose-400",
+      accentBorder: "hover:border-rose-500/50"
     },
     {
       id: 'nevrologiya',
@@ -195,7 +229,9 @@ export default function HomePage() {
       desc: "Bosh og'rig'i, migren, asab tizimi va umurtqa pog'onasi",
       icon: Brain,
       doctorsCount: 38,
-      specialtyQuery: "Nevropatolog"
+      specialtyQuery: "Nevropatolog",
+      badgeColor: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400",
+      accentBorder: "hover:border-indigo-500/50"
     },
     {
       id: 'terapiya',
@@ -203,7 +239,9 @@ export default function HomePage() {
       desc: "Shamollash, gripp, ichki a'zolar va birlamchi konsultatsiya",
       icon: Stethoscope,
       doctorsCount: 65,
-      specialtyQuery: "Terapevt"
+      specialtyQuery: "Terapevt",
+      badgeColor: "bg-teal-500/10 text-teal-600 dark:text-teal-400",
+      accentBorder: "hover:border-teal-500/50"
     },
     {
       id: 'pediatriya',
@@ -211,7 +249,9 @@ export default function HomePage() {
       desc: "Go'daklar va bolalar salomatligi, emlash va rivojlanish",
       icon: Baby,
       doctorsCount: 29,
-      specialtyQuery: "Pediatr"
+      specialtyQuery: "Pediatr",
+      badgeColor: "bg-sky-500/10 text-sky-600 dark:text-sky-400",
+      accentBorder: "hover:border-sky-500/50"
     },
     {
       id: 'stomatologiya',
@@ -219,7 +259,9 @@ export default function HomePage() {
       desc: "Tish davolash, implantatsiya, karies va estetik restavratsiya",
       icon: Sparkles,
       doctorsCount: 51,
-      specialtyQuery: "Stomatolog"
+      specialtyQuery: "Stomatolog",
+      badgeColor: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+      accentBorder: "hover:border-emerald-500/50"
     },
     {
       id: 'travmatologiya',
@@ -227,7 +269,9 @@ export default function HomePage() {
       desc: "Suyak sinishi, bo'g'im og'riqlari, artroz va reabilitatsiya",
       icon: Bone,
       doctorsCount: 24,
-      specialtyQuery: "Travmatolog"
+      specialtyQuery: "Travmatolog",
+      badgeColor: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
+      accentBorder: "hover:border-amber-500/50"
     },
     {
       id: 'gastroenterologiya',
@@ -235,7 +279,9 @@ export default function HomePage() {
       desc: "Oshqozon-ichak trakti, jigar, o't qopi va gastrit muolajasi",
       icon: Activity,
       doctorsCount: 31,
-      specialtyQuery: "Gastroenterolog"
+      specialtyQuery: "Gastroenterolog",
+      badgeColor: "bg-orange-500/10 text-orange-600 dark:text-orange-400",
+      accentBorder: "hover:border-orange-500/50"
     },
     {
       id: 'oftalmologiya',
@@ -243,7 +289,9 @@ export default function HomePage() {
       desc: "Ko'rish qobiliyatini tekshirish, katarakta, lazer korreksiya",
       icon: Eye,
       doctorsCount: 22,
-      specialtyQuery: "Oftalmolog"
+      specialtyQuery: "Oftalmolog",
+      badgeColor: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400",
+      accentBorder: "hover:border-cyan-500/50"
     }
   ];
 
@@ -290,15 +338,15 @@ export default function HomePage() {
     }
   ];
 
-  // Quick symptoms with proper icons
+  // Quick symptoms with proper icons and individual color accents
   const quickSymptoms = [
-    { label: "Bosh og'rig'i", icon: Brain },
-    { label: "Gripp & Isitma", icon: Thermometer },
-    { label: "Yurak sanchishi", icon: HeartPulse },
-    { label: "Tish og'rig'i", icon: Sparkles },
-    { label: "Bel & Bo'g'im", icon: Bone },
-    { label: "Qandli diabet", icon: Droplet },
-    { label: "Gastrit", icon: Activity }
+    { label: "Bosh og'rig'i", icon: Brain, badgeColor: "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60" },
+    { label: "Gripp & Isitma", icon: Thermometer, badgeColor: "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/60" },
+    { label: "Yurak sanchishi", icon: HeartPulse, badgeColor: "text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/60" },
+    { label: "Tish og'rig'i", icon: Sparkles, badgeColor: "text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/60" },
+    { label: "Bel & Bo'g'im", icon: Bone, badgeColor: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60" },
+    { label: "Qandli diabet", icon: Droplet, badgeColor: "text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/60" },
+    { label: "Gastrit", icon: Activity, badgeColor: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60" }
   ];
 
   // FAQ list
@@ -401,121 +449,176 @@ export default function HomePage() {
                 Navbatsiz qabul, O'zbekistonning eng tajribali shifokorlari va 24/7 bepul sun'iy intellekt tibbiy maslahatchisi bir joyda.
               </p>
 
-              {/* PRIMARY SEARCH CONSOLE (Omnibar) */}
-              <form
-                onSubmit={handleHeroSearch}
-                className="relative max-w-xl pt-1"
-              >
-                <div className="omnibar-shell rounded-2xl p-2 sm:p-2.5 flex items-center gap-2">
-                  <Search className="w-5 h-5 text-teal-600 dark:text-teal-400 ml-2.5 shrink-0" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onFocus={() => setIsSearchFocused(true)}
-                    onBlur={() => setTimeout(() => setIsSearchFocused(false), 250)}
-                    placeholder={t.hero.searchPlaceholder}
-                    className="w-full bg-transparent border-none px-2 py-2 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none"
-                  />
-                  <button
-                    type="submit"
-                    className="btn-spring btn-shimmer shrink-0 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-500 hover:to-teal-600 text-white font-semibold px-5 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-teal-600/20 flex items-center gap-2 cursor-pointer"
-                  >
-                    <Search className="w-4 h-4" />
-                    <span className="hidden sm:inline">{t.hero.searchBtn}</span>
-                    <span className="sm:hidden">{t.common.search}</span>
-                  </button>
+              {/* PRIMARY SEARCH CONSOLE (Omnibar with Segmented Mode Tabs) */}
+              <div className="space-y-2 max-w-xl">
+                {/* Fast Mode Segmented Tabs */}
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
+                  {[
+                    { id: 'all', label: "Barchasi", icon: Sparkles },
+                    { id: 'doctors', label: "Shifokorlar", icon: Stethoscope },
+                    { id: 'clinics', label: "Klinikalar", icon: Building2 },
+                    { id: 'store', label: "Dorixona", icon: Pill },
+                    { id: 'ai', label: "AI Maslahat", icon: Activity }
+                  ].map((tab) => {
+                    const TabIcon = tab.icon;
+                    const isSelected = heroSearchTab === tab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        onClick={() => setHeroSearchTab(tab.id)}
+                        className={`btn-spring inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold text-xs whitespace-nowrap transition-all cursor-pointer ${
+                          isSelected
+                            ? 'bg-teal-600 text-white shadow-xs shadow-teal-600/30 ring-1 ring-teal-500'
+                            : 'bg-white/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200/80 dark:border-slate-800'
+                        }`}
+                      >
+                        <TabIcon className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-teal-600 dark:text-teal-400'}`} />
+                        <span>{tab.label}</span>
+                      </button>
+                    );
+                  })}
                 </div>
 
-                {/* LIVE SEARCH HINT / 'UNAQA KASALLIK YO'Q' DROPDOWN */}
-                {isSearchFocused && liveSearchResult && (
-                  <div className="absolute left-0 right-0 top-full mt-2 z-50 animate-in fade-in slide-in-from-top-2">
-                    {!liveSearchResult.matched ? (
-                      /* Not Found State */
-                      <div className="bg-white dark:bg-slate-900 border border-rose-300 dark:border-rose-900/80 rounded-2xl shadow-2xl p-3.5 sm:p-4 text-left">
-                        <div className="flex items-start gap-3">
-                          <div className="w-8 h-8 rounded-xl bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0">
-                            <AlertCircle className="w-4 h-4" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-xs font-bold text-rose-600 dark:text-rose-400">
-                                Unaqa kasallik yo'q
-                              </span>
-                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 font-medium">
-                                Mavjud emas
-                              </span>
+                <form
+                  onSubmit={handleHeroSearch}
+                  className="relative pt-0.5"
+                >
+                  <div className="omnibar-shell rounded-2xl p-2 sm:p-2.5 flex items-center gap-2">
+                    <Search className="w-5 h-5 text-teal-600 dark:text-teal-400 ml-2.5 shrink-0" />
+                    
+                    {/* Location Badge */}
+                    <div className="hidden sm:flex items-center gap-1 text-[11px] font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/80 px-2.5 py-1 rounded-lg shrink-0 border border-slate-200/60 dark:border-slate-700/60">
+                      <MapPin className="w-3 h-3 text-teal-600 dark:text-teal-400 shrink-0" />
+                      <span>Toshkent</span>
+                    </div>
+
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onFocus={() => setIsSearchFocused(true)}
+                      onBlur={() => setTimeout(() => setIsSearchFocused(false), 250)}
+                      placeholder={getSearchPlaceholder()}
+                      className="w-full bg-transparent border-none px-2 py-2 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none"
+                    />
+
+                    {searchQuery && (
+                      <button
+                        type="button"
+                        onClick={() => setSearchQuery('')}
+                        className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs px-1.5 py-1 cursor-pointer"
+                        title="Tozalash"
+                      >
+                        ✕
+                      </button>
+                    )}
+
+                    <button
+                      type="submit"
+                      className="btn-spring btn-shimmer shrink-0 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-500 hover:to-teal-600 text-white font-semibold px-5 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-teal-600/20 flex items-center gap-2 cursor-pointer"
+                    >
+                      <Search className="w-4 h-4" />
+                      <span className="hidden sm:inline">{t.hero.searchBtn}</span>
+                      <span className="sm:hidden">{t.common.search}</span>
+                    </button>
+                  </div>
+
+                  {/* LIVE SEARCH HINT / 'UNAQA KASALLIK YO'Q' DROPDOWN */}
+                  {isSearchFocused && liveSearchResult && (
+                    <div className="absolute left-0 right-0 top-full mt-2 z-50 animate-in fade-in slide-in-from-top-2">
+                      {!liveSearchResult.matched ? (
+                        /* Not Found State */
+                        <div className="bg-white dark:bg-slate-900 border border-rose-300 dark:border-rose-900/80 rounded-2xl shadow-2xl p-3.5 sm:p-4 text-left">
+                          <div className="flex items-start gap-3">
+                            <div className="w-8 h-8 rounded-xl bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0">
+                              <AlertCircle className="w-4 h-4" />
                             </div>
-                            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
-                              «<span className="font-semibold text-slate-900 dark:text-white">{searchQuery}</span>» nomli kasallik topilmadi. Haqiqiy kasallik yoki alomat nomini kiriting.
-                            </p>
-                            <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-800">
-                              <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mb-1.5">
-                                Mavjud haqiqiy kasalliklardan tanlang:
-                              </span>
-                              <div className="flex flex-wrap gap-1.5">
-                                {(liveSearchResult.suggestedDiseases || []).slice(0, 6).map((item) => (
-                                  <button
-                                    key={item.id}
-                                    type="button"
-                                    onMouseDown={(e) => {
-                                      e.preventDefault();
-                                      setSearchQuery(item.name);
-                                      const res = consultMedicalAI(item.name, lang || 'uz');
-                                      setDiagnosisModalResult(res);
-                                      setIsSearchFocused(false);
-                                    }}
-                                    className="text-[11px] px-2.5 py-1 rounded-lg bg-teal-50 dark:bg-slate-800 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-slate-700 hover:bg-teal-600 hover:text-white transition-colors cursor-pointer"
-                                  >
-                                    {item.name}
-                                  </button>
-                                ))}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-xs font-bold text-rose-600 dark:text-rose-400">
+                                  Unaqa kasallik yo'q
+                                </span>
+                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 font-medium">
+                                  Mavjud emas
+                                </span>
+                              </div>
+                              <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
+                                «<span className="font-semibold text-slate-900 dark:text-white">{searchQuery}</span>» nomli kasallik topilmadi. Haqiqiy kasallik yoki alomat nomini kiriting.
+                              </p>
+                              <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mb-1.5">
+                                  Mavjud haqiqiy kasalliklardan tanlang:
+                                </span>
+                                <div className="flex flex-wrap gap-1.5">
+                                  {(liveSearchResult.suggestedDiseases || []).slice(0, 6).map((item) => (
+                                    <button
+                                      key={item.id}
+                                      type="button"
+                                      onMouseDown={(e) => {
+                                        e.preventDefault();
+                                        setSearchQuery(item.name);
+                                        const res = consultMedicalAI(item.name, lang || 'uz');
+                                        setDiagnosisModalResult(res);
+                                        setIsSearchFocused(false);
+                                      }}
+                                      className="text-[11px] px-2.5 py-1 rounded-lg bg-teal-50 dark:bg-slate-800 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-slate-700 hover:bg-teal-600 hover:text-white transition-colors cursor-pointer"
+                                    >
+                                      {item.name}
+                                    </button>
+                                  ))}
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ) : (
-                      /* Matched Condition Found */
-                      <div className="bg-white dark:bg-slate-900 border border-teal-300 dark:border-teal-800/80 rounded-2xl shadow-2xl p-2 sm:p-2.5 text-left">
-                        <button
-                          type="button"
-                          onMouseDown={(e) => {
-                            e.preventDefault();
-                            setDiagnosisModalResult(liveSearchResult);
-                            setIsSearchFocused(false);
-                          }}
-                          className="w-full flex items-center justify-between text-left p-2 rounded-xl hover:bg-teal-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-                        >
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <div className="w-8 h-8 rounded-lg bg-teal-600 text-white flex items-center justify-center shrink-0">
-                              <Activity className="w-4 h-4" />
-                            </div>
-                            <div className="min-w-0">
-                              <div className="text-xs font-bold text-slate-900 dark:text-white truncate">
-                                {liveSearchResult.diseaseName}
+                      ) : (
+                        /* Matched Condition Found */
+                        <div className="bg-white dark:bg-slate-900 border border-teal-300 dark:border-teal-800/80 rounded-2xl shadow-2xl p-2 sm:p-2.5 text-left">
+                          <button
+                            type="button"
+                            onMouseDown={(e) => {
+                              e.preventDefault();
+                              setDiagnosisModalResult(liveSearchResult);
+                              setIsSearchFocused(false);
+                            }}
+                            className="w-full flex items-center justify-between text-left p-2 rounded-xl hover:bg-teal-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                          >
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <div className="w-8 h-8 rounded-lg bg-teal-600 text-white flex items-center justify-center shrink-0">
+                                <Activity className="w-4 h-4" />
                               </div>
-                              <div className="text-[10px] text-teal-600 dark:text-teal-400 truncate">
-                                {liveSearchResult.category} • Tashxis, sabablar va davolash punktlari
+                              <div className="min-w-0">
+                                <div className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                                  {liveSearchResult.diseaseName}
+                                </div>
+                                <div className="text-[10px] text-teal-600 dark:text-teal-400 truncate">
+                                  {liveSearchResult.category} • Tashxis, sabablar va davolash punktlari
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <span className="text-xs font-bold text-teal-600 dark:text-teal-400 shrink-0 ml-2">
-                            Ko'rish →
-                          </span>
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </form>
+                            <span className="text-xs font-bold text-teal-600 dark:text-teal-400 shrink-0 ml-2">
+                              Ko'rish →
+                            </span>
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </form>
+              </div>
 
-              {/* Quick Symptoms Chips */}
+              {/* Quick Symptoms Chips with Colored Badges */}
               <div className="pt-1 text-xs text-slate-500 dark:text-slate-400">
-                <span className="font-semibold text-slate-700 dark:text-slate-300 block sm:inline mb-2 sm:mb-0 mr-2">
-                  Tezkor alomatlar:
-                </span>
-                <div className="inline-flex flex-wrap gap-1.5">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="font-bold text-slate-700 dark:text-slate-200">
+                    Tezkor alomatlar:
+                  </span>
+                  <span className="text-[10px] text-teal-600 dark:text-teal-400 font-semibold bg-teal-50 dark:bg-teal-950/60 px-2 py-0.5 rounded-full border border-teal-200/50 dark:border-teal-800/50">
+                    1 bosishda tashxis
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
                   {quickSymptoms.map((s) => {
                     const SymptomIcon = s.icon;
                     return (
@@ -523,9 +626,11 @@ export default function HomePage() {
                         key={s.label}
                         type="button"
                         onClick={() => handleQuickSymptomClick(s.label)}
-                        className="btn-spring inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-semibold hover:border-teal-500 hover:text-teal-600 dark:hover:text-teal-400 transition-colors text-xs cursor-pointer shadow-xs"
+                        className="btn-spring inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-semibold hover:border-teal-500 hover:text-teal-600 dark:hover:text-teal-400 transition-all text-xs cursor-pointer shadow-xs hover:shadow-sm"
                       >
-                        <SymptomIcon className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
+                        <span className={`p-1 rounded-lg ${s.badgeColor || 'bg-teal-50 text-teal-600'}`}>
+                          <SymptomIcon className="w-3 h-3" />
+                        </span>
                         <span>{s.label}</span>
                       </button>
                     );
@@ -551,10 +656,13 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Column: Hero Visual Showcase Photo */}
+            {/* Right Column: Hero Visual Showcase Photo with Ambient Glow & Floating Widgets */}
             <div className="lg:col-span-5 relative mt-6 lg:mt-0">
               <div className="relative mx-auto max-w-md lg:max-w-none">
-                <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-xl bg-slate-900 group">
+                {/* Ambient Soft Mesh Glow */}
+                <div className="absolute -inset-2 bg-gradient-to-tr from-teal-500/25 via-emerald-500/20 to-sky-500/20 rounded-3xl blur-2xl -z-10 pointer-events-none" />
+
+                <div className="relative rounded-3xl overflow-hidden border border-slate-200/90 dark:border-slate-800 shadow-2xl bg-slate-900 group">
                   <img
                     src="/images/uzbek_medical_hero.jpg"
                     alt="Shifo.top professional shifokorlar jamoasi"
@@ -564,38 +672,42 @@ export default function HomePage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent pointer-events-none" />
                   <div className="absolute inset-0 bg-gradient-to-r from-slate-950/40 via-transparent to-transparent pointer-events-none hidden lg:block" />
 
-                  {/* Floating live card top-left */}
-                  <div className="absolute top-4 left-4 p-2.5 sm:p-3 rounded-xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 shadow-md">
+                  {/* Floating live card top-left with smooth slow float */}
+                  <div className="absolute top-4 left-4 p-2.5 sm:p-3 rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-white/40 dark:border-slate-700/60 shadow-xl animate-float-slow">
                     <div className="flex items-center gap-2">
-                      <Building2 className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+                      <span className="flex h-2 w-2 relative">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                      </span>
                       <span className="text-xs font-bold text-slate-900 dark:text-white">
                         150+ Shifoxonalar
                       </span>
-                      <span className="text-emerald-600 dark:text-emerald-400 font-medium text-xs">• 24/7 Ochiq</span>
+                      <span className="text-emerald-600 dark:text-emerald-400 font-semibold text-xs bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full">• 24/7 Ochiq</span>
                     </div>
                   </div>
 
-                  {/* Floating live card top-right */}
-                  <div className="absolute top-4 right-4 px-3 py-2 rounded-xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 shadow-md">
-                    <div className="flex items-center gap-1 text-xs font-bold text-amber-500">
+                  {/* Floating live card top-right with delayed float */}
+                  <div className="absolute top-4 right-4 px-3 py-2 rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-white/40 dark:border-slate-700/60 shadow-xl animate-float-delayed">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-amber-500">
                       <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                      <span className="text-slate-900 dark:text-white font-extrabold">4.9</span>
-                      <span className="text-slate-500 text-[10px] font-normal">Reyting</span>
+                      <span className="text-slate-900 dark:text-white font-black text-sm">4.9</span>
+                      <span className="text-slate-500 dark:text-slate-400 text-[10px] font-normal">/ 5.0 (12k+)</span>
                     </div>
                   </div>
 
                   {/* Bottom overlay doctor showcase info card */}
-                  <div className="absolute bottom-4 left-4 right-4 p-3.5 sm:p-4 rounded-xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 shadow-xl flex items-center justify-between gap-3">
+                  <div className="absolute bottom-4 left-4 right-4 p-3.5 sm:p-4 rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-white/40 dark:border-slate-700/60 shadow-2xl flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-10 h-10 rounded-xl bg-teal-600 text-white flex items-center justify-center shrink-0">
+                      <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-teal-700 via-teal-600 to-emerald-500 text-white flex items-center justify-center shrink-0 shadow-md shadow-teal-600/30">
                         <Stethoscope className="w-5 h-5" />
                       </div>
                       <div className="min-w-0">
-                        <div className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                        <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate">
                           500+ Malakali vrachlar
                         </div>
-                        <div className="text-[11px] text-slate-500 truncate">
-                          Kardiolog, Pediatr, Nevrolog & Terapiya
+                        <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate flex items-center gap-1.5 mt-0.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-teal-500" />
+                          <span>Kardiolog, Pediatr, Nevrolog & Terapiya</span>
                         </div>
                       </div>
                     </div>
@@ -603,7 +715,7 @@ export default function HomePage() {
                     <button
                       type="button"
                       onClick={() => navigate('/doctors')}
-                      className="btn-spring shrink-0 px-3.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-semibold text-xs shadow-xs cursor-pointer flex items-center gap-1.5"
+                      className="btn-spring btn-shimmer shrink-0 px-4 py-2.5 rounded-xl bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-500 hover:to-teal-600 text-white font-bold text-xs shadow-md shadow-teal-600/20 cursor-pointer flex items-center gap-1.5"
                     >
                       <Calendar className="w-3.5 h-3.5" />
                       <span>Yozilish</span>
@@ -960,21 +1072,21 @@ export default function HomePage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {medicalSpecialties.map((spec) => {
             const IconComponent = spec.icon;
             return (
               <div
                 key={spec.id}
                 onClick={() => navigate('/doctors')}
-                className="interactive-card group surface-card rounded-2xl p-5 cursor-pointer flex flex-col justify-between"
+                className={`surface-specular rounded-3xl p-5 cursor-pointer flex flex-col justify-between interactive-card group border border-slate-200/80 dark:border-slate-800/80 ${spec.accentBorder || 'hover:border-teal-500/50'} shadow-xs hover:shadow-xl transition-all duration-300`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-11 h-11 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center">
+                    <div className={`w-12 h-12 rounded-2xl ${spec.badgeColor || 'bg-teal-500/10 text-teal-600'} flex items-center justify-center shrink-0 shadow-xs group-hover:scale-110 transition-transform duration-300`}>
                       <IconComponent className="w-5 h-5" />
                     </div>
-                    <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60">
                       {spec.doctorsCount}+ shifokor
                     </span>
                   </div>
@@ -982,14 +1094,14 @@ export default function HomePage() {
                   <h3 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
                     {spec.name}
                   </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed line-clamp-2">
                     {spec.desc}
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-teal-600 dark:text-teal-400">
-                  <span>Mutaxassislarni ko'rish</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <div className="mt-5 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-semibold text-teal-600 dark:text-teal-400">
+                  <span>Mutaxassislar ko'rigi</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                 </div>
               </div>
             );

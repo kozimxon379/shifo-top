@@ -100,7 +100,7 @@ export default function ClinicCard({ clinic, onSelectOnMap }) {
               clinicName: clinic.name
             });
           }}
-          className="btn-spring w-full py-2.5 px-4 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
+          className="btn-spring btn-shimmer w-full py-2.5 px-4 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-500 hover:to-teal-600 text-white font-bold rounded-xl text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-teal-600/20"
         >
           <Calendar className="w-4 h-4" />
           <span>{t.clinics.bookBtn}</span>

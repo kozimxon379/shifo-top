@@ -126,12 +126,15 @@ export default function AIChatbot() {
           <button
             type="button"
             onClick={() => setIsOpen(true)}
-            className="group relative flex items-center gap-3 bg-teal-600 hover:bg-teal-700 text-white p-3 sm:px-4 sm:py-3 rounded-full shadow-xl shadow-teal-600/25 btn-spring border border-white/20 cursor-pointer"
+            className="group relative flex items-center gap-3 bg-gradient-to-r from-teal-700 via-teal-600 to-emerald-600 hover:from-teal-600 hover:to-emerald-500 text-white p-3 sm:px-4 sm:py-3 rounded-full shadow-2xl shadow-teal-600/30 ring-2 ring-white/30 dark:ring-teal-400/20 btn-spring cursor-pointer"
             aria-label={t.aiChat.openAria}
           >
             <div className="relative flex items-center justify-center">
               <Bot className="w-5 h-5 text-white" />
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full border border-teal-800"></span>
+              <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+              </span>
             </div>
 
             <div className="hidden sm:flex flex-col text-left">

@@ -325,3 +325,53 @@
   color: #5eead4;
 }
 
+/* Float Animation for Live Widgets */
+@keyframes subtleFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-float-slow {
+  animation: subtleFloat 4s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: subtleFloat 4.5s ease-in-out 1.5s infinite;
+}
+
+/* Ultra-modern Specular Surface */
+.surface-specular {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03),
+              0 10px 20px -5px rgba(15, 23, 42, 0.04),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .surface-specular {
+  background: #0d1527;
+  border-color: rgba(30, 41, 59, 0.85);
+  box-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.4),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.07);
+}
+
+.surface-specular:hover {
+  transform: translateY(-3px);
+  border-color: rgba(13, 148, 136, 0.5);
+  box-shadow: 0 16px 32px -8px rgba(13, 148, 136, 0.12),
+              0 4px 8px -2px rgba(15, 23, 42, 0.04);
+}
+
+.dark .surface-specular:hover {
+  border-color: rgba(20, 184, 166, 0.5);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6),
+              0 0 20px 0 rgba(20, 184, 166, 0.15);
+}
+
+
