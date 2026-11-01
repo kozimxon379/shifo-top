@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="ibg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff1f2" />
+      <stop offset="100%" stop-color="#ffe4e6" />
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e" />
+      <stop offset="100%" stop-color="#e11d48" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#e11d48" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#ibg)" />
+
+  <!-- Medicine Box -->
+  <g filter="url(#shadow)">
+    <rect x="90" y="55" width="220" height="155" rx="14" fill="#ffffff" stroke="#fecdd3" stroke-width="2" />
+    <rect x="90" y="55" width="220" height="42" rx="14" fill="url(#redGrad)" />
+    <text x="200" y="82" font-family="system-ui, sans-serif" font-size="14" font-weight="900" fill="#ffffff" text-anchor="middle">FORTE FORMULA</text>
+
+    <text x="200" y="130" font-family="system-ui, sans-serif" font-size="22" font-weight="900" fill="#be123c" text-anchor="middle">IBUPROFEN</text>
+    <text x="200" y="152" font-family="system-ui, sans-serif" font-size="15" font-weight="800" fill="#e11d48" text-anchor="middle">400 mg Forte</text>
+    <text x="200" y="174" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#881337" text-anchor="middle">O'tkir shamollash va og'riqlarga qarshi</text>
+  </g>
+
+  <!-- Red Softgel Capsules in front -->
+  <g filter="url(#shadow)">
+    <!-- Capsule 1 -->
+    <g transform="translate(140, 230) rotate(-25)">
+      <rect x="-35" y="-14" width="70" height="28" rx="14" fill="url(#redGrad)" stroke="#ffffff" stroke-width="2" />
+      <ellipse cx="-15" cy="-4" rx="15" ry="4" fill="#ffffff" opacity="0.4" />
+    </g>
+    <!-- Capsule 2 -->
+    <g transform="translate(250, 230) rotate(20)">
+      <rect x="-35" y="-14" width="70" height="28" rx="14" fill="url(#redGrad)" stroke="#ffffff" stroke-width="2" />
+      <ellipse cx="-15" cy="-4" rx="15" ry="4" fill="#ffffff" opacity="0.4" />
+    </g>
+  </g>
+</svg>

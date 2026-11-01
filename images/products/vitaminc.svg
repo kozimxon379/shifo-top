@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff7ed" />
+      <stop offset="100%" stop-color="#ffedd5" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb923c" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
+    <linearGradient id="yellowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="100%" stop-color="#facc15" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#ea580c" flood-opacity="0.18" />
+    </filter>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#bgGrad)" />
+
+  <!-- Effervescent Bubbles in Background -->
+  <circle cx="80" cy="180" r="10" fill="#f97316" opacity="0.15" />
+  <circle cx="110" cy="120" r="6" fill="#f97316" opacity="0.2" />
+  <circle cx="290" cy="90" r="14" fill="#f97316" opacity="0.15" />
+  <circle cx="320" cy="160" r="8" fill="#f97316" opacity="0.2" />
+  <circle cx="300" cy="220" r="12" fill="#f97316" opacity="0.12" />
+
+  <!-- Vitamin C Tube / Bottle -->
+  <g filter="url(#shadow)">
+    <!-- Main Cylinder Tube -->
+    <rect x="155" y="45" width="90" height="190" rx="14" fill="#ffffff" stroke="#fed7aa" stroke-width="2" />
+    <!-- Tube Cap -->
+    <rect x="150" y="35" width="100" height="18" rx="6" fill="url(#orangeGrad)" />
+    <!-- Tube Label -->
+    <rect x="160" y="70" width="80" height="130" rx="6" fill="url(#orangeGrad)" />
+    <!-- Orange Slice Icon on Label -->
+    <circle cx="200" cy="110" r="22" fill="url(#yellowGrad)" />
+    <path d="M200 90 L200 130 M180 110 L220 110 M186 96 L214 124 M186 124 L214 96" stroke="#ea580c" stroke-width="2" />
+    <!-- Text on label -->
+    <text x="200" y="152" font-family="system-ui, sans-serif" font-size="13" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">VITAMIN C</text>
+    <text x="200" y="168" font-family="system-ui, sans-serif" font-size="11" font-weight="800" fill="#fef08a" text-anchor="middle">1000mg + Zn</text>
+    <text x="200" y="184" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="1">EFFERVESCENT</text>
+  </g>
+
+  <!-- Big Effervescent Tablet Resting in Front -->
+  <g filter="url(#shadow)">
+    <circle cx="130" cy="210" r="28" fill="url(#yellowGrad)" stroke="#f59e0b" stroke-width="2" />
+    <ellipse cx="130" cy="210" rx="22" ry="10" fill="#fef9c3" opacity="0.7" />
+    <!-- Sparkles -->
+    <path d="M130 195 L133 203 L141 206 L133 209 L130 217 L127 209 L119 206 L127 203 Z" fill="#d97706" />
+  </g>
+
+  <!-- Bottom Badge -->
+  <rect x="110" y="255" width="180" height="26" rx="13" fill="#ea580c" />
+  <text x="200" y="272" font-family="system-ui, sans-serif" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">IMMUNITET HIMOYASI</text>
+</svg>

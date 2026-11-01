@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="tbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#f1f5f9" />
+    </linearGradient>
+    <linearGradient id="lcdGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0f2fe" />
+      <stop offset="100%" stop-color="#bae6fd" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.12" />
+    </filter>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#tbg)" />
+
+  <!-- Tonometer Monitor Unit -->
+  <g filter="url(#shadow)">
+    <!-- Main Device Body -->
+    <rect x="80" y="50" width="160" height="190" rx="20" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" />
+    <!-- LCD Display -->
+    <rect x="95" y="65" width="130" height="100" rx="10" fill="url(#lcdGrad)" stroke="#38bdf8" stroke-width="2" />
+
+    <!-- LCD Readings: SYS / DIA / PULSE -->
+    <text x="105" y="85" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#0369a1">SYS mmHg</text>
+    <text x="210" y="98" font-family="monospace" font-size="28" font-weight="900" fill="#0c4a6e" text-anchor="end">120</text>
+
+    <text x="105" y="118" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#0369a1">DIA mmHg</text>
+    <text x="210" y="132" font-family="monospace" font-size="28" font-weight="900" fill="#0c4a6e" text-anchor="end">80</text>
+
+    <text x="105" y="152" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#0369a1">PULSE /min</text>
+    <text x="210" y="155" font-family="monospace" font-size="16" font-weight="900" fill="#e11d48" text-anchor="end">♥ 72</text>
+
+    <!-- START / STOP Big Blue Button -->
+    <rect x="105" y="180" width="110" height="42" rx="12" fill="#0284c7" />
+    <text x="160" y="206" font-family="system-ui, sans-serif" font-size="13" font-weight="900" fill="#ffffff" text-anchor="middle">START/STOP</text>
+  </g>
+
+  <!-- Fabric Arm Cuff on Right Side -->
+  <g filter="url(#shadow)">
+    <rect x="260" y="70" width="75" height="150" rx="14" fill="#334155" stroke="#475569" stroke-width="2" />
+    <!-- White size guide mark on cuff -->
+    <rect x="270" y="90" width="55" height="30" rx="4" fill="#475569" />
+    <text x="297" y="110" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#ffffff" text-anchor="middle">M 22-32cm</text>
+    <!-- Connecting Tube -->
+    <path d="M240 145 C255 145, 255 160, 260 160" stroke="#64748b" stroke-width="8" stroke-linecap="round" fill="none" />
+  </g>
+</svg>
